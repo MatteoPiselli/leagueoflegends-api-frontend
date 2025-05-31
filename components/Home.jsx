@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-import styles from '../styles/Home.module.css';
-
-function Home() {
-  return (
-    <div>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-      </main>
-    </div>
-  );
-}
-
-export default Home;
-=======
 // Import Next
 import Image from "next/image";
 // Autres imports
@@ -198,4 +181,3 @@ export default function Home() {
     </div>
   );
 }
->>>>>>> 7d4b1d22c6cd67e59fe290b3c3f7e942c2ef8bd8
