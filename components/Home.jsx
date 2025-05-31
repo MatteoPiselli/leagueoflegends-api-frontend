@@ -82,12 +82,12 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative bg-[#111111] min-h-screen">
-      <div className="absolute inset-0 bg-[#222222] w-full min-h-screen container rounded-2xl overflow-y-auto mx-auto text-white">
+    <div className="relative bg-[#0D1520] min-h-screen">
+      <div className="absolute inset-0 bg-[#111927] w-full min-h-screen container rounded-2xl overflow-y-auto mx-auto text-white">
         <div className="flex justify-center mt-8">
           {/* ----- Icon Faker -----*/}
           <Image
-            src="/assets/op-gg-faker.png"
+            src="/op-gg-faker.png"
             alt="icon faker"
             width={392}
             height={205}
