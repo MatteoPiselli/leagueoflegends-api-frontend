@@ -1,22 +1,28 @@
 // Import Next
 import Image from "next/image";
-// Autres imports
+// Components
+import Ranked from "./Ranked";
+// Other imports
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [region, setRegion] = useState(false);
+  // Input states for username and tag line
+  const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
   const [tagLine, setTagLine] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+  // Player data state
   const [playerData, setPlayerData] = useState(null);
+  const [rankedData, setRankedData] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const [latestPatch, setLatestPatch] = useState("");
 
   const toggleDropdown = () => setRegion(!region);
 
-  // ---------- Search player function ---------- //
+  // -------------------  Search player function ----------------- //
   const searchPlayer = async () => {
     if (username && tagLine) {
       setIsLoading(true);
@@ -28,9 +34,22 @@ export default function Home() {
         const data = await response.json();
         console.log("Player data:", data);
         setPlayerData(data);
+
+        // ---------- Fetch ranked data ---------- //
+        if (data.summoner && data.summoner.puuid) {
+          const response = await fetch(
+            `http://localhost:3000/ranked/${data.summoner.puuid}`
+          );
+          const ranked = await response.json();
+          console.log("Ranked data:", ranked);
+          setRankedData(ranked.ranked);
+        } else {
+          setRankedData([]);
+        }
       } catch (error) {
         console.error("Error fetching player data:", error);
         setPlayerData(null);
+        setRankedData([]);
       } finally {
         // ------- Reset input value after search ------- //
         setInputValue("");
@@ -155,26 +174,31 @@ export default function Home() {
         ) : (
           // ------ Display player data ----- //
           playerData && (
-            <div className="flex items-center">
-              <div className="relative mt-8 ml-24 h-[125px] max-w-[110px]">
-                <Image
-                  src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/profileicon/${playerData.summoner.profileIconId}.png`}
-                  alt="Profile Icon"
-                  width={110}
-                  height={110}
-                  className="rounded-xl"
-                />
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white rounded-xl py-1 px-2 text-sm">
-                  {playerData.summoner.summonerLevel}
+            <>
+              <div className="flex items-center">
+                <div className="relative mt-8 ml-24 h-[125px] max-w-[110px]">
+                  <Image
+                    src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/profileicon/${playerData.summoner.profileIconId}.png`}
+                    alt="Profile Icon"
+                    width={110}
+                    height={110}
+                    className="rounded-xl"
+                  />
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white rounded-xl py-1 px-2 text-sm">
+                    {playerData.summoner.summonerLevel}
+                  </div>
+                </div>
+                <div className="ml-4 text-xl">
+                  <span className="font-bold">
+                    {playerData.riotId.gameName}
+                  </span>
+                  <span className="text-gray-500">
+                    #{playerData.riotId.tagLine}
+                  </span>
                 </div>
               </div>
-              <div className="ml-4 text-xl">
-                <span className="font-bold">{playerData.riotId.gameName}</span>
-                <span className="text-gray-500">
-                  #{playerData.riotId.tagLine}
-                </span>
-              </div>
-            </div>
+              <Ranked rankedData={rankedData} />
+            </>
           )
         )}
       </div>
