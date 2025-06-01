@@ -24,30 +24,39 @@ export default function Ranked({ rankedData }) {
   }
 
   return (
-    <div className="border ml-24 inline-block">
+    <div className="mt-8 inline-block">
       {queueTypes.map((queue) => {
         const data = rankedData.find((e) => e.queueType === queue.key);
         return (
-          <div key={queue.key}>
-            <h3>{queue.label}</h3>
+          <div key={queue.key} className="bg-[#0D1520] rounded-lg p-4">
+            <h3 className="border-b border-gray-300 pb-4">{queue.label}</h3>
             <div>
               {data && data.tier ? (
-                <>
+                <div className="flex flex-row items-center">
                   <Image
                     src={tierIcons[data.tier]}
                     alt={`${data.tier} icon`}
-                    width={100}
-                    height={100}
+                    width={90}
+                    height={90}
                   />
-                  <p>
-                    Tier: {data.tier} {data.rank}
-                  </p>
-                  <p>LP: {data.leaguePoints}</p>
-                  <p>
-                    {((data.wins / (data.wins + data.losses)) * 100).toFixed(0)}
-                    %
-                  </p>
-                </>
+                  <div className="flex flex-col p-4">
+                    <p>
+                      {data.tier} {data.rank}
+                    </p>
+                    <p>{data.leaguePoints} LP</p>
+                  </div>
+                  <div className="pl-8 pt-8 pb-8">
+                    <p>
+                      {data.wins}V {data.losses}D
+                    </p>
+                    <p>
+                      {((data.wins / (data.wins + data.losses)) * 100).toFixed(
+                        0
+                      )}{" "}
+                      % WR
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <>
                   <Image
