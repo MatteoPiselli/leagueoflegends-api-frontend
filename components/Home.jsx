@@ -83,7 +83,7 @@ export default function Home() {
 
   return (
     <div className="relative bg-[#0D1520] min-h-screen">
-      <div className="absolute inset-0 bg-[#111927] w-full min-h-screen container rounded-2xl overflow-y-auto mx-auto text-white">
+      <div className="absolute inset-0 bg-[#111927] w-full max-w-6xl min-h-screen container rounded-2xl overflow-y-auto mx-auto px-8 text-white">
         <div className="flex justify-center mt-8">
           {/* ----- Icon Faker -----*/}
           <Image
@@ -176,7 +176,7 @@ export default function Home() {
           playerData && (
             <>
               <div className="flex items-center">
-                <div className="relative mt-8 ml-24 h-[125px] max-w-[110px]">
+                <div className="relative mt-8 h-[125px]">
                   <Image
                     src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/profileicon/${playerData.summoner.profileIconId}.png`}
                     alt="Profile Icon"
