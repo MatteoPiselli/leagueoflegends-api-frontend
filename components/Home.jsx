@@ -2,6 +2,7 @@
 import Image from "next/image";
 // Components
 import Ranked from "./Ranked";
+import Matchs from "./Matchs";
 // Other imports
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +16,7 @@ export default function Home() {
   // Player data state
   const [playerData, setPlayerData] = useState(null);
   const [rankedData, setRankedData] = useState([]);
+  const [matchData, setMatchData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -45,6 +47,30 @@ export default function Home() {
           setRankedData(ranked.ranked);
         } else {
           setRankedData([]);
+        }
+
+        // ---------- Fetch match data ---------- //
+        if (data.summoner && data.summoner.puuid) {
+          const response = await fetch(
+            `http://localhost:3000/matchs/${data.summoner.puuid}`
+          );
+          const matchs = await response.json();
+
+          // ---------- Fetch match details ---------- //
+          const details = await Promise.all(
+            (Array.isArray(matchs.matchs) ? matchs.matchs : []).map(
+              async (matchId) => {
+                const res = await fetch(
+                  `http://localhost:3000/matchs/details/${matchId}`
+                );
+                return await res.json();
+              }
+            )
+          );
+          console.log("Match details:", details);
+          setMatchData(details);
+        } else {
+          setMatchData([]);
         }
       } catch (error) {
         console.error("Error fetching player data:", error);
@@ -198,6 +224,7 @@ export default function Home() {
                 </div>
               </div>
               <Ranked rankedData={rankedData} />
+              <Matchs matchData={matchData} />
             </>
           )
         )}
