@@ -58,15 +58,15 @@ export default function Ranked({ rankedData }) {
                   </div>
                 </div>
               ) : (
-                <>
+                <div className="flex flex-row items-center">
                   <Image
                     src="/icons/unranked.webp"
                     alt="Icon non classé"
-                    width={100}
-                    height={100}
+                    width={90}
+                    height={90}
                   />
-                  <p>Unranked</p>
-                </>
+                  <p className="p-4">Unranked</p>
+                </div>
               )}
             </div>
           </div>
