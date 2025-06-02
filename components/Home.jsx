@@ -49,15 +49,16 @@ export default function Home() {
           setRankedData([]);
         }
 
-        // ---------- Fetch match data ---------- //
+        // ---------- Fetch matchs data ---------- //
         if (data.summoner && data.summoner.puuid) {
           const response = await fetch(
             `http://localhost:3000/matchs/${data.summoner.puuid}`
           );
           const matchs = await response.json();
 
-          // ---------- Fetch match details ---------- //
+          // ---------- Fetch matchs details ---------- //
           const details = await Promise.all(
+            // Promise.all to fetch match details concurrently
             (Array.isArray(matchs.matchs) ? matchs.matchs : []).map(
               async (matchId) => {
                 const res = await fetch(
@@ -183,10 +184,7 @@ export default function Home() {
           </div>
 
           {/* ------- Button to search player -------*/}
-          <button
-            onClick={() => searchPlayer()}
-            className="bg-gray-700 px-4 py-2"
-          >
+          <button onClick={searchPlayer} className="bg-gray-700 px-4 py-2">
             Search
           </button>
         </div>
@@ -203,6 +201,7 @@ export default function Home() {
             <>
               <div className="flex items-center">
                 <div className="relative mt-8 h-[125px]">
+                  {/* Icon of the player */}
                   <Image
                     src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/profileicon/${playerData.summoner.profileIconId}.png`}
                     alt="Profile Icon"
@@ -210,10 +209,12 @@ export default function Home() {
                     height={110}
                     className="rounded-xl"
                   />
+                  {/* Level of the player */}
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white rounded-xl py-1 px-2 text-sm">
                     {playerData.summoner.summonerLevel}
                   </div>
                 </div>
+                {/* Username and Tag Line */}
                 <div className="ml-4 text-xl">
                   <span className="font-bold">
                     {playerData.riotId.gameName}
@@ -223,6 +224,7 @@ export default function Home() {
                   </span>
                 </div>
               </div>
+              {/* Components  */}
               <Ranked rankedData={rankedData} />
               <Matchs matchData={matchData} />
             </>
