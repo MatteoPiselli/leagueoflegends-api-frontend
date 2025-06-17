@@ -24,6 +24,8 @@ export default function Home() {
 
   const toggleDropdown = () => setRegion(!region);
 
+  console.log("matchData:", matchData);
+
   // -------------------  Search player function ----------------- //
   const searchPlayer = async () => {
     if (username && tagLine) {
@@ -109,15 +111,15 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative bg-[#0D1520] min-h-screen">
-      <div className="absolute inset-0 bg-[#111927] w-full max-w-6xl min-h-screen container rounded-2xl overflow-y-auto mx-auto px-8 text-white">
-        <div className="flex justify-center mt-8">
-          {/* ----- Icon Faker -----*/}
+    <div className="relative bg-[#030303] min-h-screen">
+      <div className="absolute inset-0 bg-[#121212] w-full max-w-6xl min-h-screen container rounded-2xl mx-auto px-8 text-white overflow-y-auto scrollbar-thin scrollbar-thumb-[#DD1029] scrollbar-track-[#121212]">
+        <div className="flex justify-center mt-8 ">
+          {/* ----- Icon Logo -----*/}
           <Image
-            src="/op-gg-faker.png"
-            alt="icon faker"
-            width={392}
-            height={205}
+            src="/logo.png"
+            alt="logo SummonerFinder.gg"
+            width={300}
+            height={110}
           />
         </div>
 
@@ -126,27 +128,27 @@ export default function Home() {
           {/* Button for region selection */}
           <button
             onClick={toggleDropdown}
-            className="w-32 bg-gray-700 text-white py-2"
+            className="w-32 bg-[#19191B] text-white py-2"
           >
             EUW
             {/* -------- Dropdown for regions -------*/}
             <AnimatePresence>
               {region && (
                 <motion.div
-                  className="absolute top-full w-32 bg-gray-700"
+                  className="absolute top-full w-32 bg-[#19191B]"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
                 >
                   <ul className="py-1">
-                    <li className=" border-b border-black px-4 py-2 hover:bg-gray-800 cursor-pointer">
+                    <li className=" border-b border-[#DD1029] px-4 py-2 hover:bg-[#292A2E] cursor-pointer">
                       Region 1
                     </li>
-                    <li className="border-b border-black px-4 py-2 hover:bg-gray-800 cursor-pointer">
+                    <li className="border-b border-[#DD1029] px-4 py-2 hover:bg-[#292A2E] cursor-pointer">
                       Region 2
                     </li>
-                    <li className="border-b border-black px-4 py-2 hover:bg-gray-800 cursor-pointer">
+                    <li className="border-b border-[#DD1029] px-4 py-2 hover:bg-[#292A2E] cursor-pointer">
                       Region 3
                     </li>
                   </ul>
@@ -161,7 +163,7 @@ export default function Home() {
             <input
               type="text"
               placeholder="Username#tagLine"
-              className="bg-gray-700 w-96 text-white p-2"
+              className="bg-[#19191B] w-96 text-white p-2"
               value={inputValue}
               onChange={(e) => {
                 const value = e.target.value;
@@ -184,7 +186,10 @@ export default function Home() {
           </div>
 
           {/* ------- Button to search player -------*/}
-          <button onClick={searchPlayer} className="bg-gray-700 px-4 py-2">
+          <button
+            onClick={searchPlayer}
+            className="bg-[#19191B] hover:bg-[#292A2E] px-4 py-2"
+          >
             Search
           </button>
         </div>
@@ -225,8 +230,10 @@ export default function Home() {
                 </div>
               </div>
               {/* Components  */}
-              <Ranked rankedData={rankedData} />
-              <Matchs matchData={matchData} />
+              <div className="flex space-x-4">
+                <Ranked rankedData={rankedData} />
+                <Matchs matchData={matchData} />
+              </div>
             </>
           )
         )}
