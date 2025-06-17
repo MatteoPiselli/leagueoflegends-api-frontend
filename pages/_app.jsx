@@ -5,7 +5,7 @@ function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>LoL API - App</title>
+        <title>SummonerFinder.gg</title>
       </Head>
       <Component {...pageProps} />
     </>
