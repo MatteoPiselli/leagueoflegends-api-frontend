@@ -19,33 +19,29 @@ const queueTypes = [
 ];
 
 export default function Ranked({ rankedData }) {
-  if (!rankedData || rankedData.length === 0) {
-    return <div>No ranked data available</div>;
-  }
-
   return (
-    <div className="mt-8 inline-block">
+    <div className="min-w-[320px] mt-8 inline-block bg-[#19191B] rounded-lg p-4 h-fit">
       {queueTypes.map((queue) => {
         const data = rankedData.find((e) => e.queueType === queue.key);
         return (
-          <div key={queue.key} className="bg-[#0D1520] rounded-lg p-4">
-            <h3 className="border-b border-gray-300 pb-4">{queue.label}</h3>
+          <div key={queue.key}>
+            <h3 className="border-b border-[#DD1029] pb-4">{queue.label}</h3>
             <div>
               {data && data.tier ? (
-                <div className="flex flex-row items-center">
+                <div className="relative  flex flex-row items-center">
                   <Image
                     src={tierIcons[data.tier]}
                     alt={`${data.tier} icon`}
                     width={90}
                     height={90}
                   />
-                  <div className="flex flex-col p-4">
+                  <div className="flex flex-col justify-center items-center p-4">
                     <p>
                       {data.tier} {data.rank}
                     </p>
                     <p>{data.leaguePoints} LP</p>
                   </div>
-                  <div className="pl-8 pt-8 pb-8">
+                  <div className="absolute right-0 flex flex-col justify-center items-center px-4">
                     <p>
                       {data.wins}V {data.losses}D
                     </p>
