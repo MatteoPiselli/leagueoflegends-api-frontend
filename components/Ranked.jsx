@@ -14,8 +14,8 @@ const tierIcons = {
 };
 
 const queueTypes = [
-  { key: "RANKED_SOLO_5x5", label: "Classé en Solo/Duo" },
-  { key: "RANKED_FLEX_SR", label: "Classé en Flex" },
+  { key: "RANKED_SOLO_5x5", label: "Ranked Solo/Duo" },
+  { key: "RANKED_FLEX_SR", label: "Ranked Flex" },
 ];
 
 export default function Ranked({ rankedData }) {

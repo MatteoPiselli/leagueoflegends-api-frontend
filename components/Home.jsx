@@ -111,9 +111,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative bg-[#030303] min-h-screen">
+    <div className="relative min-h-screen">
+      {/* ----- Background Image ----- */}
+      <Image src="/background.jpg" alt="Background" layout="fill" />
+
+      {/* ----------------------- Main Container ----------------------- */}
       <div className="absolute inset-0 bg-[#121212] w-full max-w-6xl min-h-screen container rounded-2xl mx-auto px-8 text-white overflow-y-auto scrollbar-thin scrollbar-thumb-[#DD1029] scrollbar-track-[#121212]">
-        <div className="flex justify-center mt-8 ">
+        <div className="flex justify-center mt-8">
           {/* ----- Icon Logo -----*/}
           <Image
             src="/logo.png"
@@ -232,7 +236,11 @@ export default function Home() {
               {/* Components  */}
               <div className="flex space-x-4">
                 <Ranked rankedData={rankedData} />
-                <Matchs matchData={matchData} />
+                <Matchs
+                  matchData={matchData}
+                  playerData={playerData}
+                  latestPatch={latestPatch}
+                />
               </div>
             </>
           )
