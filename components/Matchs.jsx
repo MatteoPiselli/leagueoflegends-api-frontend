@@ -218,18 +218,26 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                 </div>
               </div>
 
-              {/* --------- Display player's KDA --------- */}
-              <div>
+              <div className="flex flex-col items-center">
+                {/* --------- Display player's KDA --------- */}
                 <p>
-                  const kda = (
-                        (playerParticipant.kills + playerParticipant.assists) /
-                        Math.max(1, playerParticipant.deaths)
-                      ).toFixed(2);
+                  {currentPlayer.kills}/{currentPlayer.deaths}/
+                  {currentPlayer.assists}
                 </p>
-                </div>
+                <p>
+                  {(
+                    (currentPlayer.kills + currentPlayer.assists) /
+                    Math.max(1, currentPlayer.deaths)
+                  ).toFixed(2)}{" "}
+                  KDA
+                </p>
+              </div>
+
+              {/* --------- Display player's CS --------- */}
               <span>
-                {currentPlayer.kills}/{currentPlayer.deaths}/
-                {currentPlayer.assists}
+                {currentPlayer.totalMinionsKilled +
+                  currentPlayer.jungleMinionsKilled}{" "}
+                CS
               </span>
             </div>
           </div>
