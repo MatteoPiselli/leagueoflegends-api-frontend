@@ -236,7 +236,7 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
               {/* --------- Display player's CS --------- */}
               <span>
                 {currentPlayer.totalMinionsKilled +
-                  currentPlayer.jungleMinionsKilled}{" "}
+                  currentPlayer.neutralMinionsKilled}{" "}
                 CS
               </span>
             </div>
