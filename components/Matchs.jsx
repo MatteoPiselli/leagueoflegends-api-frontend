@@ -23,6 +23,7 @@ const queueId = {
 export default function Matchs({ matchData, playerData, latestPatch }) {
   const [runesData, setRunesData] = useState([]);
   const [summonerSpells, setSummonerSpells] = useState([]);
+  const [itemsData, setItemsData] = useState({});
 
   useEffect(() => {
     // ---------- Function to fetch runes datas ---------- //
@@ -39,18 +40,38 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
       }
     };
 
-    // ---------- Function to fetch summoner spells ---------- //
+    // ---------- Function to fetch summoner spells data ---------- //
     const fetchSummonerSpells = async () => {
-      const response = await fetch(
-        `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/data/en_US/summoner.json`
-      );
-      const summonerSpellsData = await response.json();
-      setSummonerSpells(summonerSpellsData.data);
+      try {
+        const response = await fetch(
+          `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/data/en_US/summoner.json`
+        );
+        const summonerSpellsData = await response.json();
+        setSummonerSpells(summonerSpellsData.data);
+      } catch (error) {
+        console.error("Error fetching summoner spells data:", error);
+        setSummonerSpells({});
+      }
+    };
+
+    // ---------- Function to fetch items data ---------- //
+    const fetchItemsData = async () => {
+      try {
+        const response = await fetch(
+          `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/data/en_US/item.json`
+        );
+        const itemsResponse = await response.json();
+        setItemsData(itemsResponse.data);
+      } catch (error) {
+        console.error("Error fetching items data:", error);
+        setItemsData({});
+      }
     };
 
     if (latestPatch) {
       fetchRunesData();
       fetchSummonerSpells();
+      fetchItemsData();
     }
   }, [latestPatch]);
 
@@ -80,10 +101,14 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
 
   // ---------- Function to get summoner spell name by spell ID ---------- //
   const getSummonerSpell = (spellId) => {
-    console.log("summonerSpells", summonerSpells);
     return Object.values(summonerSpells).find(
       (spell) => spell.key === String(spellId)
     );
+  };
+
+  // ---------- Function to get item data by item ID ---------- //
+  const getItemData = (itemId) => {
+    return itemsData[itemId] || null;
   };
 
   // ---------- Check if matchData is available ---------- //
@@ -118,6 +143,34 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
         // ------- Get summoner spells for the current player ------- //
         const spell1 = getSummonerSpell(currentPlayer.summoner1Id);
         const spell2 = getSummonerSpell(currentPlayer.summoner2Id);
+
+        // ---------- KDA calculation ---------- //
+        const kda = (
+          (currentPlayer.kills + currentPlayer.assists) /
+          Math.max(1, currentPlayer.deaths)
+        ).toFixed(2);
+
+        // ---------- CS calculation ---------- //
+        const cs =
+          currentPlayer.totalMinionsKilled + currentPlayer.neutralMinionsKilled;
+
+        // ---------- CS/min calculation ---------- //
+        const csPerMin = (
+          (currentPlayer.totalMinionsKilled +
+            currentPlayer.neutralMinionsKilled) /
+          (match.matchDetails.info.gameDuration / 60)
+        ).toFixed(1);
+
+        // ---------- Get player's items ---------- //
+        const playerItems = [
+          currentPlayer.item0,
+          currentPlayer.item1,
+          currentPlayer.item2,
+          currentPlayer.item6, // Trinket
+          currentPlayer.item3,
+          currentPlayer.item4,
+          currentPlayer.item5,
+        ];
 
         return (
           <div
@@ -224,21 +277,43 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                   {currentPlayer.kills}/{currentPlayer.deaths}/
                   {currentPlayer.assists}
                 </p>
-                <p>
-                  {(
-                    (currentPlayer.kills + currentPlayer.assists) /
-                    Math.max(1, currentPlayer.deaths)
-                  ).toFixed(2)}{" "}
-                  KDA
+                <p className={`${kda >= 5 ? "text-orange-400" : ""}`}>
+                  {kda} KDA
                 </p>
               </div>
 
               {/* --------- Display player's CS --------- */}
-              <span>
-                {currentPlayer.totalMinionsKilled +
-                  currentPlayer.neutralMinionsKilled}{" "}
-                CS
-              </span>
+              <p className="flex flex-col">
+                {cs} CS<span className="text-gray-500">({csPerMin})</span>
+              </p>
+
+              {/* --------- Display player's items --------- */}
+              <div className="flex flex-wrap gap-1 max-w-[140px] mt-2">
+                {playerItems.map((itemId, index) => {
+                  if (itemId === 0) {
+                    // Empty item slot
+                    return (
+                      <div
+                        key={index}
+                        className="w-8 h-8 bg-gray-700 border border-gray-600 rounded"
+                      ></div>
+                    );
+                  }
+
+                  const item = getItemData(itemId);
+                  return (
+                    <div key={index} className="relative">
+                      <Image
+                        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/item/${itemId}.png`}
+                        alt={item?.name || "Item"}
+                        width={32}
+                        height={32}
+                        className="rounded border border-gray-600"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         );
