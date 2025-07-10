@@ -116,7 +116,7 @@ export default function Home() {
       <Image src="/background.jpg" alt="Background" layout="fill" />
 
       {/* ----------------------- Main Container ----------------------- */}
-      <div className="absolute inset-0 bg-[#121212] w-full max-w-6xl min-h-screen container rounded-2xl mx-auto px-8 text-white overflow-y-auto scrollbar-thin scrollbar-thumb-[#DD1029] scrollbar-track-[#121212]">
+      <div className="absolute inset-0 bg-[#121212] w-full max-w-5xl min-h-screen rounded-lg mx-auto px-8 text-white overflow-y-auto scrollbar-thin scrollbar-thumb-[#DD1029] scrollbar-track-[#121212]">
         <div className="flex justify-center mt-8">
           {/* ----- Icon Logo -----*/}
           <Image
