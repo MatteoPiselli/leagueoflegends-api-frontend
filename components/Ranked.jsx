@@ -20,32 +20,40 @@ const queueTypes = [
 
 export default function Ranked({ rankedData }) {
   return (
-    <div className="min-w-[320px] mt-8 inline-block bg-[#19191B] rounded-lg p-4 h-fit">
-      {queueTypes.map((queue) => {
-        const data = rankedData.find((e) => e.queueType === queue.key);
+    <div className="h-fit w-full lg:w-1/2 mt-8 p-4 bg-[#19191B] rounded-lg">
+      {queueTypes.map((queue, index) => {
+        const data = rankedData.find((q) => q.queueType === queue.key);
         return (
-          <div key={queue.key}>
-            <h3 className="border-b border-[#DD1029] pb-4">{queue.label}</h3>
-            <div>
+          <div key={queue.key} className={index > 0 ? "mt-6" : ""}>
+            <h3 className="border-b border-[#DD1029] pb-4 text-sm md:text-base">
+              {queue.label}
+            </h3>
+            <div className="mt-4">
               {data && data.tier ? (
-                <div className="relative  flex flex-row items-center">
-                  <Image
-                    src={tierIcons[data.tier]}
-                    alt={`${data.tier} icon`}
-                    width={90}
-                    height={90}
-                  />
-                  <div className="flex flex-col justify-center items-center p-4">
-                    <p>
-                      {data.tier} {data.rank}
-                    </p>
-                    <p>{data.leaguePoints} LP</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm space-y-4 sm:space-y-0">
+                  {/* Icon et informations principales */}
+                  <div className="flex items-center space-x-4">
+                    <Image
+                      src={tierIcons[data.tier]}
+                      alt={`${data.tier} icon`}
+                      width={60}
+                      height={60}
+                      className="sm:w-[70px] sm:h-[70px] md:w-[90px] md:h-[90px]"
+                    />
+                    <div className="flex flex-col">
+                      <p className="font-semibold text-sm md:text-base">
+                        {data.tier} {data.rank}
+                      </p>
+                      <p className="text-gray-400">{data.leaguePoints} LP</p>
+                    </div>
                   </div>
-                  <div className="absolute right-0 flex flex-col justify-center items-center px-4">
-                    <p>
+
+                  {/* Statistiques */}
+                  <div className="flex flex-col items-start sm:items-end space-y-1">
+                    <p className="text-gray-300">
                       {data.wins}V {data.losses}D
                     </p>
-                    <p>
+                    <p className="text-gray-300">
                       {((data.wins / (data.wins + data.losses)) * 100).toFixed(
                         0
                       )}{" "}
@@ -54,14 +62,15 @@ export default function Ranked({ rankedData }) {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-row items-center">
+                <div className="flex items-center space-x-4">
                   <Image
                     src="/icons/unranked.webp"
                     alt="Icon non classé"
-                    width={90}
-                    height={90}
+                    width={60}
+                    height={60}
+                    className="sm:w-[70px] sm:h-[70px] md:w-[90px] md:h-[90px]"
                   />
-                  <p className="p-4">Unranked</p>
+                  <p className="text-sm md:text-base text-gray-400">Unranked</p>
                 </div>
               )}
             </div>
