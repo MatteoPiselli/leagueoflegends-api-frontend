@@ -20,10 +20,77 @@ const queueId = {
   2020: "Tutorial",
 };
 
+// ---------- Team Column component ---------- //
+const TeamColumn = ({ players, playerData, latestPatch, teamColor }) => (
+  <div className="flex flex-col space-y-1">
+    {players.map((player, index) => (
+      <div key={index} className="flex items-center space-x-1">
+        <Image
+          src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${player.championName}.png`}
+          alt={player.championName}
+          width={16}
+          height={16}
+          className="rounded"
+        />
+        <span
+          className={`text-xs truncate max-w-[80px] ${
+            player.puuid === playerData?.summoner?.puuid
+              ? "font-bold text-white"
+              : teamColor
+          }`}
+          title={player.riotIdGameName || player.summonerName}
+        >
+          {(player.riotIdGameName || player.summonerName)?.substring(0, 10)}
+        </span>
+      </div>
+    ))}
+  </div>
+);
+
+// ---------- Participants component ---------- //
+const ParticipantsDisplay = ({ team, playerData, latestPatch }) => (
+  <div className={`w-1/2 ${team.id === 100 ? "pr-2" : "pl-2"}`}>
+    <h4 className={`text-sm font-semibold ${team.color} mb-2`}>{team.name}</h4>
+    {team.players.map((player, index) => (
+      <div key={index} className="flex items-center mb-1 text-xs">
+        <Image
+          src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${player.championName}.png`}
+          alt={player.championName}
+          width={20}
+          height={20}
+          className="rounded mr-2"
+        />
+        <span
+          className={`flex-1 truncate ${
+            player.puuid === playerData?.summoner?.puuid
+              ? "font-bold text-white"
+              : "text-gray-400"
+          }`}
+        >
+          {player.riotIdGameName || player.summonerName}
+        </span>
+        <span className="text-gray-400 ml-2">
+          {player.kills}/{player.deaths}/{player.assists}
+        </span>
+      </div>
+    ))}
+  </div>
+);
+
 export default function Matchs({ matchData, playerData, latestPatch }) {
   const [runesData, setRunesData] = useState([]);
   const [summonerSpells, setSummonerSpells] = useState([]);
   const [itemsData, setItemsData] = useState({});
+  const [expandedMatches, setExpandedMatches] = useState({});
+
+  // ---------- Check if matchData is available ---------- //
+  if (!matchData || matchData.length === 0) {
+    return (
+      <div className="w-full flex justify-center items-center border border-[#dd1029] mt-8">
+        No match data available
+      </div>
+    );
+  }
 
   useEffect(() => {
     // ---------- Function to fetch runes datas ---------- //
@@ -111,15 +178,6 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
     return itemsData[itemId] || null;
   };
 
-  // ---------- Check if matchData is available ---------- //
-  if (!matchData || matchData.length === 0) {
-    return (
-      <div className="w-full flex justify-center items-center border border-[#dd1029] mt-8">
-        No match data available
-      </div>
-    );
-  }
-
   // ---------- Render match data ---------- //
   return (
     <div className="w-full flex flex-col rounded-lg mt-8">
@@ -172,6 +230,50 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
           currentPlayer.item5,
         ];
 
+        // ---------- Participants data ---------- //
+        const participants = match.matchDetails.info.participants.map(
+          (player) => ({
+            championName: player.championName,
+            riotIdGameName: player.riotIdGameName,
+            summonerName: player.summonerName,
+            puuid: player.puuid,
+            teamId: player.teamId,
+          })
+        );
+
+        // ---------- Teams data ---------- //
+        const blueTeam = participants.filter((p) => p.teamId === 100);
+        const redTeam = participants.filter((p) => p.teamId === 200);
+
+        const teams = [
+          {
+            id: 100,
+            name: "Blue side",
+            color: "text-blue-400",
+            players: match.matchDetails.info.participants.filter(
+              (p) => p.teamId === 100
+            ),
+          },
+          {
+            id: 200,
+            name: "Red side",
+            color: "text-red-400",
+            players: match.matchDetails.info.participants.filter(
+              (p) => p.teamId === 200
+            ),
+          },
+        ];
+
+        // --------- Toggle function for expanding match details --------- //
+        const toggleMatchDetails = (matchId) => {
+          setExpandedMatches((prev) => ({
+            ...prev,
+            [matchId]: !prev[matchId], // Inverses the state of the match details clicked
+          }));
+        };
+
+        const isExpanded = expandedMatches[match.matchDetails.metadata.matchId];
+
         return (
           <div
             key={match.matchDetails.metadata.matchId}
@@ -209,77 +311,88 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-between">
-              {/* --------- Display champion's icon --------- */}
-              <div className="relative w-[60px] h-[60px] mt-4">
-                <div className="flex items-center space-x-4 rounded-md overflow-hidden w-[50px] h-[50px]">
-                  <Image
-                    src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${currentPlayer.championName}.png`}
-                    alt={currentPlayer.championName}
-                    width={50}
-                    height={50}
-                    className="scale-[1.2]"
-                  />
-                  {/* --------- Display champion's level --------- */}
-                  <span className="absolute right-0 bottom-0 bg-[#121212] text-white text-xs p-1 rounded-full">
-                    {currentPlayer.champLevel}
-                  </span>
+            <div className="flex items-center justify-between space-x-4">
+              <div className="flex flex-row items-center space-x-2">
+                {/* --------- Display champion's icon --------- */}
+                <div className="relative w-[60px] h-[60px] mt-4">
+                  <div className="flex items-center space-x-4 rounded-md overflow-hidden w-[50px] h-[50px]">
+                    <Image
+                      src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${currentPlayer.championName}.png`}
+                      alt={currentPlayer.championName}
+                      width={50}
+                      height={50}
+                      className="scale-[1.2]"
+                    />
+                    {/* --------- Display champion's level --------- */}
+                    <span className="absolute right-0 bottom-0 bg-[#121212] text-white text-xs p-1 rounded-full">
+                      {currentPlayer.champLevel}
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col">
-                <div className="flex items-center">
-                  {/* --------- Display rune icons --------- */}
-                  {primaryRuneIcon && (
-                    <Image
-                      src={primaryRuneIcon}
-                      alt="Rune Icon"
-                      width={30}
-                      height={30}
-                    />
-                  )}
+                <div className="flex flex-col">
+                  <div className="flex items-center">
+                    {/* --------- Display rune icons --------- */}
+                    {primaryRuneIcon && (
+                      <Image
+                        src={primaryRuneIcon}
+                        alt="Rune Icon"
+                        width={30}
+                        height={30}
+                      />
+                    )}
 
-                  {secondaryRuneIcon && (
-                    <Image
-                      src={secondaryRuneIcon}
-                      alt="Rune Icon"
-                      width={26}
-                      height={26}
-                    />
-                  )}
+                    {secondaryRuneIcon && (
+                      <Image
+                        src={secondaryRuneIcon}
+                        alt="Rune Icon"
+                        width={26}
+                        height={26}
+                      />
+                    )}
+                  </div>
+                  <div className="flex items-center">
+                    {/* --------- Display summoner's spells --------- */}
+                    {spell1 && (
+                      <Image
+                        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/spell/${spell1.id}.png`}
+                        alt={spell1.name}
+                        width={30}
+                        height={30}
+                        className="rounded-lg"
+                      />
+                    )}
+                    {spell2 && (
+                      <Image
+                        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/spell/${spell2.id}.png`}
+                        alt={spell2.name}
+                        width={30}
+                        height={30}
+                        className="rounded-lg"
+                      />
+                    )}
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  {/* --------- Display summoner's spells --------- */}
-                  {spell1 && (
-                    <Image
-                      src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/spell/${spell1.id}.png`}
-                      alt={spell1.name}
-                      width={30}
-                      height={30}
-                      className="rounded-lg"
-                    />
-                  )}
-                  {spell2 && (
-                    <Image
-                      src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/spell/${spell2.id}.png`}
-                      alt={spell2.name}
-                      width={30}
-                      height={30}
-                      className="rounded-lg"
-                    />
-                  )}
-                </div>
-              </div>
 
-              <div className="flex flex-col items-center">
-                {/* --------- Display player's KDA --------- */}
-                <p>
-                  {currentPlayer.kills}/{currentPlayer.deaths}/
-                  {currentPlayer.assists}
-                </p>
-                <p className={`${kda >= 5 ? "text-orange-400" : ""}`}>
-                  {kda} KDA
-                </p>
+                <div className="flex flex-col text-center">
+                  {/* --------- Display player's KDA --------- */}
+                  <p>
+                    {currentPlayer.kills}/{currentPlayer.deaths}/
+                    {currentPlayer.assists}
+                  </p>
+                  <p
+                    className={`${
+                      kda >= 5
+                        ? "text-orange-400"
+                        : kda >= 3
+                        ? "text-blue-400"
+                        : ""
+                    }`}
+                  >
+                    {currentPlayer.deaths > 0 ? kda : "Perfect"}{" "}
+                    <span className="text-gray-500">KDA</span>
+                  </p>
+                </div>
               </div>
 
               {/* --------- Display player's CS --------- */}
@@ -314,7 +427,63 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                   );
                 })}
               </div>
+
+              {/* --------- Display participant teams --------- */}
+              <div className="flex items-center space-x-4 flex-1 ml-4">
+                <TeamColumn
+                  players={blueTeam}
+                  playerData={playerData}
+                  latestPatch={latestPatch}
+                  teamColor="text-blue-400"
+                />
+                <TeamColumn
+                  players={redTeam}
+                  playerData={playerData}
+                  latestPatch={latestPatch}
+                  teamColor="text-red-400"
+                />
+              </div>
+
+              {/* Toggle button */}
+              <button
+                onClick={() =>
+                  toggleMatchDetails(match.matchDetails.metadata.matchId)
+                }
+                className="ml-4 p-2 hover:bg-gray-700 rounded transition-colors"
+              >
+                <svg
+                  className={`w-5 h-5 transform transition-transform ${
+                    isExpanded ? "rotate-180" : "rotate-0"
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
             </div>
+
+            {/* ------------- Detailed teams view -------------- */}
+            {isExpanded && (
+              <div className="mt-4 pt-4 border-t border-gray-500">
+                <div className="flex justify-between">
+                  {teams.map((team) => (
+                    <ParticipantsDisplay
+                      key={team.id}
+                      team={team}
+                      playerData={playerData}
+                      latestPatch={latestPatch}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
