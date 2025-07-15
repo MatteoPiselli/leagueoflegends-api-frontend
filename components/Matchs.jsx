@@ -20,9 +20,76 @@ const queueId = {
   2020: "Tutorial",
 };
 
+// ---------- Item Tooltip component ---------- //
+const ItemTooltip = ({ latestPatch, item, children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  if (!item) return children;
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
+      {children}
+      {isVisible && (
+        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-50">
+          <div className="bg-gray-900 border border-gray-700 rounded-lg p-3 max-w-sm w-80 shadow-xl">
+            {/* Item Image */}
+            <Image
+              src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/item/${item.id}.png`}
+              alt={item.name}
+              width={40}
+              height={40}
+            />
+            <h4 className="text-yellow-400 font-semibold text-sm mb-1">
+              {item.name}
+            </h4>
+            {item.gold && (
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-yellow-500">{item.gold.total}g</span>
+                {item.gold.sell > 0 && (
+                  <span className="text-gray-400">Vend: {item.gold.sell}g</span>
+                )}
+              </div>
+            )}
+            {/* Description HTML sans les balises */}
+            {item.description && (
+              <div
+                className="text-xs text-gray-300 mt-2 leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html: item.description
+                    .replace(/<br>/g, "<br/>")
+                    .replace(/<stats>/g, '<div class="text-blue-400 mt-1">')
+                    .replace(/<\/stats>/g, "</div>")
+                    .replace(
+                      /<passive>/g,
+                      '<div class="text-green-400 mt-1"><strong>Passif:</strong> '
+                    )
+                    .replace(/<\/passive>/g, "</div>")
+                    .replace(
+                      /<active>/g,
+                      '<div class="text-orange-400 mt-1"><strong>Actif:</strong> '
+                    )
+                    .replace(/<\/active>/g, "</div>"),
+                }}
+              />
+            )}
+          </div>
+          {/* Flèche du tooltip */}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2">
+            <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-gray-700"></div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ---------- Team Column component ---------- //
 const TeamColumn = ({ players, playerData, latestPatch, teamColor }) => (
-  <div className="flex flex-col space-y-1">
+  <div className="flex flex-col">
     {players.map((player, index) => (
       <div key={index} className="flex items-center space-x-1">
         <Image
@@ -58,7 +125,7 @@ const ParticipantsDisplay = ({ team, playerData, latestPatch }) => (
           alt={player.championName}
           width={20}
           height={20}
-          className="rounded mr-2"
+          className="rounded"
         />
         <span
           className={`flex-1 truncate ${
@@ -180,7 +247,7 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
 
   // ---------- Render match data ---------- //
   return (
-    <div className="w-full flex flex-col rounded-lg mt-8">
+    <div className="container flex flex-col rounded-lg mt-8">
       {matchData.map((match) => {
         // ---------- Find data for the current player ---------- //
         const currentPlayer = match.matchDetails.info.participants.find(
@@ -311,10 +378,10 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-between space-x-4">
+            <div className="flex items-center justify-between space-x-4 mt-2">
               <div className="flex flex-row items-center space-x-2">
                 {/* --------- Display champion's icon --------- */}
-                <div className="relative w-[60px] h-[60px] mt-4">
+                <div className="relative w-[60px] h-[60px] mt-2">
                   <div className="flex items-center space-x-4 rounded-md overflow-hidden w-[50px] h-[50px]">
                     <Image
                       src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${currentPlayer.championName}.png`}
@@ -330,15 +397,15 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col items-center p-1">
                   <div className="flex items-center">
                     {/* --------- Display rune icons --------- */}
                     {primaryRuneIcon && (
                       <Image
                         src={primaryRuneIcon}
                         alt="Rune Icon"
-                        width={30}
-                        height={30}
+                        width={24}
+                        height={24}
                       />
                     )}
 
@@ -346,8 +413,8 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                       <Image
                         src={secondaryRuneIcon}
                         alt="Rune Icon"
-                        width={26}
-                        height={26}
+                        width={20}
+                        height={20}
                       />
                     )}
                   </div>
@@ -357,8 +424,8 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                       <Image
                         src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/spell/${spell1.id}.png`}
                         alt={spell1.name}
-                        width={30}
-                        height={30}
+                        width={24}
+                        height={24}
                         className="rounded-lg"
                       />
                     )}
@@ -366,15 +433,15 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                       <Image
                         src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/spell/${spell2.id}.png`}
                         alt={spell2.name}
-                        width={30}
-                        height={30}
+                        width={24}
+                        height={24}
                         className="rounded-lg"
                       />
                     )}
                   </div>
                 </div>
 
-                <div className="flex flex-col text-center">
+                <div className="flex flex-col text-sm text-center">
                   {/* --------- Display player's KDA --------- */}
                   <p>
                     {currentPlayer.kills}/{currentPlayer.deaths}/
@@ -396,34 +463,37 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
               </div>
 
               {/* --------- Display player's CS --------- */}
-              <p className="flex flex-col">
-                {cs} CS<span className="text-gray-500">({csPerMin})</span>
+              <p className="flex flex-col text-sm text-center">
+                {cs} CS
+                <span className="text-gray-500">({csPerMin})</span>
               </p>
 
               {/* --------- Display player's items --------- */}
-              <div className="flex flex-wrap gap-1 max-w-[140px] mt-2">
+              <div className="flex flex-wrap gap-1 max-w-[110px] mt-2">
                 {playerItems.map((itemId, index) => {
                   if (itemId === 0) {
                     // Empty item slot
                     return (
                       <div
                         key={index}
-                        className="w-8 h-8 bg-gray-700 border border-gray-600 rounded"
+                        className="w-6 h-6 bg-gray-700 border border-gray-600 rounded"
                       ></div>
                     );
                   }
 
                   const item = getItemData(itemId);
                   return (
-                    <div key={index} className="relative">
-                      <Image
-                        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/item/${itemId}.png`}
-                        alt={item?.name || "Item"}
-                        width={32}
-                        height={32}
-                        className="rounded border border-gray-600"
-                      />
-                    </div>
+                    <ItemTooltip key={index} item={item}>
+                      <div className="relative cursor-pointer hover:scale-110 transition-transform">
+                        <Image
+                          src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/item/${itemId}.png`}
+                          alt={item?.name || "Item"}
+                          width={24}
+                          height={24}
+                          className="rounded border border-gray-600 hover:border-yellow-400 transition-colors"
+                        />
+                      </div>
+                    </ItemTooltip>
                   );
                 })}
               </div>
