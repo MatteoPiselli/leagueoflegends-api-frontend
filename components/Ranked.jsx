@@ -20,7 +20,7 @@ const queueTypes = [
 
 export default function Ranked({ rankedData }) {
   return (
-    <div className="h-fit w-full lg:w-1/2 mt-8 p-4 bg-[#19191B] rounded-lg">
+    <div className="h-fit w-1/2 mt-8 p-4 bg-[#19191B] rounded-lg">
       {queueTypes.map((queue, index) => {
         const data = rankedData.find((q) => q.queueType === queue.key);
         return (
