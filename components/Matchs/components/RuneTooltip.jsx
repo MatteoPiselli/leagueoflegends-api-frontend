@@ -6,8 +6,6 @@ const RuneTooltip = ({ rune, children }) => {
 
   if (!rune) return children;
 
-  console.log("Rune Tooltip:", rune);
-
   return (
     <div
       className="relative"
