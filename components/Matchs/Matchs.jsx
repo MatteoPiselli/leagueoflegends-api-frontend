@@ -108,12 +108,6 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
     return null;
   };
 
-  // ---------- Function to get rune icons by rune ID ---------- //
-  const getRuneIcon = (runeId) => {
-    const rune = getRuneData(runeId);
-    return rune ? rune.icon : null;
-  };
-
   // ---------- Function to get rune tree data by tree ID ---------- //
   const getRuneTreeData = (treeId) => {
     for (const tree of runesData) {
@@ -125,12 +119,6 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
       }
     }
     return null;
-  };
-
-  // ---------- Function to get rune tree icon by tree ID ---------- //
-  const getRuneTreeIcon = (treeId) => {
-    const tree = getRuneTreeData(treeId);
-    return tree ? tree.icon : null;
   };
 
   // ---------- Function to get summoner spell name by spell ID ---------- //
