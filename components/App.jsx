@@ -2,7 +2,7 @@
 import Image from "next/image";
 // Components
 import Ranked from "./Ranked";
-import Matchs from "./Matchs";
+import Matchs from "./Matchs/Matchs";
 // Other imports
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -23,8 +23,6 @@ export default function Home() {
   const [latestPatch, setLatestPatch] = useState("");
 
   const toggleDropdown = () => setRegion(!region);
-
-  console.log("matchData:", matchData);
 
   // -------------------  Search player function ----------------- //
   const searchPlayer = async () => {
@@ -70,7 +68,6 @@ export default function Home() {
               }
             )
           );
-          console.log("Match details:", details);
           setMatchData(details);
         } else {
           setMatchData([]);
@@ -111,12 +108,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen text-white">
       {/* ----- Background Image ----- */}
+      <div className="z-10 w-full h-full bg-black opacity-35 absolute inset-0" />
       <Image src="/background.jpg" alt="Background" layout="fill" />
 
       {/* ----------------------- Main Container ----------------------- */}
-      <div className="container max-w-5xl mx-auto px-8 absolute inset-0 bg-[#121212] rounded-lg text-white overflow-y-auto scrollbar-thin scrollbar-thumb-[#DD1029] scrollbar-track-[#121212]">
+      <div className="z-20 container max-w-5xl mx-auto px-8 absolute inset-0 bg-[#121212] rounded-lg overflow-y-auto scrollbar-thin scrollbar-thumb-[#DD1029] scrollbar-track-[#121212]">
         <div className="flex justify-center mt-8">
           {/* ----- Icon Logo -----*/}
           <Image
@@ -146,7 +144,7 @@ export default function Home() {
                   transition={{ duration: 0.3 }}
                 >
                   <ul className="py-1">
-                    <li className=" border-b border-[#DD1029] px-4 py-2 hover:bg-[#292A2E] cursor-pointer">
+                    <li className="border-b border-[#DD1029] px-4 py-2 hover:bg-[#292A2E] cursor-pointer">
                       Region 1
                     </li>
                     <li className="border-b border-[#DD1029] px-4 py-2 hover:bg-[#292A2E] cursor-pointer">
@@ -237,9 +235,9 @@ export default function Home() {
               <div className="flex space-x-4">
                 <Ranked rankedData={rankedData} />
                 <Matchs
-                  matchData={matchData}
-                  playerData={playerData}
                   latestPatch={latestPatch}
+                  playerData={playerData}
+                  matchData={matchData}
                 />
               </div>
             </>
