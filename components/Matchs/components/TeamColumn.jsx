@@ -1,11 +1,13 @@
+// Next
 import Image from "next/image";
 
 // ---------- Team Column component ---------- //
 export default function TeamColumn({
+  latestPatch,
   players,
   playerData,
-  latestPatch,
   teamColor,
+  searchPlayer,
 }) {
   if (!players || players.length === 0) {
     return <div className="text-gray-500">No players found</div>;
@@ -23,14 +25,16 @@ export default function TeamColumn({
             className="rounded"
           />
           <span
-            className={`text-xs truncate max-w-[80px] ${
+            className={`text-xs truncate max-w-[80px] cursor-pointer ${
               player.puuid === playerData?.summoner?.puuid
                 ? "font-bold text-white"
                 : teamColor
             }`}
-            title={player.riotIdGameName || player.summonerName}
+            onClick={() =>
+              searchPlayer(player.riotIdGameName, player.riotIdTagline)
+            }
           >
-            {(player.riotIdGameName || player.summonerName)?.substring(0, 10)}
+            {player.riotIdGameName?.substring(0, 10)}
           </span>
         </div>
       ))}

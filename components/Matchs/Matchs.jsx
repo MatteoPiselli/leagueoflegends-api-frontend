@@ -26,7 +26,12 @@ const queueId = {
   2020: "Tutorial",
 };
 
-export default function Matchs({ matchData, playerData, latestPatch }) {
+export default function Matchs({
+  matchData,
+  playerData,
+  latestPatch,
+  searchPlayer,
+}) {
   const [runesData, setRunesData] = useState([]);
   const [summonerSpells, setSummonerSpells] = useState([]);
   const [itemsData, setItemsData] = useState({});
@@ -141,7 +146,6 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
         const currentPlayer = match.matchDetails.info.participants.find(
           (p) => p.puuid === playerData?.summoner?.puuid
         );
-        console.log("currentPlayer", currentPlayer);
 
         // ------- Find the primary rune data for the current player ------- //
         const primaryRuneData = getRuneData(
@@ -192,6 +196,7 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
           (player) => ({
             championName: player.championName,
             riotIdGameName: player.riotIdGameName,
+            riotIdTagline: player.riotIdTagline,
             summonerName: player.summonerName,
             puuid: player.puuid,
             teamId: player.teamId,
@@ -344,9 +349,12 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
 
               {/* --------- Display player's KDA --------- */}
               <div className="flex flex-col text-sm text-center">
-                <p>
-                  {currentPlayer.kills}/{currentPlayer.deaths}/
-                  {currentPlayer.assists}
+                <p className="space-x-1">
+                  <span>{currentPlayer.kills}</span>
+                  <span>/</span>
+                  <span>{currentPlayer.deaths}</span>
+                  <span>/</span>
+                  <span>{currentPlayer.assists}</span>
                 </p>
                 <p
                   className={`${
@@ -410,12 +418,14 @@ export default function Matchs({ matchData, playerData, latestPatch }) {
                   playerData={playerData}
                   latestPatch={latestPatch}
                   teamColor="text-blue-400"
+                  searchPlayer={searchPlayer}
                 />
                 <TeamColumn
                   players={redTeam}
                   playerData={playerData}
                   latestPatch={latestPatch}
                   teamColor="text-red-400"
+                  searchPlayer={searchPlayer}
                 />
               </div>
 
