@@ -31,7 +31,7 @@ export default function Ranked({ rankedData }) {
             <div className="mt-4">
               {data && data.tier ? (
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm space-y-4 sm:space-y-0">
-                  {/* Icon et informations principales */}
+                  {/* Icon and main information */}
                   <div className="flex items-center space-x-4">
                     <Image
                       src={tierIcons[data.tier]}
@@ -48,7 +48,7 @@ export default function Ranked({ rankedData }) {
                     </div>
                   </div>
 
-                  {/* Statistiques */}
+                  {/* Statistics */}
                   <div className="flex flex-col items-start sm:items-end space-y-1">
                     <p className="text-gray-300">
                       {data.wins}V {data.losses}D
