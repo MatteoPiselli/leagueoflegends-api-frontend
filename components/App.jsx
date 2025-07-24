@@ -25,13 +25,17 @@ export default function Home() {
   const toggleDropdown = () => setRegion(!region);
 
   // -------------------  Search player function ----------------- //
-  const searchPlayer = async () => {
-    if (username && tagLine) {
+  const searchPlayer = async (riotIdGameName, riotIdTagline) => {
+    // If no parameters are provided, use the input values
+    const usernameParams = riotIdGameName || username;
+    const tagLineParams = riotIdTagline || tagLine;
+
+    if (usernameParams && tagLineParams) {
       setIsLoading(true);
       // ---------- Search player ---------- //
       try {
         const response = await fetch(
-          `http://localhost:3000/summoner/${username}/${tagLine}`
+          `http://localhost:3000/summoner/${usernameParams}/${tagLineParams}`
         );
         const data = await response.json();
         console.log("Player data:", data);
@@ -171,16 +175,10 @@ export default function Home() {
                 const value = e.target.value;
                 setInputValue(value);
 
-                if (value.includes("#")) {
-                  // Split the input into username and tag line
-                  const [name, tag] = value.split("#");
-                  setUsername(name || "");
-                  setTagLine(tag || "");
-                } else {
-                  // If no tag line, set username and clear tag line
-                  setUsername(value);
-                  setTagLine("");
-                }
+                // Split the input into username and tag line
+                const [name, tag] = value.split("#");
+                setUsername(name || "");
+                setTagLine(tag || "");
               }}
               /* View history of searches */
               onClick={() => setIsHistoryVisible(!isHistoryVisible)}
@@ -189,7 +187,7 @@ export default function Home() {
 
           {/* ------- Button to search player -------*/}
           <button
-            onClick={searchPlayer}
+            onClick={() => searchPlayer(username, tagLine)}
             className="bg-[#19191B] hover:bg-[#292A2E] px-4 py-2"
           >
             Search
@@ -238,6 +236,7 @@ export default function Home() {
                   latestPatch={latestPatch}
                   playerData={playerData}
                   matchData={matchData}
+                  searchPlayer={searchPlayer}
                 />
               </div>
             </>
