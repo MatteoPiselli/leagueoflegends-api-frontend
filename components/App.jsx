@@ -1,14 +1,15 @@
+// Import React
+import { useState, useEffect } from "react";
 // Import Next
 import Image from "next/image";
 // Components
 import Ranked from "./Ranked";
 import Matchs from "./Matchs/Matchs";
+import Masteries from "./Masteries";
 // Other imports
-import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const [region, setRegion] = useState(false);
   // Input states for username and tag line
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
@@ -22,6 +23,7 @@ export default function Home() {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const [latestPatch, setLatestPatch] = useState("");
 
+  const [region, setRegion] = useState(false);
   const toggleDropdown = () => setRegion(!region);
 
   // -------------------  Search player function ----------------- //
@@ -38,7 +40,6 @@ export default function Home() {
           `http://localhost:3000/summoner/${usernameParams}/${tagLineParams}`
         );
         const data = await response.json();
-        console.log("Player data:", data);
         setPlayerData(data);
 
         // ---------- Fetch ranked data ---------- //
@@ -47,7 +48,6 @@ export default function Home() {
             `http://localhost:3000/ranked/${data.summoner.puuid}`
           );
           const ranked = await response.json();
-          console.log("Ranked data:", ranked);
           setRankedData(ranked.ranked);
         } else {
           setRankedData([]);
