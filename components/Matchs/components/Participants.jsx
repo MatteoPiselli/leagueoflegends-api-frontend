@@ -1,7 +1,13 @@
+// Next
 import Image from "next/image";
 
 // ---------- Participants component ---------- //
-export default function ParticipantsDisplay({ team, playerData, latestPatch }) {
+export default function ParticipantsDisplay({
+  team,
+  playerData,
+  latestPatch,
+  getChampionName,
+}) {
   if (!team || !team.players || team.players.length === 0) {
     return <div className="text-gray-500">No players found</div>;
   }
@@ -14,7 +20,9 @@ export default function ParticipantsDisplay({ team, playerData, latestPatch }) {
       {team.players.map((player, index) => (
         <div key={index} className="flex items-center mb-1 text-xs">
           <Image
-            src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${player.championName}.png`}
+            src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${getChampionName(
+              player.championId
+            )}.png`}
             alt={player.championName}
             width={20}
             height={20}
