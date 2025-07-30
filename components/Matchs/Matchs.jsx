@@ -32,6 +32,7 @@ export default function Matchs({
   latestPatch,
   searchPlayer,
 }) {
+  const [championData, setChampionData] = useState({});
   const [runesData, setRunesData] = useState([]);
   const [summonerSpells, setSummonerSpells] = useState([]);
   const [itemsData, setItemsData] = useState({});
@@ -47,6 +48,25 @@ export default function Matchs({
   }
 
   useEffect(() => {
+    // ---------- Function to fetch champion data ---------- //
+    const fetchChampionData = async () => {
+      try {
+        const response = await fetch(
+          `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/data/en_US/champion.json`
+        );
+        const data = await response.json();
+        const champions = data.data;
+
+        const championMap = {};
+        Object.values(champions).forEach((champion) => {
+          championMap[champion.key] = champion.id;
+        });
+        setChampionData(championMap);
+      } catch (error) {
+        console.error("Error fetching champion data:", error);
+        setChampionData({});
+      }
+    };
     // ---------- Function to fetch runes datas ---------- //
     const fetchRunesData = async () => {
       try {
@@ -90,11 +110,17 @@ export default function Matchs({
     };
 
     if (latestPatch) {
+      fetchChampionData();
       fetchRunesData();
       fetchSummonerSpells();
       fetchItemsData();
     }
   }, [latestPatch]);
+
+  // ---------- Function to get champion name by champion ID ---------- //
+  const getChampionName = (championId) => {
+    return championData[championId] || championId;
+  };
 
   // ---------- Function to get rune data by rune ID ---------- //
   const getRuneData = (runeId) => {
@@ -195,9 +221,9 @@ export default function Matchs({
         const participants = match.matchDetails.info.participants.map(
           (player) => ({
             championName: player.championName,
+            championId: player.championId,
             riotIdGameName: player.riotIdGameName,
             riotIdTagline: player.riotIdTagline,
-            summonerName: player.summonerName,
             puuid: player.puuid,
             teamId: player.teamId,
           })
@@ -279,7 +305,9 @@ export default function Matchs({
                 <div className="relative w-[60px] h-[60px] mt-2">
                   <div className="flex items-center space-x-4 rounded-md overflow-hidden w-[50px] h-[50px]">
                     <Image
-                      src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${currentPlayer.championName}.png`}
+                      src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${getChampionName(
+                        currentPlayer.championId
+                      )}.png`}
                       alt={currentPlayer.championName}
                       width={50}
                       height={50}
@@ -419,6 +447,7 @@ export default function Matchs({
                   latestPatch={latestPatch}
                   teamColor="text-blue-400"
                   searchPlayer={searchPlayer}
+                  getChampionName={getChampionName}
                 />
                 <TeamColumn
                   players={redTeam}
@@ -426,6 +455,7 @@ export default function Matchs({
                   latestPatch={latestPatch}
                   teamColor="text-red-400"
                   searchPlayer={searchPlayer}
+                  getChampionName={getChampionName}
                 />
               </div>
 
@@ -464,6 +494,7 @@ export default function Matchs({
                       team={team}
                       playerData={playerData}
                       latestPatch={latestPatch}
+                      getChampionName={getChampionName}
                     />
                   ))}
                 </div>
