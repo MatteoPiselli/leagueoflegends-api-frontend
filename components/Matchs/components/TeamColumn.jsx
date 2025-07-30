@@ -8,6 +8,7 @@ export default function TeamColumn({
   playerData,
   teamColor,
   searchPlayer,
+  getChampionName,
 }) {
   if (!players || players.length === 0) {
     return <div className="text-gray-500">No players found</div>;
@@ -18,7 +19,9 @@ export default function TeamColumn({
       {players.map((player, index) => (
         <div key={index} className="flex items-center space-x-1">
           <Image
-            src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${player.championName}.png`}
+            src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${getChampionName(
+              player.championId
+            )}.png`}
             alt={player.championName}
             width={16}
             height={16}
