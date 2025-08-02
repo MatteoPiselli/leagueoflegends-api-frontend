@@ -16,8 +16,10 @@ export default function Home() {
   const [tagLine, setTagLine] = useState("");
   // Player data state
   const [playerData, setPlayerData] = useState(null);
+  const [championData, setChampionData] = useState({});
   const [rankedData, setRankedData] = useState([]);
   const [matchData, setMatchData] = useState([]);
+  const [masteriesData, setMasteriesData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
@@ -25,6 +27,60 @@ export default function Home() {
 
   const [region, setRegion] = useState(false);
   const toggleDropdown = () => setRegion(!region);
+
+  // ---------- Function to fetch champion data ---------- //
+  const fetchChampionData = async (patch) => {
+    try {
+      const response = await fetch(
+        `https://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`
+      );
+      const data = await response.json();
+      const champions = data.data;
+
+      const championMap = {};
+      Object.values(champions).forEach((champion) => {
+        championMap[champion.key] = champion.id;
+      });
+      setChampionData(championMap);
+    } catch (error) {
+      console.error("Error fetching champion data:", error);
+      setChampionData({});
+    }
+  };
+
+  // ---------- Function to get champion name by champion ID ---------- //
+  const getChampionName = (championId) => {
+    return championData[championId] || championId;
+  };
+
+  // ---------- Get latest patch version ---------- //
+  const getLatestPatchVersion = async () => {
+    try {
+      const response = await fetch(
+        "https://ddragon.leagueoflegends.com/api/versions.json"
+      );
+      const versions = await response.json();
+      setLatestPatch(versions[0]); // Get the latest patch version
+    } catch (error) {
+      console.error("Error fetching patch version:", error);
+      return null;
+    }
+  };
+
+  // ---------- Fetch latest patch version and champion data on component mount ---------- //
+  useEffect(() => {
+    const initializeData = async () => {
+      await getLatestPatchVersion();
+    };
+    initializeData();
+  }, []);
+
+  // ---------- Fetch champion data when latestPatch is available ---------- //
+  useEffect(() => {
+    if (latestPatch) {
+      fetchChampionData(latestPatch);
+    }
+  }, [latestPatch]);
 
   // -------------------  Search player function ----------------- //
   const searchPlayer = async (riotIdGameName, riotIdTagline) => {
@@ -76,10 +132,24 @@ export default function Home() {
         } else {
           setMatchData([]);
         }
+
+        // ---------- Fetch masteries data ---------- //
+        if (data.summoner && data.summoner.puuid) {
+          const response = await fetch(
+            `http://localhost:3000/masteries/${data.summoner.puuid}`
+          );
+          const masteries = await response.json();
+          setMasteriesData(masteries.masteries);
+        } else {
+          setMasteriesData([]);
+        }
       } catch (error) {
+        // ---------- Errors ---------- //
         console.error("Error fetching player data:", error);
         setPlayerData(null);
-        setRankedData([]);
+        setRankedData(null);
+        setMatchData(null);
+        setMasteriesData(null);
       } finally {
         // ------- Reset input value after search ------- //
         setInputValue("");
@@ -91,25 +161,6 @@ export default function Home() {
       console.error("Please enter a valid username and tag line.");
     }
   };
-
-  // ---------- Get lasted patch version ---------- //
-  const getLatestPatchVersion = async () => {
-    try {
-      const response = await fetch(
-        "https://ddragon.leagueoflegends.com/api/versions.json"
-      );
-      const versions = await response.json();
-      setLatestPatch(versions[0]); // Get the latest patch version
-    } catch (error) {
-      console.error("Error fetching patch version:", error);
-      return null;
-    }
-  };
-
-  // ---------- Fetch latest patch version on component mount ---------- //
-  useEffect(() => {
-    getLatestPatchVersion();
-  }, []);
 
   return (
     <div className="relative min-h-screen text-white">
@@ -230,14 +281,24 @@ export default function Home() {
                 </div>
               </div>
               {/* Components  */}
-              <div className="flex space-x-4">
-                <Ranked rankedData={rankedData} />
-                <Matchs
-                  latestPatch={latestPatch}
-                  playerData={playerData}
-                  matchData={matchData}
-                  searchPlayer={searchPlayer}
-                />
+              <div className="flex space-x-6 mt-6">
+                <div className="flex flex-col space-y-6 w-1/3">
+                  <Ranked rankedData={rankedData} />
+                  <Masteries
+                    latestPatch={latestPatch}
+                    masteriesData={masteriesData}
+                    getChampionName={getChampionName}
+                  />
+                </div>
+                <div className="w-2/3">
+                  <Matchs
+                    latestPatch={latestPatch}
+                    playerData={playerData}
+                    matchData={matchData}
+                    searchPlayer={searchPlayer}
+                    getChampionName={getChampionName}
+                  />
+                </div>
               </div>
             </>
           )
