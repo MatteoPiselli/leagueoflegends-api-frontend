@@ -31,8 +31,8 @@ export default function Matchs({
   playerData,
   latestPatch,
   searchPlayer,
+  getChampionName,
 }) {
-  const [championData, setChampionData] = useState({});
   const [runesData, setRunesData] = useState([]);
   const [summonerSpells, setSummonerSpells] = useState([]);
   const [itemsData, setItemsData] = useState({});
@@ -48,25 +48,6 @@ export default function Matchs({
   }
 
   useEffect(() => {
-    // ---------- Function to fetch champion data ---------- //
-    const fetchChampionData = async () => {
-      try {
-        const response = await fetch(
-          `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/data/en_US/champion.json`
-        );
-        const data = await response.json();
-        const champions = data.data;
-
-        const championMap = {};
-        Object.values(champions).forEach((champion) => {
-          championMap[champion.key] = champion.id;
-        });
-        setChampionData(championMap);
-      } catch (error) {
-        console.error("Error fetching champion data:", error);
-        setChampionData({});
-      }
-    };
     // ---------- Function to fetch runes datas ---------- //
     const fetchRunesData = async () => {
       try {
@@ -110,17 +91,11 @@ export default function Matchs({
     };
 
     if (latestPatch) {
-      fetchChampionData();
       fetchRunesData();
       fetchSummonerSpells();
       fetchItemsData();
     }
   }, [latestPatch]);
-
-  // ---------- Function to get champion name by champion ID ---------- //
-  const getChampionName = (championId) => {
-    return championData[championId] || championId;
-  };
 
   // ---------- Function to get rune data by rune ID ---------- //
   const getRuneData = (runeId) => {
@@ -330,7 +305,7 @@ export default function Matchs({
                           alt="Primary Rune"
                           width={24}
                           height={24}
-                          className="cursor-pointer hover:scale-110 transition-transform"
+                          className="hover:scale-110 transition-transform"
                         />
                       </RuneTooltip>
                     )}
@@ -342,7 +317,7 @@ export default function Matchs({
                           alt="Secondary Rune Tree"
                           width={20}
                           height={20}
-                          className="cursor-pointer hover:scale-110 transition-transform"
+                          className="hover:scale-110 transition-transform"
                         />
                       </RuneTooltip>
                     )}
@@ -356,7 +331,7 @@ export default function Matchs({
                           alt={spell1.name}
                           width={24}
                           height={24}
-                          className="rounded-lg cursor-pointer hover:scale-110 transition-transform"
+                          className="rounded-lg hover:scale-110 transition-transform"
                         />
                       </SpellTooltip>
                     )}
@@ -367,7 +342,7 @@ export default function Matchs({
                           alt={spell2.name}
                           width={24}
                           height={24}
-                          className="rounded-lg cursor-pointer hover:scale-110 transition-transform"
+                          className="rounded-lg hover:scale-110 transition-transform"
                         />
                       </SpellTooltip>
                     )}
@@ -425,13 +400,13 @@ export default function Matchs({
                       itemId={itemId}
                       item={item}
                     >
-                      <div className="relative cursor-pointer hover:scale-110 transition-transform">
+                      <div className="relative hover:scale-110 transition-transform">
                         <Image
                           src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/item/${itemId}.png`}
                           alt={item?.name || "Item"}
                           width={24}
                           height={24}
-                          className="rounded border border-gray-600 hover:border-yellow-400 transition-colors"
+                          className="rounded border border-gray-600"
                         />
                       </div>
                     </ItemTooltip>
