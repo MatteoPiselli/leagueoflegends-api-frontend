@@ -5,8 +5,6 @@ export default function Masteries({
   latestPatch,
   getChampionName,
 }) {
-  console.log("Masteries component loaded with masteriesData:", masteriesData);
-
   // ---------- Check if mastery data is available ---------- //
   if (!masteriesData || masteriesData.length === 0) {
     return (
