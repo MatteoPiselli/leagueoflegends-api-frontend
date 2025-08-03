@@ -1,22 +1,39 @@
 import Image from "next/image";
 
-const tierIcons = {
-  IRON: "/icons/iron.png",
-  BRONZE: "/icons/bronze.png",
-  SILVER: "/icons/silver.png",
-  GOLD: "/icons/gold.png",
-  PLATINUM: "/icons/platinum.png",
-  EMERALD: "/icons/emerald.png",
-  DIAMOND: "/icons/diamond.png",
-  MASTER: "/icons/master.png",
-  GRANDMASTER: "/icons/grandmaster.png",
-  CHALLENGER: "/icons/challenger.png",
-};
-
 const queueTypes = [
   { key: "RANKED_SOLO_5x5", label: "Ranked Solo/Duo" },
   { key: "RANKED_FLEX_SR", label: "Ranked Flex" },
 ];
+
+// ------ Function to get rank icon URL ------ //
+const getRankIconUrl = (tier) => {
+  const baseUrl = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/images/`;
+
+  switch (tier) {
+    case "IRON":
+      return `${baseUrl}iron.png`;
+    case "BRONZE":
+      return `${baseUrl}bronze.png`;
+    case "SILVER":
+      return `${baseUrl}silver.png`;
+    case "GOLD":
+      return `${baseUrl}gold.png`;
+    case "PLATINUM":
+      return `${baseUrl}platinum.png`;
+    case "EMERALD":
+      return `${baseUrl}emerald.png`;
+    case "DIAMOND":
+      return `${baseUrl}diamond.png`;
+    case "MASTER":
+      return `${baseUrl}master.png`;
+    case "GRANDMASTER":
+      return `${baseUrl}grandmaster.png`;
+    case "CHALLENGER":
+      return `${baseUrl}challenger.png`;
+    default:
+      return `${baseUrl}unranked.png`;
+  }
+};
 
 export default function Ranked({ rankedData }) {
   return (
@@ -30,11 +47,12 @@ export default function Ranked({ rankedData }) {
             </h3>
             <div className="mt-4">
               {data && data.tier ? (
+                // ---------- Display Ranked Data ---------- //
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs md:text-sm space-y-4 sm:space-y-0">
                   {/* Icon and main information */}
                   <div className="flex items-center space-x-4">
                     <Image
-                      src={tierIcons[data.tier]}
+                      src={getRankIconUrl(data.tier)}
                       alt={`${data.tier} icon`}
                       width={60}
                       height={60}
@@ -62,10 +80,11 @@ export default function Ranked({ rankedData }) {
                   </div>
                 </div>
               ) : (
+                // ---------- Display Unranked State ---------- //
                 <div className="flex items-center space-x-4">
                   <Image
-                    src="/icons/unranked.webp"
-                    alt="Icon non classé"
+                    src={getRankIconUrl("UNRANKED")}
+                    alt="Unranked icon"
                     width={60}
                     height={60}
                     className="sm:w-[70px] sm:h-[70px] md:w-[90px] md:h-[90px]"
