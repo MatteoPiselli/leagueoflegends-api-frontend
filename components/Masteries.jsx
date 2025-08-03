@@ -16,7 +16,7 @@ export default function Masteries({
     );
   }
 
-  // ---------- Function to  get mastery icon URL ---------- //
+  // ---------- Function to get mastery icon URL ---------- //
   const getMasteryIconUrl = (championLevel) => {
     const baseUrl = `https://raw.communitydragon.org/latest/game/assets/ux/mastery/legendarychampionmastery/`;
 
@@ -55,12 +55,24 @@ export default function Masteries({
           const championName = getChampionName(champion.championId);
           const masteryLevel = champion.championLevel;
           const masteryPoints = champion.championPoints;
+          const banner =
+            "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/images/banner-primary.png";
 
           return (
             <div
               key={champion.championId}
-              className="flex flex-col items-center bg-[#2c2c2e] p-4 rounded-lg min-w-0"
+              className="relative flex flex-col items-center p-4 rounded-lg min-w-0"
             >
+              {/* ---------- Champion Banner ---------- */}
+              <div className="absolute inset-0 h-full w-full">
+                <Image
+                  src={banner}
+                  alt={`${championName} banner`}
+                  width={100}
+                  height={270}
+                  className="rounded-lg"
+                />
+              </div>
               {/* ---------- Champion Icon ---------- */}
               <Image
                 src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${championName}.png`}
@@ -69,7 +81,7 @@ export default function Masteries({
                 height={60}
                 className="rounded-full scale-[1.2]"
               />
-              <p className="text-sm text-white text-center truncate w-full">
+              <p className="text-sm text-gray-400 text-center truncate w-full z-10">
                 {championName}
               </p>
               {/* ---------- Mastery Icon & Level ---------- */}
@@ -80,12 +92,12 @@ export default function Masteries({
                   width={40}
                   height={40}
                 />
-                <p className="text-xs text-gray-400 text-center bg-[#19191B] rounded-lg p-1">
+                <p className="text-xs text-gray-400 text-center bg-[#19191B] rounded-lg p-1 z-10">
                   {masteryLevel}
                 </p>
               </div>
               {/* ---------- Mastery Points ---------- */}
-              <p className="text-xs text-gray-400 text-center mb-2">
+              <p className="text-xs text-gray-400 text-center mb-2 z-10">
                 {masteryPoints} Pts
               </p>
             </div>
