@@ -6,8 +6,12 @@ import Image from "next/image";
 import Ranked from "./Ranked";
 import Matchs from "./Matchs/Matchs";
 import Masteries from "./Masteries";
-// Other imports
+// Framer Motion
 import { motion, AnimatePresence } from "framer-motion";
+// Icons
+import { History } from "lucide-react";
+import { X } from "lucide-react";
+import { set } from "date-fns";
 
 export default function Home() {
   // Input states for username and tag line
@@ -22,6 +26,7 @@ export default function Home() {
   const [masteriesData, setMasteriesData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [history, setHistory] = useState([]);
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const [latestPatch, setLatestPatch] = useState("");
 
@@ -96,7 +101,28 @@ export default function Home() {
           `http://localhost:3000/summoner/${usernameParams}/${tagLineParams}`
         );
         const data = await response.json();
-        setPlayerData(data);
+
+        // ---------- Check if response is valid ---------- //
+        if (data && data.summoner) {
+          setPlayerData(data);
+
+          // Add to the history only if success
+          setHistory((prev) => {
+            const newEntry = {
+              username: usernameParams,
+              tagLine: tagLineParams,
+            };
+            // Check if the entry already exists in history
+            const filtered = prev.filter(
+              (item) =>
+                item.username !== usernameParams &&
+                item.tagLine !== tagLineParams
+            );
+            return [...filtered, newEntry];
+          });
+        } else {
+          throw new Error("Player not found");
+        }
 
         // ---------- Fetch ranked data ---------- //
         if (data.summoner && data.summoner.puuid) {
@@ -147,9 +173,6 @@ export default function Home() {
         // ---------- Errors ---------- //
         console.error("Error fetching player data:", error);
         setPlayerData(null);
-        setRankedData(null);
-        setMatchData(null);
-        setMasteriesData(null);
       } finally {
         // ------- Reset input value after search ------- //
         setInputValue("");
@@ -173,6 +196,7 @@ export default function Home() {
         <div className="flex justify-center mt-8">
           {/* ----- Icon Logo -----*/}
           <Image
+            priority={true}
             src="/logo.png"
             alt="logo SummonerFinder.gg"
             width={300}
@@ -232,13 +256,86 @@ export default function Home() {
                 setTagLine(tag || "");
               }}
               /* View history of searches */
-              onClick={() => setIsHistoryVisible(!isHistoryVisible)}
+              onClick={() => setIsHistoryVisible((prev) => !prev)}
             />
+
+            {/* ------------- History of searches ------------- */}
+            <AnimatePresence>
+              {isHistoryVisible ? (
+                <motion.div
+                  className="absolute top-[90%] left-0 w-96 bg-[#19191B] text-white rounded-lg shadow-lg mt-2"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {history.length > 0 ? (
+                    // ----------- Display if history is not empty ----------- //
+                    <ul className="max-h-60 overflow-y-auto">
+                      {history
+                        .slice(-5)
+                        .reverse()
+                        .map((player, index) => {
+                          return (
+                            <li
+                              key={index}
+                              className="relative flex items-center px-4 py-2 hover:bg-[#292A2E] cursor-pointer"
+                            >
+                              <History className="inline mr-2 w-4 h-4" />
+                              <div
+                                className="flex-1"
+                                onClick={() => {
+                                  searchPlayer(player.username, player.tagLine);
+                                  setIsHistoryVisible(false);
+                                }}
+                              >
+                                {player.username}#{player.tagLine}
+                              </div>
+                              <X
+                                className="w-4 h-4 text-gray-400 hover:text-red-400 transition-colors cursor-pointer"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setHistory((prev) =>
+                                    prev.filter(
+                                      (item) =>
+                                        item.username !== player.username &&
+                                        item.tagLine !== player.tagLine
+                                    )
+                                  );
+                                }}
+                              />
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  ) : (
+                    // --------- Display poro icon and message if history is empty --------- //
+                    <div className="flex flex-col items-center justify-center py-8">
+                      <Image
+                        src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/icon-search-empty-poro.svg"
+                        alt="Poro icon"
+                        width={70}
+                        height={70}
+                      />
+                      <p className="text-gray-400 text-sm mt-3">
+                        No recent researches
+                      </p>
+                      <p className="text-gray-500 text-xs mt-1">
+                        Your searches will appear here
+                      </p>
+                    </div>
+                  )}
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
           </div>
 
           {/* ------- Button to search player -------*/}
           <button
-            onClick={() => searchPlayer(username, tagLine)}
+            onClick={() => {
+              setIsHistoryVisible(false);
+              searchPlayer(username, tagLine);
+            }}
             className="bg-[#19191B] hover:bg-[#292A2E] px-4 py-2"
           >
             Search
@@ -248,7 +345,12 @@ export default function Home() {
         {isLoading ? (
           // ------ Loader while fetching data ----- //
           <div className="flex justify-center items-center h-96">
-            <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+            <Image
+              src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/icon-sleeping-poro.png"
+              alt="Poro sleeping"
+              width={70}
+              height={70}
+            />
             <p className="ml-4 text-white">Chargement des données...</p>
           </div>
         ) : (
@@ -280,7 +382,7 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              {/* Components  */}
+              {/* ------- Components ------- */}
               <div className="flex space-x-6 mt-6">
                 <div className="flex flex-col space-y-6 w-1/3">
                   <Ranked rankedData={rankedData} />
