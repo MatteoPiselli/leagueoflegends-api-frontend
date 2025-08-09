@@ -41,8 +41,17 @@ export default function Matchs({
   // ---------- Check if matchData is available ---------- //
   if (!matchData || matchData.length === 0) {
     return (
-      <div className="w-full flex justify-center items-center border border-[#dd1029] mt-8">
-        No match data available
+      <div className="w-full h-[200px] flex justify-center items-center space-x-4 border border-[#dd1029] rounded-lg mt-8">
+        <Image
+          src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/icon-shocked-poro-clear.png"
+          alt="No match data"
+          width={46}
+          height={46}
+          className="opacity-50"
+        />
+        <p className="text-lg font-semibold">
+          Not enough recent games to display champions stats.
+        </p>
       </div>
     );
   }
