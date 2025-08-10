@@ -12,7 +12,6 @@ import { motion, AnimatePresence } from "framer-motion";
 // Icons
 import { History } from "lucide-react";
 import { X } from "lucide-react";
-import { set } from "date-fns";
 
 export default function App() {
   // Input states for username and tag line
@@ -464,7 +463,6 @@ export default function App() {
                 <Champions
                   playerData={playerData}
                   latestPatch={latestPatch}
-                  matchData={matchData}
                   getChampionName={getChampionName}
                 />
                 <Masteries
