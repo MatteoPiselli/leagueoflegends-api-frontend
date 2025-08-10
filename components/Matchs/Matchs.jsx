@@ -32,26 +32,44 @@ export default function Matchs({
   latestPatch,
   searchPlayer,
   getChampionName,
+  retryMatches,
 }) {
   const [runesData, setRunesData] = useState([]);
   const [summonerSpells, setSummonerSpells] = useState([]);
   const [itemsData, setItemsData] = useState({});
   const [expandedMatches, setExpandedMatches] = useState({});
+  const [isClicked, setIsClicked] = useState(false);
 
   // ---------- Check if matchData is available ---------- //
   if (!matchData || matchData.length === 0) {
     return (
-      <div className="w-full h-[200px] flex justify-center items-center space-x-4 border border-[#dd1029] rounded-lg mt-8">
+      <div className="w-full h-[200px] flex flex-col space-y-4 justify-center items-center border border-[#dd1029] rounded-lg mt-8">
         <Image
           src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/icon-shocked-poro-clear.png"
           alt="No match data"
-          width={46}
-          height={46}
-          className="opacity-50"
+          width={52}
+          height={52}
+          className="opacity-50 brightness-50 invert"
         />
+
         <p className="text-lg font-semibold">
-          Not enough recent games to display champions stats.
+          Not enough recent games to display matches.
         </p>
+
+        {playerData?.summoner?.puuid && (
+          <button
+            onClick={async () => {
+              setIsClicked(true);
+              await retryMatches();
+              setIsClicked(false);
+            }}
+            className={`${
+              isClicked ? "animate-pulse" : ""
+            } px-4 py-2 bg-[#dd1029] text-white rounded hover:bg-[#b91027] transition-colors`}
+          >
+            {isClicked ? "Loading..." : "Retry"}
+          </button>
+        )}
       </div>
     );
   }
