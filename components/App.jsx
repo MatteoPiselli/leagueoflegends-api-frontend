@@ -5,6 +5,7 @@ import Image from "next/image";
 // Components
 import Ranked from "./Ranked";
 import Matchs from "./Matchs/Matchs";
+import Champions from "./Champions";
 import Masteries from "./Masteries";
 // Framer Motion
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,7 +14,7 @@ import { History } from "lucide-react";
 import { X } from "lucide-react";
 import { set } from "date-fns";
 
-export default function Home() {
+export default function App() {
   // Input states for username and tag line
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
@@ -32,6 +33,37 @@ export default function Home() {
 
   const [region, setRegion] = useState(false);
   const toggleDropdown = () => setRegion(!region);
+
+  // Function to handle HTTP errors
+  const handleHttpError = (status, statusText) => {
+    let message;
+
+    switch (status) {
+      case 400:
+        message = "Bad Request: Please check your input.";
+        break;
+      case 404:
+        message = "Player not found. Please check the username and tag.";
+        break;
+      case 403:
+        message =
+          "Forbidden: You do not have permission to access this resource. Please check your API key";
+        break;
+      case 429:
+        message =
+          "Too Many Requests. You have exceeded the rate limit for this API. Please try again in 1 minute.";
+        break;
+      case 500:
+        message = "Internal Server Error. Please try again later.";
+        break;
+      default:
+        message = `Unknown error (Code ${status}). Please try again later.`;
+    }
+
+    console.error(`HTTP Error ${status}: ${message}`);
+    alert(`Error: ${status}${"\n\n"} ${message}`);
+    return false;
+  };
 
   // ---------- Function to fetch champion data ---------- //
   const fetchChampionData = async (patch) => {
@@ -65,7 +97,7 @@ export default function Home() {
         "https://ddragon.leagueoflegends.com/api/versions.json"
       );
       const versions = await response.json();
-      setLatestPatch(versions[0]); // Get the latest patch version
+      setLatestPatch(versions[0]);
     } catch (error) {
       console.error("Error fetching patch version:", error);
       return null;
@@ -93,95 +125,140 @@ export default function Home() {
     const usernameParams = riotIdGameName || username;
     const tagLineParams = riotIdTagline || tagLine;
 
-    if (usernameParams && tagLineParams) {
-      setIsLoading(true);
-      // ---------- Search player ---------- //
-      try {
-        const response = await fetch(
-          `http://localhost:3000/summoner/${usernameParams}/${tagLineParams}`
-        );
-        const data = await response.json();
+    if (!usernameParams || !tagLineParams) {
+      alert("Please enter a valid username and tag line.");
+      return;
+    }
 
-        // ---------- Check if response is valid ---------- //
-        if (data && data.summoner) {
-          setPlayerData(data);
+    setIsLoading(true);
+    // ---------- Search player ---------- //
+    try {
+      const response = await fetch(
+        `http://localhost:3000/summoner/${usernameParams}/${tagLineParams}`
+      );
 
-          // Add to the history only if success
-          setHistory((prev) => {
-            const newEntry = {
-              username: usernameParams,
-              tagLine: tagLineParams,
-            };
-            // Check if the entry already exists in history
-            const filtered = prev.filter(
-              (item) =>
-                item.username !== usernameParams &&
-                item.tagLine !== tagLineParams
-            );
-            return [...filtered, newEntry];
-          });
-        } else {
-          throw new Error("Player not found");
-        }
-
-        // ---------- Fetch ranked data ---------- //
-        if (data.summoner && data.summoner.puuid) {
-          const response = await fetch(
-            `http://localhost:3000/ranked/${data.summoner.puuid}`
-          );
-          const ranked = await response.json();
-          setRankedData(ranked.ranked);
-        } else {
-          setRankedData([]);
-        }
-
-        // ---------- Fetch matchs data ---------- //
-        if (data.summoner && data.summoner.puuid) {
-          const response = await fetch(
-            `http://localhost:3000/matchs/${data.summoner.puuid}`
-          );
-          const matchs = await response.json();
-
-          // ---------- Fetch matchs details ---------- //
-          const details = await Promise.all(
-            // Promise.all to fetch match details concurrently
-            (Array.isArray(matchs.matchs) ? matchs.matchs : []).map(
-              async (matchId) => {
-                const res = await fetch(
-                  `http://localhost:3000/matchs/details/${matchId}`
-                );
-                return await res.json();
-              }
-            )
-          );
-          setMatchData(details);
-        } else {
-          setMatchData([]);
-        }
-
-        // ---------- Fetch masteries data ---------- //
-        if (data.summoner && data.summoner.puuid) {
-          const response = await fetch(
-            `http://localhost:3000/masteries/${data.summoner.puuid}`
-          );
-          const masteries = await response.json();
-          setMasteriesData(masteries.masteries);
-        } else {
-          setMasteriesData([]);
-        }
-      } catch (error) {
-        // ---------- Errors ---------- //
-        console.error("Error fetching player data:", error);
+      if (!response.ok) {
+        handleHttpError(response.status, response.statusText);
         setPlayerData(null);
-      } finally {
-        // ------- Reset input value after search ------- //
-        setInputValue("");
-        setUsername("");
-        setTagLine("");
-        setIsLoading(false);
+        return;
       }
-    } else {
-      console.error("Please enter a valid username and tag line.");
+
+      const data = await response.json();
+
+      // ---------- Check if response is valid ---------- //
+      if (data && data.summoner) {
+        setPlayerData(data);
+
+        // Add to the history only if success
+        setHistory((prev) => {
+          const newEntry = {
+            username: usernameParams,
+            tagLine: tagLineParams,
+          };
+          // Check if the entry already exists in history
+          const filtered = prev.filter(
+            (item) =>
+              item.username !== usernameParams && item.tagLine !== tagLineParams
+          );
+          return [...filtered, newEntry];
+        });
+      } else {
+        throw new Error("Player not found");
+      }
+
+      // ---------- Fetch ranked data ---------- //
+      if (data.summoner && data.summoner.puuid) {
+        const response = await fetch(
+          `http://localhost:3000/ranked/${data.summoner.puuid}`
+        );
+        const ranked = await response.json();
+        setRankedData(ranked.ranked);
+      } else {
+        setRankedData([]);
+      }
+
+      // ---------- Fetch matchs data ---------- //
+      if (data.summoner && data.summoner.puuid) {
+        const response = await fetch(
+          `http://localhost:3000/matchs/${data.summoner.puuid}`
+        );
+        const matchs = await response.json();
+
+        // ---------- Fetch matchs details ---------- //
+        const details = await Promise.all(
+          // Promise.all to fetch match details concurrently
+          (Array.isArray(matchs.matchs) ? matchs.matchs : []).map(
+            async (matchId) => {
+              const res = await fetch(
+                `http://localhost:3000/matchs/details/${matchId}`
+              );
+              return await res.json();
+            }
+          )
+        );
+        setMatchData(details);
+      } else {
+        setMatchData([]);
+      }
+
+      // ---------- Fetch masteries data ---------- //
+      if (data.summoner && data.summoner.puuid) {
+        const response = await fetch(
+          `http://localhost:3000/masteries/${data.summoner.puuid}`
+        );
+        const masteries = await response.json();
+        setMasteriesData(masteries.masteries);
+      } else {
+        setMasteriesData([]);
+      }
+    } catch (error) {
+      // ---------- Errors ---------- //
+      console.error("Error fetching player data:", error);
+      setPlayerData(null);
+    } finally {
+      // ------- Reset input value after search ------- //
+      setInputValue("");
+      setUsername("");
+      setTagLine("");
+      setIsLoading(false);
+    }
+  };
+
+  // ------------------- Retry Matches function ----------------- //
+  const retryMatches = async () => {
+    if (!playerData?.summoner?.puuid) {
+      console.warn("No player data available for retry");
+      return;
+    }
+    try {
+      // ---------- Fetch matchs data ---------- //
+      const response = await fetch(
+        `http://localhost:3000/matchs/${playerData.summoner.puuid}`
+      );
+
+      if (!response.ok) {
+        handleHttpError(response.status, response.statusText);
+        setMatchData([]);
+        return;
+      }
+
+      const matchs = await response.json();
+
+      // ---------- Fetch matchs details ---------- //
+      const details = await Promise.all(
+        (Array.isArray(matchs.matchs) ? matchs.matchs : []).map(
+          async (matchId) => {
+            const res = await fetch(
+              `http://localhost:3000/matchs/details/${matchId}`
+            );
+            return await res.json();
+          }
+        )
+      );
+      setMatchData(details);
+    } catch (error) {
+      console.error("Error retrying match data:", error);
+      setMatchData([]);
     }
   };
 
@@ -261,11 +338,11 @@ export default function Home() {
 
             {/* ------------- History of searches ------------- */}
             <AnimatePresence>
-              {isHistoryVisible ? (
+              {isHistoryVisible && (
                 <motion.div
-                  className="absolute top-[90%] left-0 w-96 bg-[#19191B] text-white rounded-lg shadow-lg mt-2"
+                  className="absolute top-full left-0 w-96 bg-[#19191B] text-white rounded-b-lg shadow-lg mt-2"
                   initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: -7 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -326,7 +403,7 @@ export default function Home() {
                     </div>
                   )}
                 </motion.div>
-              ) : null}
+              )}
             </AnimatePresence>
           </div>
 
@@ -350,61 +427,65 @@ export default function Home() {
               alt="Poro sleeping"
               width={70}
               height={70}
+              className="animate-pulse"
             />
-            <p className="ml-4 text-white">Chargement des données...</p>
+            <p className="ml-4 text-white">Loading data...</p>
           </div>
-        ) : (
-          // ------ Display player data ----- //
-          playerData && (
-            <>
-              <div className="flex items-center">
-                <div className="relative mt-8 h-[125px]">
-                  {/* Icon of the player */}
-                  <Image
-                    src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/profileicon/${playerData.summoner.profileIconId}.png`}
-                    alt="Profile Icon"
-                    width={110}
-                    height={110}
-                    className="rounded-xl"
-                  />
-                  {/* Level of the player */}
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white rounded-xl py-1 px-2 text-sm">
-                    {playerData.summoner.summonerLevel}
-                  </div>
-                </div>
-                {/* Username and Tag Line */}
-                <div className="ml-4 text-xl">
-                  <span className="font-bold">
-                    {playerData.riotId.gameName}
-                  </span>
-                  <span className="text-gray-500">
-                    #{playerData.riotId.tagLine}
-                  </span>
+        ) : // ------ Display player data ----- //
+        playerData ? (
+          <>
+            <div className="flex items-center">
+              <div className="relative mt-8 h-[125px]">
+                {/* Icon of the player */}
+                <Image
+                  src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/profileicon/${playerData.summoner.profileIconId}.png`}
+                  alt="Profile Icon"
+                  width={110}
+                  height={110}
+                  className="rounded-xl"
+                />
+                {/* Level of the player */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white rounded-xl py-1 px-2 text-sm">
+                  {playerData.summoner.summonerLevel}
                 </div>
               </div>
-              {/* ------- Components ------- */}
-              <div className="flex space-x-6 mt-6">
-                <div className="flex flex-col space-y-6 w-1/3">
-                  <Ranked rankedData={rankedData} />
-                  <Masteries
-                    latestPatch={latestPatch}
-                    masteriesData={masteriesData}
-                    getChampionName={getChampionName}
-                  />
-                </div>
-                <div className="w-2/3">
-                  <Matchs
-                    latestPatch={latestPatch}
-                    playerData={playerData}
-                    matchData={matchData}
-                    searchPlayer={searchPlayer}
-                    getChampionName={getChampionName}
-                  />
-                </div>
+              {/* Username and Tag Line */}
+              <div className="ml-4 text-xl">
+                <span className="font-bold">{playerData.riotId.gameName}</span>
+                <span className="text-gray-500">
+                  #{playerData.riotId.tagLine}
+                </span>
               </div>
-            </>
-          )
-        )}
+            </div>
+            {/* ------- Components ------- */}
+            <div className="flex space-x-6 mt-6">
+              <div className="flex flex-col space-y-6 w-1/3">
+                <Ranked rankedData={rankedData} />
+                <Champions
+                  playerData={playerData}
+                  latestPatch={latestPatch}
+                  matchData={matchData}
+                  getChampionName={getChampionName}
+                />
+                <Masteries
+                  latestPatch={latestPatch}
+                  masteriesData={masteriesData}
+                  getChampionName={getChampionName}
+                />
+              </div>
+              <div className="w-2/3">
+                <Matchs
+                  latestPatch={latestPatch}
+                  playerData={playerData}
+                  matchData={matchData}
+                  searchPlayer={searchPlayer}
+                  getChampionName={getChampionName}
+                  retryMatches={retryMatches}
+                />
+              </div>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );
