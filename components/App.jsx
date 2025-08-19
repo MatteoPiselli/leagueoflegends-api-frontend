@@ -5,7 +5,7 @@ import Image from "next/image";
 // Components
 import Ranked from "./Ranked";
 import Matchs from "./Matchs/Matchs";
-import Champions from "./Champions";
+import Champions from "./Champions/Champions";
 import Masteries from "./Masteries";
 // Framer Motion
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,6 +40,9 @@ export default function App() {
     switch (status) {
       case 400:
         message = "Bad Request: Please check your input.";
+        break;
+      case 401:
+        message = "Unknown API key: Please check your API key.";
         break;
       case 404:
         message = "Player not found. Please check the username and tag.";
@@ -458,7 +461,7 @@ export default function App() {
             </div>
             {/* ------- Components ------- */}
             <div className="flex space-x-6 mt-6">
-              <div className="flex flex-col space-y-6 w-1/3">
+              <div className="flex flex-col space-y-6 w-1/3 mb-16">
                 <Ranked rankedData={rankedData} />
                 <Champions
                   playerData={playerData}
