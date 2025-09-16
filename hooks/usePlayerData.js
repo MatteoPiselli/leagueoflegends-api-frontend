@@ -41,9 +41,8 @@ export const usePlayerData = () => {
             `http://localhost:3000/api/ranked/${data.summoner.puuid}`
           );
           const ranked = await rankedResponse.json();
-          console.log("Ranked API Response:", ranked);
 
-          // Transform ranked data to array format expected by frontend
+          // Transform ranked data to array format
           const rankedArray = [];
           if (
             ranked.ranked &&
@@ -73,8 +72,6 @@ export const usePlayerData = () => {
               losses: ranked.ranked.flex.losses,
             });
           }
-
-          console.log("Transformed ranked array:", rankedArray);
           setRankedData(rankedArray);
         } else {
           setRankedData([]);
