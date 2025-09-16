@@ -4,7 +4,7 @@ import {
   ErrorState,
   EmptyState,
   useChampionStats,
-} from "./ChampionStats";
+} from "./index";
 
 export default function Champions({
   playerData,
