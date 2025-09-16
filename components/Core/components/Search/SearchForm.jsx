@@ -2,19 +2,21 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { History, X } from "lucide-react";
+import { useSearchHistory } from "../../../../hooks/useSearchHistory";
 
-export const SearchForm = ({
-  onSearch,
-  isLoading,
-  history,
-  isHistoryVisible,
-  onRemoveFromHistory,
-  onSetHistoryVisible,
-}) => {
+export const SearchForm = ({ onSearch, isLoading }) => {
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
   const [tagLine, setTagLine] = useState("");
   const [region, setRegion] = useState(false);
+
+  const {
+    history,
+    isHistoryVisible,
+    addToHistory,
+    removeFromHistory,
+    setIsHistoryVisible,
+  } = useSearchHistory();
 
   const toggleDropdown = () => setRegion(!region);
 
@@ -23,17 +25,71 @@ export const SearchForm = ({
       alert("Please enter a valid username and tag line.");
       return;
     }
-    onSetHistoryVisible(false);
+    addToHistory(username, tagLine);
+
+    setIsHistoryVisible(false);
     onSearch(username, tagLine);
+
     // Reset input after search
     setInputValue("");
     setUsername("");
     setTagLine("");
   };
 
+  const handleRemoveFromHistory = (username, tagLine) => {
+    removeFromHistory(username, tagLine);
+  };
+
   return (
     <div className="relative mt-8">
       <div className="flex items-center justify-center space-x-4">
+        {/* Region Dropdown */}
+        <div className="relative">
+          <button
+            onClick={toggleDropdown}
+            className="px-4 py-2 bg-[#DD1129] text-white rounded-lg hover:bg-[#b30d23] transition-colors"
+          >
+            EUW
+          </button>
+
+          <AnimatePresence>
+            {region && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute top-full left-0 -ml-16 mt-2 bg-[#2a2a2a] border border-[#DD1029] rounded-lg shadow-lg z-50"
+              >
+                {/* Flèche pointant vers le haut */}
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                  <div className="w-0 h-0 border-l-[8px] border-r-[8px] border-b-[8px] border-l-transparent border-r-transparent border-b-[#DD1029]"></div>
+                  <div className="absolute top-[1px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[7px] border-r-[7px] border-b-[7px] border-l-transparent border-r-transparent border-b-[#2a2a2a]"></div>
+                </div>
+
+                <div className="p-2 min-w-[200px]">
+                  <div className="text-gray-300 text-sm font-medium mb-2 px-2">
+                    Select Region
+                  </div>
+                  {[
+                    { code: "EUW", name: "Europe West" },
+                    { code: "NA", name: "North America" },
+                    { code: "KR", name: "Korea" },
+                  ].map((regionItem) => (
+                    <div
+                      key={regionItem.code}
+                      className="p-2 hover:bg-[#3a3a3a] rounded-md cursor-pointer text-white"
+                      onClick={() => {
+                        setRegion(false);
+                      }}
+                    >
+                      {regionItem.name} ({regionItem.code})
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         {/* ------- Input for username and tag line ---------*/}
         <div className="relative flex flex-col items-center">
           <input
@@ -51,7 +107,7 @@ export const SearchForm = ({
               setTagLine(tag || "");
             }}
             /* View history of searches */
-            onClick={() => onSetHistoryVisible((prev) => !prev)}
+            onClick={() => setIsHistoryVisible((prev) => !prev)}
             disabled={isLoading}
           />
 
@@ -74,7 +130,7 @@ export const SearchForm = ({
                       .map((player, index) => {
                         return (
                           <li
-                            key={index}
+                            key={`${player.username}-${player.tagLine}`}
                             className="relative flex items-center px-4 py-2 hover:bg-[#292A2E] cursor-pointer"
                           >
                             <History className="inline mr-2 w-4 h-4" />
@@ -85,7 +141,7 @@ export const SearchForm = ({
                                 setInputValue(inputText);
                                 setUsername(player.username);
                                 setTagLine(player.tagLine);
-                                onSetHistoryVisible(false);
+                                setIsHistoryVisible(false);
                                 onSearch(player.username, player.tagLine);
                               }}
                             >
@@ -95,7 +151,10 @@ export const SearchForm = ({
                               className="w-4 h-4 text-gray-400 hover:text-red-400 transition-colors cursor-pointer"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                onRemoveFromHistory(index);
+                                handleRemoveFromHistory(
+                                  player.username,
+                                  player.tagLine
+                                );
                               }}
                             />
                           </li>
@@ -133,41 +192,6 @@ export const SearchForm = ({
           {isLoading ? "Searching..." : "Search"}
         </button>
       </div>
-
-      {/* Region Dropdown */}
-      <AnimatePresence>
-        {region && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full right-0 mt-2 bg-[#2a2a2a] border border-[#DD1029] rounded-lg shadow-lg z-50"
-          >
-            <div className="p-2 min-w-[200px]">
-              <div className="text-gray-300 text-sm font-medium mb-2 px-2">
-                Select Region
-              </div>
-              {[
-                { code: "EUW", name: "Europe West" },
-                { code: "NA", name: "North America" },
-                { code: "KR", name: "Korea" },
-                { code: "JP", name: "Japan" },
-              ].map((regionItem) => (
-                <div
-                  key={regionItem.code}
-                  className="p-2 hover:bg-[#3a3a3a] rounded-md cursor-pointer text-white"
-                  onClick={() => {
-                    setRegion(false);
-                    // Handle region selection if needed
-                  }}
-                >
-                  {regionItem.name} ({regionItem.code})
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 };
