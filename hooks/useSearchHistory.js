@@ -28,11 +28,6 @@ export const useSearchHistory = () => {
     );
   };
 
-  // Clear all history
-  const clearHistory = () => {
-    setHistory([]);
-  };
-
   // Toggle history visibility
   const toggleHistoryVisibility = () => {
     setIsHistoryVisible((prev) => !prev);
@@ -48,7 +43,6 @@ export const useSearchHistory = () => {
     isHistoryVisible,
     addToHistory,
     removeFromHistory,
-    clearHistory,
     toggleHistoryVisibility,
     getRecentHistory,
     setIsHistoryVisible,
