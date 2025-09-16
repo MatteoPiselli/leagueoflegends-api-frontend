@@ -23,10 +23,9 @@ export default function App() {
     retryMatches,
   } = usePlayerData();
 
-  const { championData, latestPatch, getChampionName } = useChampionData();
+  const { latestPatch, getChampionName } = useChampionData();
 
   const {
-    history,
     isHistoryVisible,
     addToHistory,
     removeFromHistory,
@@ -63,15 +62,7 @@ export default function App() {
         </div>
 
         {/* Search Form */}
-        <SearchForm
-          onSearch={handlePlayerSearch}
-          isLoading={isLoading}
-          history={getRecentHistory()}
-          isHistoryVisible={isHistoryVisible}
-          onToggleHistory={toggleHistoryVisibility}
-          onRemoveFromHistory={removeFromHistory}
-          onSetHistoryVisible={setIsHistoryVisible}
-        />
+        <SearchForm onSearch={handlePlayerSearch} isLoading={isLoading} />
 
         {isLoading ? (
           <LoadingState />
