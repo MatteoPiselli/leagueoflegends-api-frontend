@@ -1,8 +1,6 @@
-import { RankCard, EmptyRankedState, useRankedCalculations } from "./index";
+import { RankCard, EmptyRankedState, QUEUE_TYPES } from "./index";
 
 export default function Ranked({ rankedData }) {
-  const { queueTypes } = useRankedCalculations();
-
   const rankedArray = Array.isArray(rankedData) ? rankedData : [];
 
   // Check if ranked data is available
@@ -14,7 +12,7 @@ export default function Ranked({ rankedData }) {
     <div className="h-fit w-full mt-8 p-4 bg-[#19191B] rounded-lg">
       {/* Ranked Data */}
       <div className="space-y-4">
-        {queueTypes.map((queueType) => {
+        {QUEUE_TYPES.map((queueType) => {
           const queueData = rankedArray.find(
             (data) => data.queueType === queueType.key
           );

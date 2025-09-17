@@ -1,16 +1,18 @@
 import Image from "next/image";
 import { useRankedCalculations } from "../../hooks/calculations";
+import { useRankedUtils } from "../../hooks/utils/useRankedUtils";
 import { UnrankedCard } from "./UnrankedCard";
 
 export const RankCard = ({ queueData, queueType }) => {
-  const { getRankIconUrl, calculateWinRate, getRankDisplayName } =
-    useRankedCalculations();
+  const { calculateWinRate, calculateTotalGames } = useRankedCalculations();
+  const { getRankIconUrl, getRankDisplayName } = useRankedUtils();
 
   if (!queueData) {
     return <UnrankedCard queueType={queueType} />;
   }
 
   const winRate = calculateWinRate(queueData.wins, queueData.losses);
+  const totalGames = calculateTotalGames(queueData.wins, queueData.losses);
 
   return (
     <div className="p-3 bg-[#1e1e20] rounded-lg">
@@ -42,9 +44,7 @@ export const RankCard = ({ queueData, queueType }) => {
           <div className="text-gray-400 text-xs">
             {queueData.wins}W {queueData.losses}L
           </div>
-          <div className="text-gray-400 text-xs">
-            {queueData.wins + queueData.losses} games
-          </div>
+          <div className="text-gray-400 text-xs">{totalGames} games</div>
         </div>
       </div>
     </div>

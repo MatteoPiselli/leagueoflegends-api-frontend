@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { useRankedCalculations } from "../../../hooks/calculations";
+import { useRankedUtils } from "../../hooks/utils/useRankedUtils";
 
 export const UnrankedCard = ({ queueType }) => {
-  const { getRankIconUrl } = useRankedCalculations();
+  const { getRankIconUrl } = useRankedUtils();
 
   return (
     <div className="p-3 bg-[#1e1e20] rounded-lg">
