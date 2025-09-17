@@ -18,6 +18,26 @@ export const SearchForm = ({ onSearch, isLoading }) => {
     setIsHistoryVisible,
   } = useSearchHistory();
 
+  const regions = [
+    {
+      code: "EUW",
+      name: "Europe West",
+      image:
+        "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-store/global/default/storefront/addon/public/img/content/transfer/euw.jpg",
+    },
+    {
+      code: "NA",
+      name: "North America",
+      image:
+        "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-store/global/default/storefront/addon/public/img/content/transfer/na.jpg",
+    },
+    {
+      code: "KR",
+      name: "Korea",
+      flag: "🇰🇷",
+    },
+  ];
+
   const toggleDropdown = () => setRegion(!region);
 
   const handleSearch = () => {
@@ -49,6 +69,13 @@ export const SearchForm = ({ onSearch, isLoading }) => {
             onClick={toggleDropdown}
             className="px-4 py-2 bg-[#DD1129] text-white rounded-lg hover:bg-[#b30d23] transition-colors"
           >
+            <Image
+              src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-store/global/default/storefront/addon/public/img/content/transfer/euw.jpg"
+              alt="EUW"
+              width={20}
+              height={20}
+              className="inline-block mr-1"
+            />
             EUW
           </button>
 
@@ -70,19 +97,35 @@ export const SearchForm = ({ onSearch, isLoading }) => {
                   <div className="text-gray-300 text-sm font-medium mb-2 px-2">
                     Select Region
                   </div>
-                  {[
-                    { code: "EUW", name: "Europe West" },
-                    { code: "NA", name: "North America" },
-                    { code: "KR", name: "Korea" },
-                  ].map((regionItem) => (
+                  {regions.map((regionItem) => (
                     <div
                       key={regionItem.code}
-                      className="p-2 hover:bg-[#3a3a3a] rounded-md cursor-pointer text-white"
+                      className="p-1 hover:bg-[#3a3a3a] cursor-pointer text-white"
                       onClick={() => {
                         setRegion(false);
                       }}
                     >
-                      {regionItem.name} ({regionItem.code})
+                      {regionItem.image ? (
+                        <div className="flex items-center space-x-1">
+                          <Image
+                            src={regionItem.image}
+                            alt={regionItem.name}
+                            width={20}
+                            height={20}
+                            className="rounded-full"
+                          />
+                          <span>
+                            {regionItem.name} ({regionItem.code})
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center space-x-2">
+                          <span>{regionItem.flag}</span>
+                          <span>
+                            {regionItem.name} {regionItem.code}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -130,7 +173,7 @@ export const SearchForm = ({ onSearch, isLoading }) => {
                       .map((player, index) => {
                         return (
                           <li
-                            key={`${player.username}-${player.tagLine}`}
+                            key={`${player.username}-${player.tagLine} ${index}`}
                             className="relative flex items-center px-4 py-2 hover:bg-[#292A2E] cursor-pointer"
                           >
                             <History className="inline mr-2 w-4 h-4" />
