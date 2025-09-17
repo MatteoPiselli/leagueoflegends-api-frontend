@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["ddragon.leagueoflegends.com", "raw.communitydragon.org"],
+    domains: [
+      "ddragon.leagueoflegends.com",
+      "raw.communitydragon.org",
+      "flagcdn.com",
+    ],
   },
 };
 
