@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const useChampionStats = (playerData) => {
   const [championStats, setChampionStats] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchChampionStats = async () => {
-    if (!playerData?.summoner?.puuid) return;
+  const fetchChampionStats = useCallback(async () => {
+    if (!playerData?.summoner?.puuid) {
+      setChampionStats([]);
+      return;
+    }
 
     setLoading(true);
     setError(null);
@@ -28,23 +31,26 @@ export const useChampionStats = (playerData) => {
           default:
             errorMessage = `Error loading champion stats (${response.status})`;
         }
-        setError(errorMessage);
-        return;
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
       setChampionStats(data.championStats || []);
+      setError(null); // Clear any previous errors on success
     } catch (error) {
       console.error("Error fetching champion stats:", error);
-      setError("Unable to load champion statistics");
+      const errorMessage =
+        error.message || "Unable to load champion statistics";
+      setError(errorMessage);
+      setChampionStats([]); // Clear data on error
     } finally {
       setLoading(false);
     }
-  };
+  }, [playerData?.summoner?.puuid]);
 
   useEffect(() => {
     fetchChampionStats();
-  }, [playerData?.summoner?.puuid]);
+  }, [fetchChampionStats]);
 
   return {
     championStats,

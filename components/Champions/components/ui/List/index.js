@@ -1,0 +1,1 @@
+export { ChampionsList } from "./ChampionsList";

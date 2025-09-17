@@ -10,32 +10,54 @@ Champions/
 ├── index.js                        # Central exports
 ├── components/                     # UI Components
 │   ├── index.js                   # Component exports
-│   ├── ChampionStats/             # Champion statistics components
+│   ├── ChampionCard/              # Champion card with detailed breakdown
 │   │   ├── index.js
-│   │   └── ChampionCard.jsx      # Individual champion card
-│   └── States/                    # Loading, error, and empty states
+│   │   ├── ChampionCard.jsx       # Main champion card container
+│   │   ├── ChampionInfo/          # Champion info sub-component
+│   │   │   ├── index.js
+│   │   │   └── ChampionInfo.jsx
+│   │   └── ChampionStats/         # Champion stats sub-component
+│   │       ├── index.js
+│   │       └── ChampionStats.jsx
+│   ├── States/                    # Loading, error, and empty states
+│   │   ├── index.js
+│   │   ├── EmptyState.jsx
+│   │   ├── ErrorState.jsx
+│   │   └── LoadingState.jsx
+│   └── ui/                        # Generic UI components
 │       ├── index.js
-│       ├── EmptyState.jsx
-│       ├── ErrorState.jsx
-│       └── LoadingState.jsx
+│       ├── Header/                # Header components
+│       │   ├── index.js
+│       │   └── ChampionsHeader.jsx
+│       ├── List/                  # List components
+│       │   ├── index.js
+│       │   └── ChampionsList.jsx
+│       └── Buttons/               # Button components
+│           ├── index.js
+│           └── RefreshButton.jsx
 └── hooks/                         # Custom hooks organized by domain
     ├── index.js                   # Hook exports
     ├── data/                      # Data fetching hooks
     │   ├── index.js
     │   └── useChampionStats.js    # Champion data API calls
-    ├── calculations/              # Business logic and calculations
-    │   ├── index.js
-    │   └── useChampionCalculations.js  # KDA colors, performance grades
-    └── ui/                        # UI state and interactions
+    └── utils/                     # Utility hooks
         ├── index.js
-        └── useChampionUI.js       # Card expansion, hover states
+        └── useChampionUtils.js    # Formatting and color utilities
 ```
 
 ## Components
 
-### ChampionStats
+### ChampionCard
 
-- **ChampionCard**: Displays individual champion statistics with KDA, win rate, and games played
+- **ChampionCard**: Main container for champion statistics with complete champion data
+- **ChampionInfo**: Sub-component handling champion basic information (name, mastery, etc.)
+- **ChampionStats**: Sub-component handling champion statistics (KDA, win rate, games played)
+
+### UI Components
+
+- **ChampionsHeader**: Header section for the champions module
+- **ChampionsList**: List container for displaying champion cards
+- **RefreshButton**: Button for refreshing champion data
 
 ### States
 
@@ -47,54 +69,15 @@ Champions/
 
 ### Data Hooks (`hooks/data/`)
 
-- **useChampionStats**: Fetches champion statistics from the API, handles loading states and errors
+- **useChampionStats**: Fetches champion statistics from the API with complete state management:
+  - Handles loading states during API calls
+  - Manages error states with specific error messages (rate limits, server errors)
+  - Provides refetch functionality for retry operations
+  - Returns championStats array, loading boolean, error string, and refetch function
 
-### Calculation Hooks (`hooks/calculations/`)
+### Utils Hooks (`hooks/utils/`)
 
-- **useChampionCalculations**: Provides utility functions for:
-  - KDA color coding based on performance
-  - Win rate color coding
-  - Performance grading (S+, S, A, B, C)
-  - Champion name formatting
-
-### UI Hooks (`hooks/ui/`)
-
-- **useChampionUI**: Manages component interaction states:
-  - Card expansion/collapse functionality
-  - Hover state management
-  - UI state persistence
-
-## Usage
-
-```jsx
-import Champions from "./components/Champions";
-
-// In your component
-<Champions
-  playerData={playerData}
-  latestPatch={latestPatch}
-  getChampionName={getChampionName}
-/>;
-```
-
-## Import Patterns
-
-Thanks to organized exports, you can import from different levels:
-
-```jsx
-// Import everything from main index
-import { useChampionStats, ChampionCard, LoadingState } from "./index";
-
-// Import from specific domains
-import { useChampionStats } from "./hooks/data";
-import { useChampionCalculations } from "./hooks/calculations";
-import { ChampionCard } from "./components/ChampionStats";
-```
-
-## Architecture Benefits
-
-1. **Separation of Concerns**: Data, calculations, and UI logic are separated
-2. **Reusability**: Hooks and components can be easily reused
-3. **Maintainability**: Clear structure makes code easy to find and modify
-4. **Testability**: Isolated functions and hooks are easier to test
-5. **Scalability**: Easy to add new hooks or components following the established patterns
+- **useChampionUtils**: Provides utility functions for formatting and display:
+  - KDA color coding based on performance (getKdaColor)
+  - Win rate color coding (getWinRateColor)
+  - Optimized for visual feedback and user experience

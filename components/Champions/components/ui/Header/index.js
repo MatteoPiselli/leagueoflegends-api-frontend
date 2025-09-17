@@ -1,0 +1,1 @@
+export { ChampionsHeader } from "./ChampionsHeader";

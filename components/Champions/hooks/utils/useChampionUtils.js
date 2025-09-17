@@ -1,11 +1,7 @@
-// Utility functions for champion stats calculations and formatting
+// Utility functions for champion formatting and display
 
-/**
- * Calculate KDA color based on value
- * @param {number} kda - The KDA value
- * @returns {string} - Tailwind CSS color class
- */
-export const useChampionCalculations = () => {
+export const useChampionUtils = () => {
+  // Function to get KDA color based on value
   const getKdaColor = (kda) => {
     switch (true) {
       case kda >= 5:
@@ -17,6 +13,7 @@ export const useChampionCalculations = () => {
     }
   };
 
+  // Function to get win rate color based on percentage
   const getWinRateColor = (winRate) => {
     switch (true) {
       case winRate >= 60:
@@ -28,13 +25,8 @@ export const useChampionCalculations = () => {
     }
   };
 
-  const formatChampionName = (championName) => {
-    return championName?.replace(/([A-Z])/g, " $1").trim() || "";
-  };
-
   return {
     getKdaColor,
     getWinRateColor,
-    formatChampionName,
   };
 };

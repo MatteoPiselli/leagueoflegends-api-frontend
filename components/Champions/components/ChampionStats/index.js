@@ -1,1 +1,0 @@
-export { ChampionCard } from "./ChampionCard";

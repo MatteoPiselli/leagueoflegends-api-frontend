@@ -1,0 +1,1 @@
+export { ChampionInfo } from "./ChampionInfo";
