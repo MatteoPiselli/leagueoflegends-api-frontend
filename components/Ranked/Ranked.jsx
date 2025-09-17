@@ -3,9 +3,7 @@ import { RankCard, EmptyRankedState, useRankedCalculations } from "./index";
 export default function Ranked({ rankedData }) {
   const { queueTypes } = useRankedCalculations();
 
-  // Ensure rankedData is an array
   const rankedArray = Array.isArray(rankedData) ? rankedData : [];
-  console.log("Ranked Data:", rankedArray);
 
   // Check if ranked data is available
   if (!rankedData || rankedArray.length === 0) {
