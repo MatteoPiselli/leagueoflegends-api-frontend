@@ -1,113 +1,97 @@
-# Core Components Structure
+# Core Components
 
-This directory contains the core application components organized by domain and functionality.
+The Core module contains the fundamental components for the League of Legends player search application.
 
-## Directory Structure
+## Structure
 
 ```
 Core/
-├── index.js                      # Central exports
-├── components/                   # UI Components organized by domain
-│   ├── index.js                 # Component exports
-│   ├── Search/                  # Search functionality
-│   │   ├── index.js
-│   │   └── SearchForm.jsx       # Main search form with history
-│   ├── Profile/                 # Player profile components
-│   │   ├── index.js
-│   │   └── PlayerProfile.jsx    # Player info display
-│   ├── Stats/                   # Statistics components
-│   │   ├── index.js
-│   │   ├── Ranked.jsx          # Ranked stats display
-│   │   └── Masteries.jsx       # Champion mastery display
-│   └── UI/                      # General UI components
-│       ├── index.js
-│       └── LoadingState.jsx     # Loading indicator
-└── hooks/                       # Custom hooks organized by domain
-    ├── index.js                 # Hook exports
-    ├── calculations/            # Business logic and calculations
-    │   ├── index.js
-    │   ├── useRankedCalculations.js   # Rank icons, colors, win rates
-    │   └── useMasteryCalculations.js  # Mastery icons, formatting
-    └── ui/                      # UI state and interactions
-        └── index.js             # Ready for future UI hooks
+├── components/           # Core components
+│   ├── Profile/         # Player profile components
+│   ├── Search/          # Search functionality
+│   └── UI/              # Shared UI components
+├── index.js             # Main export file
+└── README.md            # This file
 ```
 
-## Components
+## Components Overview
 
-### Search
+### 🔍 Search Module
 
-- **SearchForm**: Advanced search form with username/tag input, search history, and region selection
+**Location**: `components/Search/`
 
-### Profile
+Handles all search-related functionality including input forms, region selection, and search history.
 
-- **PlayerProfile**: Displays player avatar, level, username and tagline
+#### Sub-modules:
 
-### Stats
+- **`components/`** - React components
 
-- **Ranked**: Shows ranked statistics for Solo/Duo and Flex queues with rank icons and win rates
-- **Masteries**: Displays top champion masteries with mastery badges and points
+  - `SearchForm.jsx` - Main search form with input and button
+  - `RegionDropdown.jsx` - Region selection dropdown (EUW, NA, KR)
+  - `SearchHistory.jsx` - Search history display with animations
 
-### UI
+- **`hooks/`** - Custom React hooks
 
-- **LoadingState**: Loading indicator with animated Poro
+  - `useSearchForm.js` - Form logic and validation
+  - `useSearchHistory.js` - History display logic (useSearchHistoryDisplay)
 
-## Hooks
+- **`utils/`** - Utility functions
 
-### Calculation Hooks (`hooks/calculations/`)
+  - `utils.js` - Input parsing, validation, and formatting
 
-- **useRankedCalculations**: Provides utilities for:
+- **`data/`** - Static data
+  - `regions.js` - Region configuration (REGIONS, DEFAULT_REGION)
 
-  - Rank icon URLs based on tier
-  - Win rate calculations
-  - Rank color coding
-  - Rank display formatting
+#### Key Features:
 
-- **useMasteryCalculations**: Provides utilities for:
-  - Mastery icon URLs based on level
-  - Mastery color coding
-  - Points formatting (k, M)
-  - Level display formatting
+- ✅ Username#TagLine input validation
+- ✅ Real-time search history with click-to-search
+- ✅ Region selection with visual flags
+- ✅ Form state management and reset
+- ✅ Modular architecture with separated concerns
 
-### UI Hooks (`hooks/ui/`)
+### 👤 Profile Module
 
-- Ready for future UI interaction hooks
+**Location**: `components/Profile/`
 
-## Usage
+Displays player profile information after a successful search.
 
-```jsx
-import {
-  SearchForm,
-  PlayerProfile,
-  Ranked,
-  Masteries,
-  LoadingState
-} from "./components/Core";
+- `PlayerProfile.jsx` - Main profile display component
 
-// In your component
-<SearchForm onSearch={handleSearch} history={searchHistory} />
-<PlayerProfile playerData={player} latestPatch={patch} />
-<Ranked rankedData={rankedStats} />
-<Masteries masteriesData={masteries} getChampionName={getChampion} />
-<LoadingState />
-```
+### 🎨 UI Module
 
-## Import Patterns
+**Location**: `components/UI/`
 
-Thanks to organized exports, you can import from different levels:
+Shared UI components used across the application.
 
-```jsx
-// Import everything from main index
-import { SearchForm, useRankedCalculations } from "./Core";
+- `LoadingState.jsx` - Loading spinner/animation component
 
-// Import from specific domains
-import { useRankedCalculations } from "./Core/hooks/calculations";
-import { SearchForm } from "./Core/components/Search";
-```
+## Architecture Principles
 
-## Architecture Benefits
+### 🏗️ **Modular Design**
 
-1. **Domain Separation**: Search, Profile, Stats, and UI are clearly separated
-2. **Reusable Logic**: Calculation hooks can be used across components
-3. **Maintainability**: Easy to find and modify related functionality
-4. **Scalability**: Simple to add new domains or components
-5. **Clean Imports**: Centralized exports prevent import chaos
+Each component has a single responsibility and is easily testable.
+
+### 🔗 **Hook-Based Logic**
+
+Business logic is extracted into custom hooks for reusability.
+
+### 📁 **Domain Separation**
+
+Components are organized by feature domain (Search, Profile, UI).
+
+### 🎯 **Clean Interfaces**
+
+Components expose minimal, well-defined props interfaces.
+
+### 📦 **Export Structure**
+
+Each module exports its public API through index.js files.
+
+## Dependencies
+
+- **React** - Component framework
+- **Next.js** - Framework features (Image component)
+- **Framer Motion** - Animations
+- **Lucide React** - Icons
+- **Tailwind CSS** - Styling
