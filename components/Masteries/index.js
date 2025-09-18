@@ -1,5 +1,5 @@
 // Hooks - Organized structure
-export { useMasteryCalculations } from "./hooks/calculations";
+export { useMasteryDisplay } from "./hooks/ui";
 
 // Components - Organized structure
 export { MasteryCard } from "./components/MasteryCard";

@@ -1,10 +1,8 @@
 import Image from "next/image";
-import { useMasteryCalculations } from "../../hooks/calculations";
 import { useMasteryDisplay } from "../../hooks/ui";
 
 export const MasteryCard = ({ mastery, latestPatch, getChampionName }) => {
-  const { formatMasteryPoints } = useMasteryCalculations();
-  const { getMasteryIconUrl } = useMasteryDisplay();
+  const { formatMasteryPoints, getMasteryIconUrl } = useMasteryDisplay();
 
   const championName = getChampionName(mastery.championId);
   const masteryLevel = mastery.championLevel;

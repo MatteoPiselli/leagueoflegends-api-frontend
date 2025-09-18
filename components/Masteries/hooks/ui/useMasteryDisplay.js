@@ -1,5 +1,15 @@
-// Hook pour les styles et couleurs d'affichage des masteries
 export const useMasteryDisplay = () => {
+  // Function to format mastery points
+  const formatMasteryPoints = (points) => {
+    if (points >= 1000000) {
+      return `${(points / 1000000).toFixed(1)}M`;
+    }
+    if (points >= 1000) {
+      return `${(points / 1000).toFixed(1)}K`;
+    }
+    return points.toLocaleString();
+  };
+
   // Function to get mastery icon URL
   const getMasteryIconUrl = (championLevel) => {
     const baseUrl = `https://raw.communitydragon.org/latest/game/assets/ux/mastery/legendarychampionmastery/`;
@@ -28,6 +38,7 @@ export const useMasteryDisplay = () => {
   };
 
   return {
+    formatMasteryPoints,
     getMasteryIconUrl,
   };
 };
