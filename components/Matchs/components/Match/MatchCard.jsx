@@ -35,34 +35,20 @@ const MatchCard = ({
       />
 
       {/* Match Content */}
-      <div className="flex items-center justify-between space-x-2 mt-2">
-        <MatchContent
-          currentPlayer={currentPlayer}
-          latestPatch={latestPatch}
-          getChampionName={getChampionName}
-          gameAssets={gameAssets}
-          matchDataHook={matchDataHook}
-          matchDisplay={matchDisplay}
-          playerData={playerData}
-          searchPlayer={searchPlayer}
-          gameDuration={match.matchDetails.info.gameDuration}
-          participants={match.matchDetails.info.participants}
-        />
-
-        {/* Toggle button */}
-        <button
-          onClick={() => matchExpansion.toggleMatchDetails(matchId)}
-          className="ml-4 p-2 hover:bg-gray-700 rounded transition-colors"
-        >
-          <div
-            className={`w-0 h-0 transition-transform duration-200 ${
-              matchExpansion.isMatchExpanded(matchId)
-                ? "border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-white"
-                : "border-l-[6px] border-r-[6px] border-t-[8px] border-l-transparent border-r-transparent border-t-white"
-            }`}
-          />
-        </button>
-      </div>
+      <MatchContent
+        currentPlayer={currentPlayer}
+        latestPatch={latestPatch}
+        getChampionName={getChampionName}
+        gameAssets={gameAssets}
+        matchDataHook={matchDataHook}
+        matchDisplay={matchDisplay}
+        playerData={playerData}
+        searchPlayer={searchPlayer}
+        gameDuration={match.matchDetails.info.gameDuration}
+        participants={match.matchDetails.info.participants}
+        matchId={matchId}
+        matchExpansion={matchExpansion}
+      />
 
       {/* Detailed teams view */}
       <MatchExpansion
