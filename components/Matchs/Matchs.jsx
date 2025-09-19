@@ -1,3 +1,4 @@
+import { memo } from "react";
 import {
   useGameAssets,
   useMatchData,
@@ -9,14 +10,14 @@ import {
   EmptyMatchState,
 } from "./index";
 
-export default function Matchs({
+const Matchs = ({
   matchData,
   playerData,
   latestPatch,
   searchPlayer,
   getChampionName,
   retryMatches,
-}) {
+}) => {
   // Use custom hooks
   const gameAssets = useGameAssets(latestPatch);
   const matchDataHook = useMatchData();
@@ -52,4 +53,6 @@ export default function Matchs({
       ))}
     </div>
   );
-}
+};
+
+export default memo(Matchs);

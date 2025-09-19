@@ -12,3 +12,4 @@ export * from "./ui";
 // Backward compatibility - maintain existing exports
 export { useGameAssets } from "./data/useGameAssets";
 export { useMatchExpansion } from "./ui/useMatchExpansion";
+export { useCurrentPlayer } from "./data/useCurrentPlayer";

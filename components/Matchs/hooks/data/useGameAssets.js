@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useRuneUtils } from "./utils/useRuneUtils";
+import { useSpellUtils } from "./utils/useSpellUtils";
+import { useItemUtils } from "./utils/useItemUtils";
 
 export const useGameAssets = (latestPatch) => {
   const [runesData, setRunesData] = useState([]);
@@ -52,11 +55,20 @@ export const useGameAssets = (latestPatch) => {
     fetchGameAssets();
   }, [latestPatch]);
 
+  // Get utility functions
+  const runeUtils = useRuneUtils(runesData);
+  const spellUtils = useSpellUtils(summonerSpells);
+  const itemUtils = useItemUtils(itemsData);
+
   return {
     runesData,
     summonerSpells,
     itemsData,
     loading,
     error,
+    // Utility functions
+    ...runeUtils,
+    ...spellUtils,
+    ...itemUtils,
   };
 };
