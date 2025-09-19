@@ -52,54 +52,11 @@ export const useGameAssets = (latestPatch) => {
     fetchGameAssets();
   }, [latestPatch]);
 
-  // Helper functions
-  const getRuneData = (runeId) => {
-    for (const tree of runesData) {
-      for (const slot of tree.slots) {
-        for (const rune of slot.runes) {
-          if (rune.id === runeId) {
-            return {
-              ...rune,
-              icon: `https://ddragon.leagueoflegends.com/cdn/img/${rune.icon}`,
-            };
-          }
-        }
-      }
-    }
-    return null;
-  };
-
-  const getRuneTreeData = (treeId) => {
-    for (const tree of runesData) {
-      if (tree.id === treeId) {
-        return {
-          ...tree,
-          icon: `https://ddragon.leagueoflegends.com/cdn/img/${tree.icon}`,
-        };
-      }
-    }
-    return null;
-  };
-
-  const getSummonerSpell = (spellId) => {
-    return Object.values(summonerSpells).find(
-      (spell) => spell.key === String(spellId)
-    );
-  };
-
-  const getItemData = (itemId) => {
-    return itemsData[itemId] || null;
-  };
-
   return {
     runesData,
     summonerSpells,
     itemsData,
     loading,
     error,
-    getRuneData,
-    getRuneTreeData,
-    getSummonerSpell,
-    getItemData,
   };
 };

@@ -14,14 +14,9 @@ export const useMatchExpansion = () => {
     return expandedMatches[matchId] || false;
   };
 
-  const collapseAllMatches = () => {
-    setExpandedMatches({});
-  };
-
   return {
     expandedMatches,
     toggleMatchDetails,
     isMatchExpanded,
-    collapseAllMatches,
   };
 };

@@ -9,12 +9,13 @@ const MatchCard = ({
   searchPlayer,
   getChampionName,
   gameAssets,
-  matchData_hook,
-  matchCalculations,
+  matchDataHook,
+  playerCalculations,
+  teamGoldCalculations,
   matchDisplay,
   matchExpansion,
 }) => {
-  const { processParticipants, splitTeams } = matchData_hook;
+  const { splitTeams } = matchDataHook;
   const { toggleMatchDetails, isMatchExpanded } = matchExpansion;
 
   // Find current player in the match
@@ -24,10 +25,7 @@ const MatchCard = ({
 
   if (!currentPlayer) return null;
 
-  // Process participants and teams
-  const participants = processParticipants(
-    match.matchDetails.info.participants
-  );
+  // Process teams
   const { blueTeam, redTeam, teams } = splitTeams(
     match.matchDetails.info.participants
   );
@@ -38,28 +36,33 @@ const MatchCard = ({
   return (
     <div className="bg-[#19191B] rounded-lg pl-4 pr-4 pt-2 pb-2 mb-4">
       {/* Match Header */}
-      <MatchHeader match={match} currentPlayer={currentPlayer} />
+      <MatchHeader
+        match={match}
+        currentPlayer={currentPlayer}
+        matchDisplay={matchDisplay}
+      />
 
       {/* Match Content */}
       <div className="flex items-center justify-between space-x-2 mt-2">
-        {/* Player Match Info */}
+        {/* Player Info & Stats */}
         <PlayerMatchInfo
           currentPlayer={currentPlayer}
           latestPatch={latestPatch}
           getChampionName={getChampionName}
           gameAssets={gameAssets}
-          matchData_hook={matchData_hook}
-          matchCalculations={matchCalculations}
+          matchDataHook={matchDataHook}
+          playerCalculations={playerCalculations}
+          teamGoldCalculations={teamGoldCalculations}
           matchDisplay={matchDisplay}
         />
 
-        {/* Player Stats */}
         <PlayerStats
           currentPlayer={currentPlayer}
           latestPatch={latestPatch}
           gameAssets={gameAssets}
-          matchData_hook={matchData_hook}
-          matchCalculations={matchCalculations}
+          matchDataHook={matchDataHook}
+          playerCalculations={playerCalculations}
+          teamGoldCalculations={teamGoldCalculations}
           matchDisplay={matchDisplay}
           gameDuration={match.matchDetails.info.gameDuration}
         />

@@ -1,9 +1,8 @@
 // Hooks - Organized structure
 export { useGameAssets, useMatchData } from "./hooks/data";
 export {
-  useMatchCalculations,
-  usePlayerStats,
-  useMatchUtils,
+  usePlayerCalculations,
+  useTeamGoldCalculations,
 } from "./hooks/calculations";
 export { useMatchExpansion, useMatchDisplay } from "./hooks/ui";
 

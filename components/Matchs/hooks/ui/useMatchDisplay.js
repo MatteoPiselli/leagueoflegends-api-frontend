@@ -9,49 +9,7 @@ export const useMatchDisplay = () => {
 
   // Get win/loss color
   const getWinLossColor = (isWin) => {
-    return isWin ? "text-green-400" : "text-red-400";
-  };
-
-  // Get game mode color
-  const getGameModeColor = (queueId) => {
-    switch (queueId) {
-      case 420: // Ranked Solo/Duo
-        return "text-yellow-400";
-      case 440: // Ranked Flex
-        return "text-blue-400";
-      case 450: // ARAM
-        return "text-purple-400";
-      default:
-        return "text-gray-400";
-    }
-  };
-
-  // Get rank tier color
-  const getRankColor = (tier) => {
-    switch (tier?.toLowerCase()) {
-      case "iron":
-        return "text-gray-400";
-      case "bronze":
-        return "text-amber-600";
-      case "silver":
-        return "text-gray-300";
-      case "gold":
-        return "text-yellow-400";
-      case "platinum":
-        return "text-cyan-400";
-      case "emerald":
-        return "text-emerald-400";
-      case "diamond":
-        return "text-blue-400";
-      case "master":
-        return "text-purple-400";
-      case "grandmaster":
-        return "text-red-400";
-      case "challenger":
-        return "text-orange-400";
-      default:
-        return "text-gray-400";
-    }
+    return isWin ? "text-sky-500" : "text-red-500";
   };
 
   // Format game duration for display
@@ -75,8 +33,6 @@ export const useMatchDisplay = () => {
   return {
     getKDAColor,
     getWinLossColor,
-    getGameModeColor,
-    getRankColor,
     formatGameDuration,
     formatTimeAgo,
   };

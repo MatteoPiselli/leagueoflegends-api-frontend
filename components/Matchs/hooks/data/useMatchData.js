@@ -31,22 +31,6 @@ export const useMatchData = () => {
     return participants.filter((p) => p.teamId === teamId);
   };
 
-  // Extract match timeline events
-  const getMatchEvents = (match, eventTypes = []) => {
-    if (!match.timeline?.info?.frames) return [];
-
-    return match.timeline.info.frames.flatMap(
-      (frame) =>
-        frame.events?.filter((event) => eventTypes.includes(event.type)) || []
-    );
-  };
-
-  // Get champion ban data
-  const getChampionBans = (match) => {
-    const teams = match.matchDetails.info.teams;
-    return teams.flatMap((team) => team.bans || []);
-  };
-
   // Process match participants for display
   const processParticipants = (participants) => {
     return participants.map((player) => ({
@@ -89,8 +73,6 @@ export const useMatchData = () => {
     getPlayerGold,
     extractPlayerData,
     getTeamComposition,
-    getMatchEvents,
-    getChampionBans,
     processParticipants,
     splitTeams,
   };

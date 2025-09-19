@@ -1,7 +1,8 @@
 import {
   useGameAssets,
   useMatchData,
-  useMatchCalculations,
+  usePlayerCalculations,
+  useTeamGoldCalculations,
   useMatchExpansion,
   useMatchDisplay,
   MatchCard,
@@ -18,8 +19,9 @@ export default function Matchs({
 }) {
   // Use custom hooks
   const gameAssets = useGameAssets(latestPatch);
-  const matchData_hook = useMatchData();
-  const matchCalculations = useMatchCalculations();
+  const matchDataHook = useMatchData();
+  const playerCalculations = usePlayerCalculations();
+  const teamGoldCalculations = useTeamGoldCalculations();
   const matchExpansion = useMatchExpansion();
   const matchDisplay = useMatchDisplay();
 
@@ -41,8 +43,9 @@ export default function Matchs({
           searchPlayer={searchPlayer}
           getChampionName={getChampionName}
           gameAssets={gameAssets}
-          matchData_hook={matchData_hook}
-          matchCalculations={matchCalculations}
+          matchDataHook={matchDataHook}
+          playerCalculations={playerCalculations}
+          teamGoldCalculations={teamGoldCalculations}
           matchDisplay={matchDisplay}
           matchExpansion={matchExpansion}
         />

@@ -1,5 +1,5 @@
-// Hook spécialisé pour les calculs purs de match
-export const useMatchUtils = () => {
+// Hook spécialisé pour les calculs d'or des équipes
+export const useTeamGoldCalculations = () => {
   // Calculate total gold for a team
   const calculateTeamTotalGold = (teamPlayers) => {
     return teamPlayers.reduce(
@@ -8,15 +8,15 @@ export const useMatchUtils = () => {
     );
   };
 
-  // Calculate gold difference between teams
-  const calculateGoldDifference = (blueTeamPlayers, redTeamPlayers) => {
+  // Calculate total gold for both teams
+  const calculateTeamGolds = (blueTeamPlayers, redTeamPlayers) => {
     const blueGold = calculateTeamTotalGold(blueTeamPlayers);
     const redGold = calculateTeamTotalGold(redTeamPlayers);
-    return blueGold - redGold;
+    return { blueGold, redGold };
   };
 
   return {
     calculateTeamTotalGold,
-    calculateGoldDifference,
+    calculateTeamGolds,
   };
 };
