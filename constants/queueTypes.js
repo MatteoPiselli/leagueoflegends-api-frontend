@@ -1,5 +1,5 @@
 // Queue ID mappings for League of Legends game modes
-export const QUEUE_TYPES = {
+export const GAME_QUEUE_TYPES = {
   400: "Normal Draft",
   420: "Ranked Solo/Duo",
   430: "Normal Blind Pick",

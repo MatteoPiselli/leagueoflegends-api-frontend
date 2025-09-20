@@ -1,4 +1,4 @@
-import { QUEUE_TYPES } from "../../../../constants/queueTypes";
+import { GAME_QUEUE_TYPES } from "../../../../constants/queueTypes";
 
 const MatchHeader = ({ match, currentPlayer, matchDisplay }) => {
   const { info } = match.matchDetails;
@@ -8,7 +8,7 @@ const MatchHeader = ({ match, currentPlayer, matchDisplay }) => {
     <div className="flex items-center justify-between border-b border-[#dd1029]">
       <div className="mb-2">
         {/* Queue type & Victory/Defeat */}
-        <h3>{QUEUE_TYPES[info.queueId] || "Unknown Queue"}</h3>
+        <h3>{GAME_QUEUE_TYPES[info.queueId] || "Unknown Queue"}</h3>
         <p>
           <span className={getWinLossColor(currentPlayer?.win)}>
             {currentPlayer?.win ? "Victory" : "Defeat"}
