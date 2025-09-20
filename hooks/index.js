@@ -1,4 +1,14 @@
-// Custom hooks for the application
+// Main hooks orchestrator
 export { usePlayerData } from "./usePlayerData";
-export { useChampionData } from "./useChampionData";
-export { useSearchHistory } from "./useSearchHistory";
+
+// Data hooks - API data management
+export {
+  usePlayerProfile,
+  useRankedData,
+  useMatchData,
+  useMasteriesData,
+  useChampionData,
+} from "./data";
+
+// UI hooks - User interface state management
+export { useSearchHistory } from "./ui";
