@@ -1,21 +1,21 @@
 // Static data for ranked system
 
-export const QUEUE_TYPES = [
+export const RANKED_QUEUE_TYPES = [
   { key: "RANKED_SOLO_5x5", label: "Ranked Solo/Duo" },
   { key: "RANKED_FLEX_SR", label: "Ranked Flex" },
 ];
 
 export const RANK_TIERS = [
   "IRON",
-  "BRONZE", 
+  "BRONZE",
   "SILVER",
   "GOLD",
   "PLATINUM",
-  "EMERALD", 
+  "EMERALD",
   "DIAMOND",
   "MASTER",
   "GRANDMASTER",
-  "CHALLENGER"
+  "CHALLENGER",
 ];
 
 export const HIGH_TIER_RANKS = ["MASTER", "GRANDMASTER", "CHALLENGER"];

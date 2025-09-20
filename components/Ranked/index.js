@@ -4,7 +4,7 @@ export { useRankedUtils } from "./hooks/utils/useRankedUtils";
 
 // Data - Static configurations
 export {
-  QUEUE_TYPES,
+  RANKED_QUEUE_TYPES,
   RANK_TIERS,
   HIGH_TIER_RANKS,
 } from "./hooks/data/rankedData";
