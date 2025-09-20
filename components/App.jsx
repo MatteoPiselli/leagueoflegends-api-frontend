@@ -1,15 +1,16 @@
 // Import Next
 import Image from "next/image";
-// Components
+
+// Import components
 import Ranked from "./Ranked/Ranked";
 import Matchs from "./Matchs/Matchs";
 import Champions from "./Champions/Champions";
 import Masteries from "./Masteries/Masteries";
 import { SearchForm, PlayerProfile, LoadingState } from "./Core";
-// Custom Hooks
+
+// Import custom hooks
 import { usePlayerData } from "../hooks/usePlayerData";
 import { useChampionData } from "../hooks/useChampionData";
-import { useSearchHistory } from "../hooks/useSearchHistory";
 
 export default function App() {
   // Use custom hooks
@@ -24,23 +25,6 @@ export default function App() {
   } = usePlayerData();
 
   const { latestPatch, getChampionName } = useChampionData();
-
-  const {
-    isHistoryVisible,
-    addToHistory,
-    removeFromHistory,
-    toggleHistoryVisibility,
-    getRecentHistory,
-    setIsHistoryVisible,
-  } = useSearchHistory();
-
-  // Handle player search
-  const handlePlayerSearch = async (username, tagLine) => {
-    const result = await searchPlayer(username, tagLine);
-    if (result) {
-      addToHistory(username, tagLine);
-    }
-  };
 
   return (
     <div className="relative min-h-screen text-white">
@@ -62,7 +46,7 @@ export default function App() {
         </div>
 
         {/* Search Form */}
-        <SearchForm onSearch={handlePlayerSearch} isLoading={isLoading} />
+        <SearchForm onSearch={searchPlayer} isLoading={isLoading} />
 
         {isLoading ? (
           <LoadingState />
@@ -91,7 +75,7 @@ export default function App() {
                   latestPatch={latestPatch}
                   playerData={playerData}
                   matchData={matchData}
-                  searchPlayer={handlePlayerSearch}
+                  searchPlayer={searchPlayer}
                   getChampionName={getChampionName}
                   retryMatches={retryMatches}
                 />
