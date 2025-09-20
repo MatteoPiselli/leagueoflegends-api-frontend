@@ -10,6 +10,9 @@ export default function Ranked({ rankedData }) {
 
   return (
     <div className="h-fit w-full mt-8 p-4 bg-[#19191B] rounded-lg">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#dd1029]">
+        <h2 className="text-base font-semibold text-white">Ranked</h2>
+      </div>
       {/* Ranked Data */}
       <div className="space-y-4">
         {RANKED_QUEUE_TYPES.map((queueType) => {
