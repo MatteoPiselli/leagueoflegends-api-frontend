@@ -37,23 +37,21 @@ const PlayerStats = ({ currentPlayer, matchDisplay, gameDuration }) => {
   );
 
   return (
-    <div className="flex flex-col space-y-2 text-center">
+    <div className="flex flex-col space-y-1 text-center text-sm">
       {/* KDA */}
-      <div className="flex flex-col text-sm">
-        <p className="space-x-1">
-          <span>{currentPlayer.kills}</span>
-          <span>/</span>
-          <span>{currentPlayer.deaths}</span>
-          <span>/</span>
-          <span>{currentPlayer.assists}</span>
-        </p>
-        <p className={getKDAColor(kda)}>
-          {kda} <span className="text-gray-500">KDA</span>
-        </p>
-      </div>
+      <p className="space-x-1">
+        <span>{currentPlayer.kills}</span>
+        <span>/</span>
+        <span>{currentPlayer.deaths}</span>
+        <span>/</span>
+        <span>{currentPlayer.assists}</span>
+      </p>
+      <p className={getKDAColor(kda)}>
+        {kda} <span className="text-gray-500">KDA</span>
+      </p>
 
       {/* CS */}
-      <div className="flex flex-col text-sm">
+      <div className="flex text-sm space-x-1">
         <span>{cs} CS</span>
         <span className="text-gray-500">({csPerMin})</span>
       </div>

@@ -21,7 +21,7 @@ const MatchContent = ({
   const { blueTeam, redTeam } = splitTeams(participants);
 
   return (
-    <div className="flex items-center justify-between space-x-6 flex-1">
+    <div className="flex items-center justify-between space-x-6 mt-2 flex-1">
       {/* Player Info & Stats */}
       <div className="flex items-center space-x-4 flex-shrink-0">
         <PlayerMatchInfo
