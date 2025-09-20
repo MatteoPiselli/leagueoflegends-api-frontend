@@ -1,7 +1,7 @@
-// Data hooks - Hooks de gestion des données
+// Data hooks
 export { useGameAssets } from "./useGameAssets";
 export { useMatchData } from "./useMatchData";
 export { useCurrentPlayer } from "./useCurrentPlayer";
 
-// Utility hooks modulaires (optionnels pour usage séparé)
+// Utility hooks
 export * from "./utils";

@@ -1,4 +1,3 @@
-// Hook spécialisé pour les calculs d'or des équipes
 export const useTeamGoldCalculations = () => {
   // Calculate total gold for a team
   const calculateTeamTotalGold = (teamPlayers) => {

@@ -1,4 +1,4 @@
-// Utility hooks - Hooks utilitaires pour les données de jeu
+// Utility hooks
 export { useItemUtils } from "./useItemUtils";
 export { useRuneUtils } from "./useRuneUtils";
 export { useSpellUtils } from "./useSpellUtils";

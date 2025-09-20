@@ -1,4 +1,4 @@
-// Hook spécialisé pour les calculs de statistiques de joueur
+// Hook for player statistics calculations
 export const usePlayerCalculations = () => {
   // Calculate KDA ratio
   const calculateKDA = (kills, deaths, assists) => {

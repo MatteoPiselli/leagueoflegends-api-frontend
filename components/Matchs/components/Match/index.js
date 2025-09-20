@@ -1,4 +1,4 @@
-// Match Components - Composants spécifiques aux matchs
+// Match Components
 export { default as MatchCard } from "./MatchCard";
 export { default as MatchHeader } from "./MatchHeader";
 export { default as MatchContent } from "./MatchContent";

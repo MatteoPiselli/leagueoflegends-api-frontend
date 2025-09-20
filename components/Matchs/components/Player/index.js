@@ -1,3 +1,3 @@
-// Player Components - Composants spécifiques aux joueurs
+// Player Components
 export { default as PlayerMatchInfo } from "./PlayerMatchInfo";
 export { default as PlayerStats } from "./PlayerStats";

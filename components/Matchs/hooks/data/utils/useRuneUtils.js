@@ -1,4 +1,3 @@
-// Helper functions pour les runes
 export const useRuneUtils = (runesData) => {
   const getRuneData = (runeId) => {
     const foundRune = runesData

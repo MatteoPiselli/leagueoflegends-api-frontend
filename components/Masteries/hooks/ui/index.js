@@ -1,2 +1,2 @@
-// UI hooks - Hooks d'interface utilisateur pour les masteries
+// UI hooks - User interface hooks for masteries
 export { useMasteryDisplay } from "./useMasteryDisplay";

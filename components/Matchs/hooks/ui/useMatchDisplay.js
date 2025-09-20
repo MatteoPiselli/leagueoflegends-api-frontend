@@ -1,4 +1,4 @@
-// Hook pour les styles et couleurs d'affichage des matches
+// Hook for match display styles and colors
 export const useMatchDisplay = () => {
   // Get KDA color based on performance
   const getKDAColor = (kda) => {

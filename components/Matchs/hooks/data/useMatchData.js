@@ -1,4 +1,4 @@
-// Hook pour la transformation et extraction de données des matches
+// Hook for match data transformation and extraction
 export const useMatchData = () => {
   // Get player items array
   const getPlayerItems = (player) => {

@@ -1,3 +1,3 @@
-// UI hooks - Hooks d'interface utilisateur
+// UI hooks
 export { useMatchExpansion } from "./useMatchExpansion";
 export { useMatchDisplay } from "./useMatchDisplay";

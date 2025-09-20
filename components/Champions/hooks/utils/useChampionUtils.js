@@ -1,5 +1,3 @@
-// Utility functions for champion formatting and display
-
 export const useChampionUtils = () => {
   // Function to get KDA color based on value
   const getKdaColor = (kda) => {

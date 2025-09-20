@@ -1,4 +1,4 @@
-// UI Components - Composants d'interface réutilisables
+// UI Components
 export { default as BaseTooltip } from "./BaseTooltip";
 export { default as ItemTooltip } from "./ItemTooltip";
 export { default as RuneTooltip } from "./RuneTooltip";

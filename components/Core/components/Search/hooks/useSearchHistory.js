@@ -1,12 +1,5 @@
 import { useCallback } from "react";
 
-/**
- * Hook to manage SearchHistory component logic
- * @param {Array} history - Search history array
- * @param {Function} onHistoryItemClick - Callback when clicking on an item
- * @param {Function} onRemoveFromHistory - Callback to remove an item
- * @returns {Object} - Handlers for history interactions
- */
 export const useSearchHistoryDisplay = ({
   history,
   onHistoryItemClick,
