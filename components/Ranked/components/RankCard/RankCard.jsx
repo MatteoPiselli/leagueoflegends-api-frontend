@@ -18,7 +18,7 @@ export const RankCard = ({ queueData, queueType }) => {
     <div className="p-3 bg-[#1e1e20] rounded-lg">
       <div className="flex items-center justify-between">
         {/* Rank Info */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 border-l-4 border-[#dd1029] pl-3">
           <div className="w-12 h-12 rounded-lg overflow-hidden">
             <Image
               src={getRankIconUrl(queueData.tier)}
