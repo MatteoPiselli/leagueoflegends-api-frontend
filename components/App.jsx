@@ -9,8 +9,7 @@ import Masteries from "./Masteries/Masteries";
 import { SearchForm, PlayerProfile, LoadingState } from "./Core";
 
 // Import custom hooks
-import { usePlayerData } from "../hooks/usePlayerData";
-import { useChampionData } from "../hooks/useChampionData";
+import { usePlayerData, useChampionData } from "../hooks";
 
 export default function App() {
   // Use custom hooks
@@ -22,6 +21,7 @@ export default function App() {
     isLoading,
     searchPlayer,
     retryMatches,
+    retryMasteries,
   } = usePlayerData();
 
   const { latestPatch, getChampionName } = useChampionData();
@@ -68,6 +68,7 @@ export default function App() {
                   latestPatch={latestPatch}
                   masteriesData={masteriesData}
                   getChampionName={getChampionName}
+                  retryMasteries={retryMasteries}
                 />
               </div>
               <div className="w-2/3">
