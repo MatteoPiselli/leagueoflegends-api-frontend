@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useSearchHistory } from "../../../../../hooks/useSearchHistory";
+import { useSearchHistory } from "../../../../../hooks";
 import { RegionDropdown } from "./RegionDropdown";
 import { SearchHistory } from "./SearchHistory";
 import { useSearchForm } from "../hooks/useSearchForm";
