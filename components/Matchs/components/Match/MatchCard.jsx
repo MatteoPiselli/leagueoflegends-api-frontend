@@ -25,8 +25,26 @@ const MatchCard = ({
   const { teams } = splitTeams(match.matchDetails.info.participants);
   const matchId = match.matchDetails.metadata.matchId;
 
+  const isWin = currentPlayer.win;
+
+  const getSideBandColor = (isWin) => {
+    return isWin ? "bg-sky-500" : "bg-red-500";
+  };
+
+  const sideColor = getSideBandColor(isWin);
+
   return (
-    <div className="bg-[#19191B] rounded-lg pl-4 pr-4 pt-2 pb-2 mb-4">
+    <div className="relative bg-[#19191B] rounded-lg pl-4 pr-4 pt-2 pb-2 mb-4">
+      {/* Colored side bands */}
+      {[
+        { side: "left", position: "left-0", rounded: "rounded-l-lg" },
+        { side: "right", position: "right-0", rounded: "rounded-r-lg" },
+      ].map(({ side, position, rounded }) => (
+        <div
+          key={side}
+          className={`absolute ${position} top-0 bottom-0 w-1 ${sideColor} ${rounded}`}
+        />
+      ))}
       {/* Match Header */}
       <MatchHeader
         match={match}

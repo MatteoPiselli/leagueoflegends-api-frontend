@@ -37,7 +37,7 @@ const Matchs = ({
     <div className="container flex flex-col rounded-lg mt-8">
       {matchData.map((match) => (
         <MatchCard
-          key={match.matchDetails.metadata.matchId}
+          key={match.matchDetails?.metadata.matchId}
           match={match}
           playerData={playerData}
           latestPatch={latestPatch}
