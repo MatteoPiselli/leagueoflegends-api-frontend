@@ -13,7 +13,7 @@ export const useMatchData = () => {
     const details = await Promise.all(
       matchIds.map(async (matchId) => {
         const res = await fetch(
-          `http://localhost:3000/matchs/details/${matchId}`
+          `http://localhost:3000/api/matchs/details/${matchId}`
         );
         return await res.json();
       })
@@ -30,7 +30,7 @@ export const useMatchData = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/matchs/${puuid}`);
+      const response = await fetch(`http://localhost:3000/api/matchs/${puuid}`);
 
       if (!response.ok) {
         handleHttpError(response.status, response.statusText);
