@@ -16,7 +16,7 @@ export const useChampionStats = (playerData) => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/matchs/champion-stats/${playerData.summoner.puuid}`
+        `http://localhost:3000/api/champions/stats/${playerData.summoner.puuid}`
       );
 
       if (!response.ok) {
