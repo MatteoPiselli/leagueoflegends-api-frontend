@@ -11,4 +11,3 @@ export {
 
 // Components - Organized structure
 export { RankCard, UnrankedCard } from "./components/RankCard";
-export { EmptyRankedState } from "./components/States";

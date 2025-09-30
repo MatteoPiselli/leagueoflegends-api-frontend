@@ -1,12 +1,7 @@
-import { RankCard, EmptyRankedState, RANKED_QUEUE_TYPES } from "./index";
+import { RankCard, RANKED_QUEUE_TYPES } from "./index";
 
 export default function Ranked({ rankedData }) {
   const rankedArray = Array.isArray(rankedData) ? rankedData : [];
-
-  // Check if ranked data is available
-  if (!rankedData || rankedArray.length === 0) {
-    return <EmptyRankedState />;
-  }
 
   return (
     <div className="h-fit w-full mt-8 p-4 bg-[#19191B] rounded-lg">
