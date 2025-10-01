@@ -4,39 +4,39 @@ export const ChampionStats = ({ champion }) => {
   const { getKdaColor, getWinRateColor } = useChampionUtils();
 
   return (
-    <div className="flex flex-col items-end space-y-1">
-      {/* KDA */}
-      <div className="flex items-center space-x-2">
-        <span
-          className={`font-semibold text-sm ${getKdaColor(
+    <>
+      <div className="flex flex-col items-center text-gray-400 w-20">
+        {/* KDA */}
+        <div
+          className={`flex font-semibold text-sm space-x-1 ${getKdaColor(
             champion.averageStats.kda
           )}`}
         >
-          {champion.averageStats.kda}
-        </span>
-        <span className="text-gray-400 text-xs">KDA</span>
+          <span>{champion.averageStats.kda}</span>
+          <span>KDA</span>
+        </div>
+        {/* Detailed KDA */}
+        <div className="text-xs">
+          {champion.averageStats.kills} / {champion.averageStats.deaths} /{" "}
+          {champion.averageStats.assists}
+        </div>
       </div>
 
-      {/* Win Rate */}
-      <div className="flex items-center space-x-2">
-        <span
-          className={`font-semibold text-sm ${getWinRateColor(
-            champion.winRate
-          )}`}
-        >
-          {champion.winRate}%
-        </span>
-        <span className="text-gray-400 text-xs">WR</span>
-      </div>
+      <div className="flex flex-col items-end w-16">
+        {/* Win Rate */}
+        <div className="flex">
+          <span
+            className={`font-semibold text-sm ${getWinRateColor(
+              champion.winRate
+            )}`}
+          >
+            {champion.winRate}%
+          </span>
+        </div>
 
-      {/* Detailed KDA */}
-      <div className="text-gray-400 text-xs">
-        {champion.averageStats.kills} / {champion.averageStats.deaths} /{" "}
-        {champion.averageStats.assists}
+        {/* Games Played */}
+        <div className="text-gray-400 text-xs">{champion.totalGames} games</div>
       </div>
-
-      {/* CS */}
-      <div className="text-gray-400 text-xs">{champion.averageStats.cs} CS</div>
-    </div>
+    </>
   );
 };
