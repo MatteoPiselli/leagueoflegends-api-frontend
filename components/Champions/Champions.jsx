@@ -4,7 +4,7 @@ import {
   EmptyState,
   ChampionsHeader,
   ChampionsList,
-  RefreshButton,
+  RetryButton,
   useChampionStats,
 } from "./index";
 
@@ -35,11 +35,7 @@ export default function Champions({
       )}
 
       {error && (
-        <RefreshButton
-          onRefresh={refetch}
-          loading={loading}
-          disabled={loading}
-        />
+        <RetryButton onRefresh={refetch} loading={loading} disabled={loading} />
       )}
     </div>
   );
