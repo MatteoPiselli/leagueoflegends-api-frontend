@@ -1,7 +1,6 @@
 import Image from "next/image";
 
 export const ChampionInfo = ({ champion, latestPatch, getChampionName }) => {
-  console.log(" champion ", champion);
   return (
     <div className="flex items-center w-32 space-x-2">
       <div className="w-8 h-8 rounded-lg overflow-hidden">
