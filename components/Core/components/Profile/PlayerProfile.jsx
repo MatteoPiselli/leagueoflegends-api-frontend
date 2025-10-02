@@ -1,7 +1,15 @@
 import Image from "next/image";
+import { usePlayerData } from "../../../../hooks/usePlayerData";
 
 export const PlayerProfile = ({ playerData, latestPatch }) => {
+  const { isLoading, searchPlayer } = usePlayerData();
+
   if (!playerData) return null;
+
+  const handleUpdate = () => {
+    // Reload the profile with the same username/tagline
+    searchPlayer(playerData.summoner.username, playerData.summoner.tagline);
+  };
 
   return (
     <div className="flex items-center">
@@ -20,9 +28,19 @@ export const PlayerProfile = ({ playerData, latestPatch }) => {
         </div>
       </div>
       {/* Username and Tag Line */}
-      <div className="ml-4 text-xl">
-        <span className="font-bold">{playerData.summoner.username}</span>
-        <span className="text-gray-500">#{playerData.summoner.tagline}</span>
+      <div className="flex flex-col ml-4 text-xl space-y-4">
+        <div className="flex flex-row">
+          <span className="font-bold">{playerData.summoner.username}</span>
+          <span className="text-gray-500">#{playerData.summoner.tagline}</span>
+        </div>
+        {/* Button to update profile */}
+        <button
+          onClick={handleUpdate}
+          disabled={isLoading}
+          className="px-3 py-1 bg-[#23232a] text-xs text-gray-300 rounded border border-gray-700 hover:bg-[#35353a] transition-colors disabled:opacity-50"
+        >
+          {isLoading ? "Updating..." : "Update"}
+        </button>
       </div>
     </div>
   );
