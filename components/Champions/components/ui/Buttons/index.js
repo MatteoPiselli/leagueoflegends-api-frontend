@@ -1,1 +1,1 @@
-export { RetryButton } from "./RefreshButton";
+export { RetryButton } from "./RetryButton";
