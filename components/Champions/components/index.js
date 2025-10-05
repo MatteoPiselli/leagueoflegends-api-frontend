@@ -5,4 +5,4 @@ export { ChampionCard } from "./ChampionCard";
 export { EmptyState, ErrorState, LoadingState } from "./States";
 
 // UI Components (Generic Components)
-export { ChampionsHeader, ChampionsList, RefreshButton } from "./ui";
+export { ChampionsHeader, ChampionsList, RetryButton } from "./ui";
