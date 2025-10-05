@@ -6,9 +6,14 @@ export const PlayerProfile = ({ playerData, latestPatch }) => {
 
   if (!playerData) return null;
 
-  const handleUpdate = () => {
-    // Reload the profile with the same username/tagline
-    searchPlayer(playerData.summoner.username, playerData.summoner.tagline);
+  const handleUpdateProfile = async () => {
+    if (playerData?.summoner?.username && playerData?.summoner?.tagline) {
+      await searchPlayer(
+        playerData.summoner.username,
+        playerData.summoner.tagline,
+        true // Force update when clicking the update button
+      );
+    }
   };
 
   return (
@@ -35,7 +40,7 @@ export const PlayerProfile = ({ playerData, latestPatch }) => {
         </div>
         {/* Button to update profile */}
         <button
-          onClick={handleUpdate}
+          onClick={handleUpdateProfile}
           disabled={isLoading}
           className="px-3 py-1 bg-[#23232a] text-xs text-gray-300 rounded border border-gray-700 hover:bg-[#35353a] transition-colors disabled:opacity-50"
         >
