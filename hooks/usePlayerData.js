@@ -26,18 +26,22 @@ export const usePlayerData = () => {
   } = useMasteriesData();
 
   // Orchestrate the search process
-  const searchPlayer = async (username, tagLine) => {
+  const searchPlayer = async (username, tagLine, forceUpdate = false) => {
     // Search player profile first
-    const playerResult = await searchPlayerProfile(username, tagLine);
+    const playerResult = await searchPlayerProfile(
+      username,
+      tagLine,
+      forceUpdate
+    );
 
     if (playerResult && playerResult.summoner && playerResult.summoner.puuid) {
       const puuid = playerResult.summoner.puuid;
 
       // Fetch all related data in parallel
       await Promise.all([
-        fetchRankedData(puuid),
-        fetchMatchData(puuid),
-        fetchMasteriesData(puuid),
+        fetchRankedData(puuid, forceUpdate),
+        fetchMatchData(puuid, forceUpdate),
+        fetchMasteriesData(puuid, forceUpdate),
       ]);
     }
 
