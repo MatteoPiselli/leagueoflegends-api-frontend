@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   LoadingState,
   ErrorState,
@@ -5,20 +6,36 @@ import {
   ChampionsHeader,
   ChampionsList,
   RetryButton,
-  useChampionStats,
 } from "./index";
+import { usePlayerData } from "../../hooks/usePlayerData";
 
 export default function Champions({
   playerData,
   latestPatch,
   getChampionName,
 }) {
-  const { championStats, loading, error, refetch } =
-    useChampionStats(playerData);
+  const {
+    championStatsData: championStats,
+    retryChampionStats,
+    isLoading,
+    fetchChampionStatsData,
+  } = usePlayerData();
+
+  useEffect(() => {
+    if (playerData?.summoner?.puuid && championStats?.length === 0) {
+      fetchChampionStatsData(playerData.summoner.puuid);
+    }
+  }, [
+    playerData?.summoner?.puuid,
+    championStats?.length,
+    fetchChampionStatsData,
+  ]);
+
+  const error = null;
 
   // States conditionals
-  if (loading) return <LoadingState />;
-  if (error) return <ErrorState error={error} onRetry={refetch} />;
+  if (isLoading) return <LoadingState />;
+  if (error) return <ErrorState error={error} onRetry={retryChampionStats} />;
 
   return (
     <div className="h-fit w-full p-4 bg-[#19191B] rounded-lg">
@@ -35,7 +52,11 @@ export default function Champions({
       )}
 
       {error && (
-        <RetryButton onRefresh={refetch} loading={loading} disabled={loading} />
+        <RetryButton
+          onRefresh={retryChampionStats}
+          loading={isLoading}
+          disabled={isLoading}
+        />
       )}
     </div>
   );
