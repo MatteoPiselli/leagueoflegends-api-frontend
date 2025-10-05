@@ -5,16 +5,19 @@ export const useMasteriesData = () => {
   const [masteriesData, setMasteriesData] = useState([]);
 
   // Fetch masteries data
-  const fetchMasteriesData = async (puuid) => {
+  const fetchMasteriesData = async (puuid, forceUpdate = false) => {
     if (!puuid) {
       setMasteriesData([]);
       return;
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/masteries/${puuid}`
-      );
+      const url = new URL(`http://localhost:3000/api/masteries/${puuid}`);
+      if (forceUpdate) {
+        url.searchParams.set("updateClicked", "true");
+      }
+
+      const response = await fetch(url.toString());
 
       if (!response.ok) {
         handleHttpError(response.status, response.statusText);
