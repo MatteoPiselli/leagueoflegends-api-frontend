@@ -89,6 +89,7 @@ export const usePlayerData = () => {
     retryMatches,
     retryMasteries,
     retryChampionStats,
+    fetchChampionStatsData,
     setPlayerData,
     setRankedData,
     setMatchData,
