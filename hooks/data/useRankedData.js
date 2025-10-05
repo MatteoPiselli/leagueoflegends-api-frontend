@@ -42,14 +42,19 @@ export const useRankedData = () => {
   };
 
   // Fetch ranked data
-  const fetchRankedData = async (puuid) => {
+  const fetchRankedData = async (puuid, forceUpdate = false) => {
     if (!puuid) {
       setRankedData([]);
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/ranked/${puuid}`);
+      const url = new URL(`http://localhost:3000/api/ranked/${puuid}`);
+      if (forceUpdate) {
+        url.searchParams.set("updateClicked", "true");
+      }
+
+      const response = await fetch(url.toString());
 
       if (!response.ok) {
         handleHttpError(response.status, response.statusText);
