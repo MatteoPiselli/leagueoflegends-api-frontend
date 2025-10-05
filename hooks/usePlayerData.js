@@ -1,4 +1,4 @@
-import { usePlayerProfile } from "./data/usePlayerProfile";
+import { usePlayerProfile } from "./ui/usePlayerProfile";
 import { useRankedData } from "./data/useRankedData";
 import { useMatchData } from "./data/useMatchData";
 import { useMasteriesData } from "./data/useMasteriesData";
