@@ -6,7 +6,7 @@ export const usePlayerProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Search player function
-  const searchPlayer = async (username, tagLine) => {
+  const searchPlayer = async (username, tagLine, forceUpdate = false) => {
     if (!username || !tagLine) {
       alert("Please enter a valid username and tag line.");
       return null;
@@ -15,9 +15,14 @@ export const usePlayerProfile = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
+      const url = new URL(
         `http://localhost:3000/api/summoner/${username}/${tagLine}`
       );
+      if (forceUpdate) {
+        url.searchParams.set("updateClicked", "true");
+      }
+
+      const response = await fetch(url.toString());
 
       if (!response.ok) {
         handleHttpError(response.status, response.statusText);
