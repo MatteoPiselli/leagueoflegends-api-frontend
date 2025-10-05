@@ -23,14 +23,19 @@ export const useMatchData = () => {
   };
 
   // Fetch match data
-  const fetchMatchData = async (puuid) => {
+  const fetchMatchData = async (puuid, forceUpdate = false) => {
     if (!puuid) {
       setMatchData([]);
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/api/matchs/${puuid}`);
+      const url = new URL(`http://localhost:3000/api/matchs/${puuid}`);
+      if (forceUpdate) {
+        url.searchParams.set("updateClicked", "true");
+      }
+
+      const response = await fetch(url.toString());
 
       if (!response.ok) {
         handleHttpError(response.status, response.statusText);
