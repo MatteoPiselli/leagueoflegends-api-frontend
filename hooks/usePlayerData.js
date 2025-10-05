@@ -2,6 +2,7 @@ import { usePlayerProfile } from "./ui/usePlayerProfile";
 import { useRankedData } from "./data/useRankedData";
 import { useMatchData } from "./data/useMatchData";
 import { useMasteriesData } from "./data/useMasteriesData";
+import { useChampionStats } from "./data/useChampionStats";
 
 export const usePlayerData = () => {
   // Use specialized hooks
@@ -24,6 +25,12 @@ export const usePlayerData = () => {
     retryMasteries: retryMasteriesData,
     setMasteriesData,
   } = useMasteriesData();
+  const {
+    championStatsData,
+    fetchChampionStatsData,
+    retryChampionStats: retryChampionStatsData,
+    setChampionStatsData,
+  } = useChampionStats();
 
   // Orchestrate the search process
   const searchPlayer = async (username, tagLine, forceUpdate = false) => {
@@ -42,6 +49,7 @@ export const usePlayerData = () => {
         fetchRankedData(puuid, forceUpdate),
         fetchMatchData(puuid, forceUpdate),
         fetchMasteriesData(puuid, forceUpdate),
+        fetchChampionStatsData(puuid, forceUpdate),
       ]);
     }
 
@@ -63,18 +71,28 @@ export const usePlayerData = () => {
     }
   };
 
+  const retryChampionStats = async () => {
+    const puuid = playerData?.summoner?.puuid;
+    if (puuid) {
+      await retryChampionStatsData(puuid);
+    }
+  };
+
   return {
     playerData,
     rankedData,
     matchData,
     masteriesData,
+    championStatsData,
     isLoading,
     searchPlayer,
     retryMatches,
     retryMasteries,
+    retryChampionStats,
     setPlayerData,
     setRankedData,
     setMatchData,
     setMasteriesData,
+    setChampionStatsData,
   };
 };
