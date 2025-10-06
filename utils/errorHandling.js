@@ -7,12 +7,16 @@ export const handleHttpError = (status, statusText) => {
     case 401:
       statusText = "Unknown API key: Please check your API key.";
       break;
-    case 404:
-      statusText = "Player not found. Please check the username and tag.";
-      break;
     case 403:
       statusText =
         "Forbidden: You do not have permission to access this resource. Please check your API key";
+      break;
+    case 404:
+      statusText = "Player not found. Please check the username and tagline.";
+      break;
+    case 415:
+      statusText =
+        "Unsupported Media Type. The request body is in a format that is not supported.";
       break;
     case 429:
       statusText =
@@ -21,8 +25,11 @@ export const handleHttpError = (status, statusText) => {
     case 500:
       statusText = "Internal Server Error. Please try again later.";
       break;
+    case 503:
+      statusText = "Service Unavailable. Please try again later.";
+      break;
     default:
-      statusText = `Unknown error (Code ${status}). Please try again later.`;
+      statusText = `Error (Code ${status}). Please try again later.`;
   }
 
   console.error(`HTTP Error ${status}: ${statusText}`);
