@@ -49,7 +49,7 @@ export const usePlayerData = () => {
         fetchRankedData(puuid, forceUpdate),
         fetchMatchData(puuid, forceUpdate),
         fetchMasteriesData(puuid, forceUpdate),
-        fetchChampionStatsData(puuid, forceUpdate),
+        fetchChampionStatsData(puuid, forceUpdate, "400"),
       ]);
     }
 
