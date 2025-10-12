@@ -5,7 +5,11 @@ export const useChampionStats = () => {
   const [championStatsData, setChampionStatsData] = useState([]);
 
   // Fetch champion stats data
-  const fetchChampionStatsData = async (puuid, forceUpdate = false) => {
+  const fetchChampionStatsData = async (
+    puuid,
+    forceUpdate = false,
+    queueType = null
+  ) => {
     if (!puuid) {
       setChampionStatsData([]);
       return;
@@ -15,6 +19,9 @@ export const useChampionStats = () => {
       const url = new URL(`http://localhost:3000/api/champions/${puuid}/stats`);
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
+      }
+      if (queueType) {
+        url.searchParams.set("queueType", queueType);
       }
 
       const response = await fetch(url.toString());
@@ -34,13 +41,13 @@ export const useChampionStats = () => {
   };
 
   // Retry champion stats function
-  const retryChampionStats = async (puuid) => {
+  const retryChampionStats = async (puuid, queueType = null) => {
     if (!puuid) {
       console.warn("No PUUID available for retry");
       return;
     }
 
-    await fetchChampionStatsData(puuid);
+    await fetchChampionStatsData(puuid, false, queueType);
   };
 
   return {
