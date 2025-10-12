@@ -5,4 +5,5 @@ export { useChampionUtils } from "./hooks/utils";
 // Components - Organized structure
 export { ChampionCard } from "./components/ChampionCard";
 export { EmptyState, ErrorState, LoadingState } from "./components/States";
-export { ChampionsHeader, ChampionsList, RefreshButton } from "./components/ui";
+export { QueueTypeSelector } from "./components/QueueTypeSelector";
+export { ChampionsHeader, ChampionsList, RetryButton } from "./components/ui";
