@@ -1,8 +1,11 @@
-// ChampionCard Components (Business Logic)
+// ChampionCard Components
 export { ChampionCard } from "./ChampionCard";
 
-// States Components (Application States)
+// States Components
 export { EmptyState, ErrorState, LoadingState } from "./States";
 
-// UI Components (Generic Components)
+// Selection Components
+export { QueueTypeSelector } from "./QueueTypeSelector";
+
+// UI Components
 export { ChampionsHeader, ChampionsList, RetryButton } from "./ui";
