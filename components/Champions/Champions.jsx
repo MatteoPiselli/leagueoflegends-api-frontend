@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   LoadingState,
   ErrorState,
@@ -6,6 +6,7 @@ import {
   ChampionsHeader,
   ChampionsList,
   RetryButton,
+  QueueTypeSelector,
 } from "./index";
 import { usePlayerData } from "../../hooks/usePlayerData";
 
@@ -21,15 +22,22 @@ export default function Champions({
     fetchChampionStatsData,
   } = usePlayerData();
 
+  const [selectedQueueType, setSelectedQueueType] = useState("400");
+
   useEffect(() => {
-    if (playerData?.summoner?.puuid && championStats?.length === 0) {
-      fetchChampionStatsData(playerData.summoner.puuid);
+    if (playerData?.summoner?.puuid) {
+      fetchChampionStatsData(
+        playerData.summoner.puuid,
+        false,
+        selectedQueueType
+      );
     }
-  }, [
-    playerData?.summoner?.puuid,
-    championStats?.length,
-    fetchChampionStatsData,
-  ]);
+  }, [playerData?.summoner?.puuid, selectedQueueType, fetchChampionStatsData]);
+
+  // Handle queue type change
+  const handleQueueTypeChange = (queueType) => {
+    setSelectedQueueType(queueType);
+  };
 
   const error = null;
 
@@ -40,6 +48,11 @@ export default function Champions({
   return (
     <div className="h-fit w-full p-4 bg-[#19191B] rounded-lg">
       <ChampionsHeader />
+
+      <QueueTypeSelector
+        selectedQueueType={selectedQueueType}
+        onQueueTypeChange={handleQueueTypeChange}
+      />
 
       {championStats?.length === 0 ? (
         <EmptyState />
@@ -53,7 +66,9 @@ export default function Champions({
 
       {error && (
         <RetryButton
-          onRefresh={retryChampionStats}
+          onRefresh={() =>
+            retryChampionStats(playerData?.summoner?.puuid, selectedQueueType)
+          }
           loading={isLoading}
           disabled={isLoading}
         />
