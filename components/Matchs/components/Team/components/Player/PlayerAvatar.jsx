@@ -1,15 +1,8 @@
 import Image from "next/image";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
-const PlayerAvatar = ({ player, playerData, latestPatch, getChampionName }) => {
-  // Memoize champion image URL
-  const championImageUrl = useMemo(
-    () =>
-      `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${getChampionName(
-        player.championId
-      )}.png`,
-    [latestPatch, getChampionName, player.championId]
-  );
+const PlayerAvatar = ({ player, playerData, latestPatch, getChampionId }) => {
+  const championId = getChampionId(player.championId);
 
   // Check if this is the current player
   const isCurrentPlayer = player.puuid === playerData?.summoner?.puuid;
@@ -17,8 +10,8 @@ const PlayerAvatar = ({ player, playerData, latestPatch, getChampionName }) => {
   return (
     <>
       <Image
-        src={championImageUrl}
-        alt={player.championName}
+        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${championId}.png`}
+        alt={championId}
         width={20}
         height={20}
         className="rounded"
