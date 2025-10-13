@@ -55,7 +55,7 @@ export default function Champions({
         onQueueTypeChange={handleQueueTypeChange}
       />
 
-      {championStats?.length === 0 ? (
+      {championStats.length < 1 ? (
         <EmptyState />
       ) : (
         <ChampionsList
