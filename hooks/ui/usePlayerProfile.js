@@ -4,19 +4,21 @@ import { handleHttpError } from "../../utils/errorHandling";
 export const usePlayerProfile = () => {
   const [playerData, setPlayerData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Search player function
-  const searchPlayer = async (username, tagLine, forceUpdate = false) => {
-    if (!username || !tagLine) {
-      alert("Please enter a valid username and tag line.");
+  const searchPlayer = async (username, tagline, forceUpdate = false) => {
+    if (!username || !tagline) {
+      setError("Please enter a valid username and tag line.");
       return null;
     }
 
     setIsLoading(true);
+    setError(null);
 
     try {
       const url = new URL(
-        `http://localhost:3000/api/summoner/${username}/${tagLine}`
+        `http://localhost:3000/api/summoner/${username}/${tagline}`
       );
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
@@ -26,6 +28,7 @@ export const usePlayerProfile = () => {
 
       if (!response.ok) {
         handleHttpError(response.status, response.statusText);
+        setError(`Error ${response.status}: ${response.statusText}`);
         setPlayerData(null);
         return null;
       }
@@ -40,6 +43,7 @@ export const usePlayerProfile = () => {
       }
     } catch (error) {
       console.error("Error fetching player data:", error);
+      setError("Network error. Please try again later.");
       setPlayerData(null);
       return null;
     } finally {
@@ -50,6 +54,7 @@ export const usePlayerProfile = () => {
   return {
     playerData,
     isLoading,
+    error,
     searchPlayer,
     setPlayerData,
   };

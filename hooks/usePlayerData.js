@@ -9,6 +9,7 @@ export const usePlayerData = () => {
   const {
     playerData,
     isLoading,
+    error,
     searchPlayer: searchPlayerProfile,
     setPlayerData,
   } = usePlayerProfile();
@@ -33,11 +34,11 @@ export const usePlayerData = () => {
   } = useChampionStats();
 
   // Orchestrate the search process
-  const searchPlayer = async (username, tagLine, forceUpdate = false) => {
+  const searchPlayer = async (username, tagline, forceUpdate = false) => {
     // Search player profile first
     const playerResult = await searchPlayerProfile(
       username,
-      tagLine,
+      tagline,
       forceUpdate
     );
 
@@ -85,6 +86,7 @@ export const usePlayerData = () => {
     masteriesData,
     championStatsData,
     isLoading,
+    error,
     searchPlayer,
     retryMatches,
     retryMasteries,

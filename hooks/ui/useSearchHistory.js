@@ -5,25 +5,25 @@ export const useSearchHistory = () => {
   const [isHistoryVisible, setIsHistoryVisible] = useState(false);
 
   // Add player to search history
-  const addToHistory = (username, tagLine) => {
+  const addToHistory = (username, tagline) => {
     setHistory((prev) => {
       const newEntry = {
         username,
-        tagLine,
+        tagline,
       };
       // Check if the entry already exists in history
       const filtered = prev.filter(
-        (item) => item.username !== username || item.tagLine !== tagLine
+        (item) => item.username !== username || item.tagline !== tagline
       );
       return [...filtered, newEntry];
     });
   };
 
   // Remove player from search history
-  const removeFromHistory = (username, tagLine) => {
+  const removeFromHistory = (username, tagline) => {
     setHistory((prev) =>
       prev.filter(
-        (item) => item.username !== username || item.tagLine !== tagLine
+        (item) => item.username !== username || item.tagline !== tagline
       )
     );
   };
