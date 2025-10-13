@@ -16,19 +16,19 @@ export const useSearchForm = ({
   // Handle input change
   const handleInputChange = useCallback((e) => {
     const inputValue = e.target.value;
-    const { username, tagLine } = parseUserInput(inputValue);
+    const { username, tagline } = parseUserInput(inputValue);
 
     setFormData({
       inputValue,
       username,
-      tagLine,
+      tagline,
     });
   }, []);
 
   // Handle search action
   const handleSearch = useCallback(() => {
-    const { username, tagLine } = formData;
-    const validation = validateSearchInput(username, tagLine);
+    const { username, tagline } = formData;
+    const validation = validateSearchInput(username, tagline);
 
     if (!validation.isValid) {
       alert(validation.message);
@@ -36,9 +36,9 @@ export const useSearchForm = ({
     }
 
     // Add to history and perform search
-    addToHistory(username, tagLine);
+    addToHistory(username, tagline);
     setIsHistoryVisible(false);
-    onSearch(username, tagLine);
+    onSearch(username, tagline);
 
     // Reset form
     setFormData(createInitialFormState());
@@ -47,14 +47,14 @@ export const useSearchForm = ({
   // Handle history item click
   const handleHistoryItemClick = useCallback(
     (player) => {
-      const inputText = formatUserInput(player.username, player.tagLine);
+      const inputText = formatUserInput(player.username, player.tagline);
       setFormData({
         inputValue: inputText,
         username: player.username,
-        tagLine: player.tagLine,
+        tagline: player.tagline,
       });
       setIsHistoryVisible(false);
-      onSearch(player.username, player.tagLine);
+      onSearch(player.username, player.tagline);
     },
     [setIsHistoryVisible, onSearch]
   );
@@ -76,6 +76,6 @@ export const useSearchForm = ({
     handleHistoryItemClick,
     resetForm,
     updateFormData,
-    isFormValid: formData.username && formData.tagLine,
+    isFormValid: formData.username && formData.tagline,
   };
 };
