@@ -8,7 +8,7 @@ import {
 const PlayerMatchInfo = ({
   currentPlayer,
   latestPatch,
-  getChampionName,
+  getChampionId,
   gameAssets,
   matchDataHook,
 }) => {
@@ -18,7 +18,7 @@ const PlayerMatchInfo = ({
       <ChampionInfo
         currentPlayer={currentPlayer}
         latestPatch={latestPatch}
-        getChampionName={getChampionName}
+        getChampionId={getChampionId}
       />
 
       {/* Runes and Summoner Spells */}
