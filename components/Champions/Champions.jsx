@@ -32,7 +32,7 @@ export default function Champions({
         selectedQueueType
       );
     }
-  }, [playerData?.summoner?.puuid, selectedQueueType, fetchChampionStatsData]);
+  }, [playerData?.summoner?.puuid, selectedQueueType]);
 
   // Handle queue type change
   const handleQueueTypeChange = (queueType) => {
