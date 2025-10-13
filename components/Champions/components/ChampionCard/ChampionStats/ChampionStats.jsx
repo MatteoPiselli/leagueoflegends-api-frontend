@@ -3,15 +3,13 @@ import { useChampionUtils } from "../../../hooks/utils";
 export const ChampionStats = ({ champion }) => {
   const { getKdaColor, getWinRateColor } = useChampionUtils();
 
+  const kda = getKdaColor(champion.averageStats.kda);
+  const winRate = getWinRateColor(champion.winRate);
   return (
     <>
       <div className="flex flex-col items-center text-gray-400 w-20">
         {/* KDA */}
-        <div
-          className={`flex font-semibold text-sm space-x-1 ${getKdaColor(
-            champion.averageStats.kda
-          )}`}
-        >
+        <div className={`flex font-semibold text-sm space-x-1 ${kda}`}>
           <span>{champion.averageStats.kda}</span>
           <span>KDA</span>
         </div>
@@ -24,18 +22,15 @@ export const ChampionStats = ({ champion }) => {
 
       <div className="flex flex-col items-end w-16">
         {/* Win Rate */}
-        <div className="flex">
-          <span
-            className={`font-semibold text-sm ${getWinRateColor(
-              champion.winRate
-            )}`}
-          >
+        <div className="flex flex-col items-end">
+          <span className={`font-semibold text-sm ${winRate}`}>
             {champion.winRate}%
           </span>
+          {/* Games Played */}
+          <div className="text-gray-400 text-xs">
+            {champion.totalGames} games
+          </div>
         </div>
-
-        {/* Games Played */}
-        <div className="text-gray-400 text-xs">{champion.totalGames} games</div>
       </div>
     </>
   );
