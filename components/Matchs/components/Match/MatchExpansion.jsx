@@ -6,7 +6,7 @@ const MatchExpansion = ({
   teams,
   playerData,
   latestPatch,
-  getChampionName,
+  getChampionId,
 }) => {
   const { isMatchExpanded } = matchExpansion;
   const isExpanded = isMatchExpanded(matchId);
@@ -23,7 +23,7 @@ const MatchExpansion = ({
                 team={team}
                 playerData={playerData}
                 latestPatch={latestPatch}
-                getChampionName={getChampionName}
+                getChampionId={getChampionId}
               />
             ))}
           </div>
