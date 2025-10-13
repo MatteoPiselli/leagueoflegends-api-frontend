@@ -17,7 +17,7 @@ export const useSearchHistoryDisplay = ({
   const handleRemoveClick = useCallback(
     (e, player) => {
       e.stopPropagation();
-      onRemoveFromHistory?.(player.username, player.tagLine);
+      onRemoveFromHistory?.(player.username, player.tagline);
     },
     [onRemoveFromHistory]
   );
