@@ -4,6 +4,7 @@ export const ChampionsList = ({
   championStats,
   latestPatch,
   getChampionName,
+  getChampionId,
 }) => (
   <div className="space-y-4">
     {championStats.map((champion) => (
@@ -12,6 +13,7 @@ export const ChampionsList = ({
         champion={champion}
         latestPatch={latestPatch}
         getChampionName={getChampionName}
+        getChampionId={getChampionId}
       />
     ))}
   </div>
