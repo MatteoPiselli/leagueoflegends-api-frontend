@@ -1,19 +1,14 @@
 import { memo } from "react";
 import { PlayerAvatar, PlayerKDA } from "./";
 
-const PlayerRow = ({ 
-  player, 
-  playerData, 
-  latestPatch, 
-  getChampionName 
-}) => {
+const PlayerRow = ({ player, playerData, latestPatch, getChampionId }) => {
   return (
     <div className="flex items-center mb-1 text-xs">
       <PlayerAvatar
         player={player}
         playerData={playerData}
         latestPatch={latestPatch}
-        getChampionName={getChampionName}
+        getChampionId={getChampionId}
       />
       <PlayerKDA
         kills={player.kills}
