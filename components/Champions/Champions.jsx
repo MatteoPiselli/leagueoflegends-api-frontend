@@ -14,6 +14,7 @@ export default function Champions({
   playerData,
   latestPatch,
   getChampionName,
+  getChampionId,
 }) {
   const {
     championStatsData: championStats,
@@ -61,6 +62,7 @@ export default function Champions({
           championStats={championStats}
           latestPatch={latestPatch}
           getChampionName={getChampionName}
+          getChampionId={getChampionId}
         />
       )}
 
