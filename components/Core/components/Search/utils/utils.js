@@ -5,29 +5,29 @@
  */
 export const parseUserInput = (input) => {
   if (!input || typeof input !== "string") {
-    return { username: "", tagLine: "" };
+    return { username: "", tagline: "" };
   }
 
-  const [username = "", tagLine = ""] = input.split("#");
+  const [username = "", tagline = ""] = input.split("#");
   return {
     username: username.trim(),
-    tagLine: tagLine.trim(),
+    tagline: tagline.trim(),
   };
 };
 
 /**
  * Formats user input for display
  */
-export const formatUserInput = (username, tagLine) => {
-  if (!username || !tagLine) return "";
-  return `${username}#${tagLine}`;
+export const formatUserInput = (username, tagline) => {
+  if (!username || !tagline) return "";
+  return `${username}#${tagline}`;
 };
 
 /**
  * Validates search input
  */
-export const validateSearchInput = (username, tagLine) => {
-  if (!username || !tagLine) {
+export const validateSearchInput = (username, tagline) => {
+  if (!username || !tagline) {
     return {
       isValid: false,
       message: "Please enter a valid username and tag line.",
@@ -45,5 +45,5 @@ export const validateSearchInput = (username, tagLine) => {
 export const createInitialFormState = () => ({
   inputValue: "",
   username: "",
-  tagLine: "",
+  tagline: "",
 });
