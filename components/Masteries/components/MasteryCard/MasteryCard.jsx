@@ -1,10 +1,16 @@
 import Image from "next/image";
 import { useMasteryDisplay } from "../../hooks/ui";
 
-export const MasteryCard = ({ mastery, latestPatch, getChampionName }) => {
+export const MasteryCard = ({
+  mastery,
+  latestPatch,
+  getChampionName,
+  getChampionId,
+}) => {
   const { formatMasteryPoints, getMasteryIconUrl } = useMasteryDisplay();
 
   const championName = getChampionName(mastery.championId);
+  const championId = getChampionId(mastery.championId);
   const masteryLevel = mastery.championLevel;
   const masteryPoints = mastery.championPoints;
   const banner =
@@ -24,7 +30,7 @@ export const MasteryCard = ({ mastery, latestPatch, getChampionName }) => {
       </div>
       {/* ---------- Champion Icon ---------- */}
       <Image
-        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${championName}.png`}
+        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${championId}.png`}
         alt={championName}
         width={60}
         height={60}
