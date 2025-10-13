@@ -5,18 +5,11 @@ const TeamPlayerAvatar = ({
   player,
   playerData,
   latestPatch,
-  getChampionName,
+  getChampionId,
   teamColor,
   searchPlayer,
 }) => {
-  // Memoize champion image URL
-  const championImageUrl = useMemo(
-    () =>
-      `https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${getChampionName(
-        player.championId
-      )}.png`,
-    [latestPatch, getChampionName, player.championId]
-  );
+  const championId = getChampionId(player.championId);
 
   // Check if this is the current player
   const isCurrentPlayer = player.puuid === playerData?.summoner?.puuid;
@@ -29,8 +22,8 @@ const TeamPlayerAvatar = ({
   return (
     <>
       <Image
-        src={championImageUrl}
-        alt={player.championName}
+        src={`https://ddragon.leagueoflegends.com/cdn/${latestPatch}/img/champion/${championId}.png`}
+        alt={championId}
         width={16}
         height={16}
         className="rounded"
