@@ -11,7 +11,7 @@ export function QueueTypeSelector({ selectedQueueType, onQueueTypeChange }) {
           onClick={() => onQueueTypeChange(queueId)}
           className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
             selectedQueueType === queueId
-              ? "bg-blue-600 text-white"
+              ? "bg-[#DD1129] text-white"
               : "bg-gray-700 text-gray-300 hover:bg-gray-600"
           }`}
         >
