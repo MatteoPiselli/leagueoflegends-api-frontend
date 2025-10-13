@@ -8,7 +8,7 @@ const TeamColumn = ({
   playerData,
   teamColor,
   searchPlayer,
-  getChampionName,
+  getChampionId,
 }) => {
   if (!players || players.length === 0) {
     return <div className="text-gray-500">No players found</div>;
@@ -22,7 +22,7 @@ const TeamColumn = ({
           player={player}
           playerData={playerData}
           latestPatch={latestPatch}
-          getChampionName={getChampionName}
+          getChampionId={getChampionId}
           teamColor={teamColor}
           searchPlayer={searchPlayer}
         />
