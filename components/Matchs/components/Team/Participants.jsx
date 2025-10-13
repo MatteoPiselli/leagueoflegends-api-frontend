@@ -2,7 +2,7 @@ import { memo } from "react";
 import { TeamHeader, PlayerRow } from "./components";
 
 // ---------- Participants component ---------- //
-const Participants = ({ team, playerData, latestPatch, getChampionName }) => {
+const Participants = ({ team, playerData, latestPatch, getChampionId }) => {
   if (!team || !team.players || team.players.length === 0) {
     return <div className="text-gray-500">No players found</div>;
   }
@@ -16,7 +16,7 @@ const Participants = ({ team, playerData, latestPatch, getChampionName }) => {
           player={player}
           playerData={playerData}
           latestPatch={latestPatch}
-          getChampionName={getChampionName}
+          getChampionId={getChampionId}
         />
       ))}
     </div>
