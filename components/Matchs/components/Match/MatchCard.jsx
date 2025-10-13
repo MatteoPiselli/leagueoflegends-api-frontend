@@ -9,6 +9,7 @@ const MatchCard = ({
   latestPatch,
   searchPlayer,
   getChampionName,
+  getChampionId,
   gameAssets,
   matchDataHook,
   matchDisplay,
@@ -56,7 +57,7 @@ const MatchCard = ({
       <MatchContent
         currentPlayer={currentPlayer}
         latestPatch={latestPatch}
-        getChampionName={getChampionName}
+        getChampionId={getChampionId}
         gameAssets={gameAssets}
         matchDataHook={matchDataHook}
         matchDisplay={matchDisplay}
@@ -75,7 +76,7 @@ const MatchCard = ({
         teams={teams}
         playerData={playerData}
         latestPatch={latestPatch}
-        getChampionName={getChampionName}
+        getChampionId={getChampionId}
       />
     </div>
   );
