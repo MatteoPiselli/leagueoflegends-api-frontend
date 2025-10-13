@@ -41,7 +41,7 @@ export const SearchForm = ({ onSearch, isLoading }) => {
         <div className="relative flex flex-col items-center">
           <input
             type="text"
-            placeholder="Username#tagLine"
+            placeholder="Username#tagline"
             className="bg-[#19191B] w-96 text-white p-2"
             value={formData.inputValue}
             onChange={handleInputChange}
