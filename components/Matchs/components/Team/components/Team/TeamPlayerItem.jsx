@@ -1,13 +1,13 @@
 import { memo } from "react";
 import { TeamPlayerAvatar } from "./";
 
-const TeamPlayerItem = ({ 
-  player, 
-  playerData, 
-  latestPatch, 
-  getChampionName,
+const TeamPlayerItem = ({
+  player,
+  playerData,
+  latestPatch,
+  getChampionId,
   teamColor,
-  searchPlayer 
+  searchPlayer,
 }) => {
   return (
     <div className="flex items-center space-x-1">
@@ -15,7 +15,7 @@ const TeamPlayerItem = ({
         player={player}
         playerData={playerData}
         latestPatch={latestPatch}
-        getChampionName={getChampionName}
+        getChampionId={getChampionId}
         teamColor={teamColor}
         searchPlayer={searchPlayer}
       />
