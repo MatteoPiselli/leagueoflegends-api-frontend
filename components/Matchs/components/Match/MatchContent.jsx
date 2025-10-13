@@ -5,6 +5,7 @@ const MatchContent = ({
   currentPlayer,
   latestPatch,
   getChampionName,
+  getChampionId,
   gameAssets,
   matchDataHook,
   matchDisplay,
@@ -27,7 +28,7 @@ const MatchContent = ({
         <PlayerMatchInfo
           currentPlayer={currentPlayer}
           latestPatch={latestPatch}
-          getChampionName={getChampionName}
+          getChampionId={getChampionId}
           gameAssets={gameAssets}
           matchDataHook={matchDataHook}
           matchDisplay={matchDisplay}
@@ -49,6 +50,7 @@ const MatchContent = ({
           teamColor="text-blue-400"
           searchPlayer={searchPlayer}
           getChampionName={getChampionName}
+          getChampionId={getChampionId}
         />
         <TeamColumn
           players={redTeam}
@@ -57,6 +59,7 @@ const MatchContent = ({
           teamColor="text-red-400"
           searchPlayer={searchPlayer}
           getChampionName={getChampionName}
+          getChampionId={getChampionId}
         />
       </div>
 
