@@ -33,13 +33,13 @@ export const SearchHistory = ({
             <ul className="max-h-60 overflow-y-auto">
               {displayHistory.map((player, index) => (
                 <li
-                  key={`${player.username}-${player.tagLine}-${index}`}
+                  key={`${player.username}-${player.tagline}-${index}`}
                   className="relative flex items-center px-4 py-2 hover:bg-[#292A2E] cursor-pointer"
                   onClick={() => handleItemClick(player)}
                 >
                   <History className="inline mr-2 w-4 h-4" />
                   <div className="flex-1">
-                    {player.username}#{player.tagLine}
+                    {player.username}#{player.tagline}
                   </div>
                   <X
                     className="w-4 h-4 text-gray-400 hover:text-red-400 transition-colors cursor-pointer"
