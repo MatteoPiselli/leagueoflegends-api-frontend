@@ -31,7 +31,7 @@ export default function App() {
     retryMasteries,
   } = usePlayerData();
 
-  const { latestPatch, getChampionName } = useChampionData();
+  const { latestPatch, getChampionName, getChampionId } = useChampionData();
 
   return (
     <div className="relative min-h-screen text-white">
@@ -70,11 +70,13 @@ export default function App() {
                   playerData={playerData}
                   latestPatch={latestPatch}
                   getChampionName={getChampionName}
+                  getChampionId={getChampionId}
                 />
                 <Masteries
                   latestPatch={latestPatch}
                   masteriesData={masteriesData}
                   getChampionName={getChampionName}
+                  getChampionId={getChampionId}
                   retryMasteries={retryMasteries}
                 />
               </div>
@@ -84,7 +86,7 @@ export default function App() {
                   playerData={playerData}
                   matchData={matchData}
                   searchPlayer={searchPlayer}
-                  getChampionName={getChampionName}
+                  getChampionId={getChampionId}
                   retryMatches={retryMatches}
                 />
               </div>
