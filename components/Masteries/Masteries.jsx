@@ -4,6 +4,7 @@ export default function Masteries({
   masteriesData,
   latestPatch,
   getChampionName,
+  getChampionId,
 }) {
   // Check if mastery data is available
   if (!masteriesData || masteriesData.length === 0) {
@@ -24,6 +25,7 @@ export default function Masteries({
             mastery={mastery}
             latestPatch={latestPatch}
             getChampionName={getChampionName}
+            getChampionId={getChampionId}
           />
         ))}
       </div>
