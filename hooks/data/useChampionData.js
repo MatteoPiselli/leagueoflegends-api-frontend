@@ -30,7 +30,10 @@ export const useChampionData = () => {
 
       const championMap = {};
       Object.values(champions).forEach((champion) => {
-        championMap[champion.key] = champion.id;
+        championMap[champion.key] = {
+          name: champion.name,
+          id: champion.id,
+        };
       });
       setChampionData(championMap);
       return championMap;
@@ -43,7 +46,12 @@ export const useChampionData = () => {
 
   // Function to get champion name by champion ID
   const getChampionName = (championId) => {
-    return championData[championId] || championId;
+    return championData[championId].name;
+  };
+
+  // Function to get champion ID for images
+  const getChampionId = (championId) => {
+    return championData[championId].id;
   };
 
   // Initialize data on component mount
@@ -65,6 +73,7 @@ export const useChampionData = () => {
     championData,
     latestPatch,
     getChampionName,
+    getChampionId,
     fetchChampionData,
     getLatestPatchVersion,
   };
