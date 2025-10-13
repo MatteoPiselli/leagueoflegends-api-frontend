@@ -15,7 +15,7 @@ const Matchs = ({
   playerData,
   latestPatch,
   searchPlayer,
-  getChampionName,
+  getChampionId,
   retryMatches,
 }) => {
   // Use custom hooks
@@ -42,7 +42,7 @@ const Matchs = ({
           playerData={playerData}
           latestPatch={latestPatch}
           searchPlayer={searchPlayer}
-          getChampionName={getChampionName}
+          getChampionId={getChampionId}
           gameAssets={gameAssets}
           matchDataHook={matchDataHook}
           playerCalculations={playerCalculations}
