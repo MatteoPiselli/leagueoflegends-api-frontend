@@ -6,7 +6,13 @@ import Ranked from "./Ranked/Ranked";
 import Matchs from "./Matchs/Matchs";
 import Champions from "./Champions/Champions";
 import Masteries from "./Masteries/Masteries";
-import { SearchForm, PlayerProfile, LoadingState } from "./Core";
+import {
+  SearchForm,
+  PlayerProfile,
+  LoadingState,
+  ErrorState,
+  WelcomeState,
+} from "./Core";
 
 // Import custom hooks
 import { usePlayerData, useChampionData } from "../hooks";
@@ -19,6 +25,7 @@ export default function App() {
     matchData,
     masteriesData,
     isLoading,
+    error,
     searchPlayer,
     retryMatches,
     retryMasteries,
@@ -83,7 +90,11 @@ export default function App() {
               </div>
             </div>
           </>
-        ) : null}
+        ) : error ? (
+          <ErrorState error={error} onRetry={() => window.location.reload()} />
+        ) : (
+          <WelcomeState />
+        )}
       </div>
     </div>
   );
