@@ -1,4 +1,6 @@
 import { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { addSummoner } from "../../../../../reducers/summoner";
 import {
   parseUserInput,
   validateSearchInput,
@@ -12,6 +14,7 @@ export const useSearchForm = ({
   setIsHistoryVisible,
 }) => {
   const [formData, setFormData] = useState(createInitialFormState());
+  const dispatch = useDispatch();
 
   // Handle input change
   const handleInputChange = useCallback((e) => {
@@ -39,6 +42,11 @@ export const useSearchForm = ({
     addToHistory(username, tagline);
     setIsHistoryVisible(false);
     onSearch(username, tagline);
+
+    // 🔍 Log avant dispatch
+    console.log("🚀 Dispatching addSummoner:", { username, tagline });
+    const action = dispatch(addSummoner({ username, tagline }));
+    console.log("📤 Action dispatched:", action);
 
     // Reset form
     setFormData(createInitialFormState());
