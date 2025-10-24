@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-export const useSearchHistoryDisplay = ({
+export const useSearchHistory = ({
   history,
   onHistoryItemClick,
   onRemoveFromHistory,
