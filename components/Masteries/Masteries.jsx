@@ -1,5 +1,5 @@
 import { MasteryCard, EmptyMasteryState } from "./index";
-import { useChampion } from "../ChampionContext";
+import { useChampion } from "../../contexts/ChampionContext";
 
 export default function Masteries({ masteriesData }) {
   const { latestPatch, getChampionName, getChampionId } = useChampion();

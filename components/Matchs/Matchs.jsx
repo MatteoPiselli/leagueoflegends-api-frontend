@@ -9,7 +9,7 @@ import {
   MatchCard,
   EmptyMatchState,
 } from "./index";
-import { useChampion } from "../ChampionContext";
+import { useChampion } from "../../contexts/ChampionContext";
 
 const Matchs = ({ matchData, playerData, searchPlayer, retryMatches }) => {
   const { latestPatch, getChampionId } = useChampion();
