@@ -20,12 +20,8 @@ export const usePlayerData = () => {
     retryMatches: retryMatchData,
     setMatchData,
   } = useMatchData();
-  const {
-    masteriesData,
-    fetchMasteriesData,
-    retryMasteries: retryMasteriesData,
-    setMasteriesData,
-  } = useMasteriesData();
+  const { masteriesData, fetchMasteriesData, setMasteriesData } =
+    useMasteriesData();
   const {
     championStatsData,
     fetchChampionStatsData,
@@ -65,13 +61,6 @@ export const usePlayerData = () => {
     }
   };
 
-  const retryMasteries = async () => {
-    const puuid = playerData?.summoner?.puuid;
-    if (puuid) {
-      await retryMasteriesData(puuid);
-    }
-  };
-
   const retryChampionStats = async () => {
     const puuid = playerData?.summoner?.puuid;
     if (puuid) {
@@ -89,7 +78,6 @@ export const usePlayerData = () => {
     error,
     searchPlayer,
     retryMatches,
-    retryMasteries,
     retryChampionStats,
     fetchChampionStatsData,
     setPlayerData,
