@@ -1,11 +1,8 @@
 import { MasteryCard, EmptyMasteryState } from "./index";
+import { useChampion } from "../ChampionContext";
 
-export default function Masteries({
-  masteriesData,
-  latestPatch,
-  getChampionName,
-  getChampionId,
-}) {
+export default function Masteries({ masteriesData }) {
+  const { latestPatch, getChampionName, getChampionId } = useChampion();
   // Check if mastery data is available
   if (!masteriesData || masteriesData.length === 0) {
     return <EmptyMasteryState />;
