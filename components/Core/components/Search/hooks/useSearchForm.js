@@ -3,7 +3,6 @@ import {
   parseUserInput,
   validateSearchInput,
   createInitialFormState,
-  formatUserInput,
 } from "../utils/utils";
 
 export const useSearchForm = ({
@@ -47,14 +46,10 @@ export const useSearchForm = ({
   // Handle history item click
   const handleHistoryItemClick = useCallback(
     (player) => {
-      const inputText = formatUserInput(player.username, player.tagline);
-      setFormData({
-        inputValue: inputText,
-        username: player.username,
-        tagline: player.tagline,
-      });
       setIsHistoryVisible(false);
       onSearch(player.username, player.tagline);
+      // Reset form after search
+      setFormData(createInitialFormState());
     },
     [setIsHistoryVisible, onSearch]
   );
