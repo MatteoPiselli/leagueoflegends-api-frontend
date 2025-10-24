@@ -33,20 +33,9 @@ export const useMasteriesData = () => {
     }
   };
 
-  // Retry masteries function
-  const retryMasteries = async (puuid) => {
-    if (!puuid) {
-      console.warn("No PUUID available for retry");
-      return;
-    }
-
-    await fetchMasteriesData(puuid);
-  };
-
   return {
     masteriesData,
     fetchMasteriesData,
-    retryMasteries,
     setMasteriesData,
   };
 };
