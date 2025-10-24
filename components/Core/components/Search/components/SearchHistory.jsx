@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { History, X } from "lucide-react";
-import { useSearchHistoryDisplay } from "../hooks/useSearchHistory";
+import { useSearchHistory } from "../hooks/useSearchHistory";
 
 export const SearchHistory = ({
   isVisible,
@@ -10,7 +10,7 @@ export const SearchHistory = ({
   onRemoveFromHistory,
 }) => {
   const { handleItemClick, handleRemoveClick, getDisplayHistory, isEmpty } =
-    useSearchHistoryDisplay({
+    useSearchHistory({
       history,
       onHistoryItemClick,
       onRemoveFromHistory,
