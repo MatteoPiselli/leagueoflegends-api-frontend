@@ -9,13 +9,10 @@ import {
   QueueTypeSelector,
 } from "./index";
 import { usePlayerData } from "../../hooks/usePlayerData";
+import { useChampion } from "../ChampionContext";
 
-export default function Champions({
-  playerData,
-  latestPatch,
-  getChampionName,
-  getChampionId,
-}) {
+export default function Champions({ playerData }) {
+  const { latestPatch, getChampionName, getChampionId } = useChampion();
   const {
     championStatsData: championStats,
     retryChampionStats,
