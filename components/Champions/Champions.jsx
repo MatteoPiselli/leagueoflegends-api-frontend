@@ -32,6 +32,13 @@ export default function Champions({ playerData }) {
     }
   }, [playerData?.summoner?.puuid, selectedQueueType]);
 
+  // Reset to default queue type when player changes
+  useEffect(() => {
+    if (playerData?.summoner?.puuid) {
+      setSelectedQueueType("400");
+    }
+  }, [playerData?.summoner?.puuid]);
+
   // Handle queue type change
   const handleQueueTypeChange = (queueType) => {
     setSelectedQueueType(queueType);
