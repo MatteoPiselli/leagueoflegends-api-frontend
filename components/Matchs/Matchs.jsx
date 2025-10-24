@@ -9,15 +9,10 @@ import {
   MatchCard,
   EmptyMatchState,
 } from "./index";
+import { useChampion } from "../ChampionContext";
 
-const Matchs = ({
-  matchData,
-  playerData,
-  latestPatch,
-  searchPlayer,
-  getChampionId,
-  retryMatches,
-}) => {
+const Matchs = ({ matchData, playerData, searchPlayer, retryMatches }) => {
+  const { latestPatch, getChampionId } = useChampion();
   // Use custom hooks
   const gameAssets = useGameAssets(latestPatch);
   const matchDataHook = useMatchData();
