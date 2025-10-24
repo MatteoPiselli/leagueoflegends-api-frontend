@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { usePlayerData } from "../../../../hooks/usePlayerData";
 import { useUpdateInfo } from "../../../../hooks/ui/useUpdateInfo";
+import { useChampion } from "../../../../contexts/ChampionContext";
 
-export const PlayerProfile = ({ playerData, latestPatch }) => {
+export const PlayerProfile = ({ playerData }) => {
+  const { latestPatch } = useChampion();
   const { isLoading, searchPlayer } = usePlayerData();
   const { getLastUpdateDate } = useUpdateInfo(playerData);
 
