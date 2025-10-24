@@ -15,7 +15,8 @@ import {
 } from "./Core";
 
 // Import custom hooks
-import { usePlayerData, useChampionData } from "../hooks";
+import { usePlayerData } from "../hooks";
+import { ChampionProvider } from "../contexts/ChampionContext";
 
 export default function App() {
   // Use custom hooks
@@ -28,10 +29,7 @@ export default function App() {
     error,
     searchPlayer,
     retryMatches,
-    retryMasteries,
   } = usePlayerData();
-
-  const { latestPatch, getChampionName, getChampionId } = useChampionData();
 
   return (
     <div className="relative min-h-screen text-white">
@@ -55,48 +53,40 @@ export default function App() {
         {/* Search Form */}
         <SearchForm onSearch={searchPlayer} isLoading={isLoading} />
 
-        {isLoading ? (
-          <LoadingState />
-        ) : playerData ? (
-          <>
-            {/* Player Profile */}
-            <PlayerProfile playerData={playerData} latestPatch={latestPatch} />
+        <ChampionProvider>
+          {isLoading ? (
+            <LoadingState />
+          ) : playerData ? (
+            <>
+              {/* Player Profile */}
+              <PlayerProfile playerData={playerData} />
 
-            {/* Components */}
-            <div className="flex space-x-6 mt-6">
-              <div className="flex flex-col space-y-6 w-1/3 mb-16">
-                <Ranked rankedData={rankedData} />
-                <Champions
-                  playerData={playerData}
-                  latestPatch={latestPatch}
-                  getChampionName={getChampionName}
-                  getChampionId={getChampionId}
-                />
-                <Masteries
-                  latestPatch={latestPatch}
-                  masteriesData={masteriesData}
-                  getChampionName={getChampionName}
-                  getChampionId={getChampionId}
-                  retryMasteries={retryMasteries}
-                />
+              {/* Components */}
+              <div className="flex space-x-6 mt-6">
+                <div className="flex flex-col space-y-6 w-1/3 mb-16">
+                  <Ranked rankedData={rankedData} />
+                  <Champions playerData={playerData} />
+                  <Masteries masteriesData={masteriesData} />
+                </div>
+                <div className="w-2/3">
+                  <Matchs
+                    playerData={playerData}
+                    matchData={matchData}
+                    searchPlayer={searchPlayer}
+                    retryMatches={retryMatches}
+                  />
+                </div>
               </div>
-              <div className="w-2/3">
-                <Matchs
-                  latestPatch={latestPatch}
-                  playerData={playerData}
-                  matchData={matchData}
-                  searchPlayer={searchPlayer}
-                  getChampionId={getChampionId}
-                  retryMatches={retryMatches}
-                />
-              </div>
-            </div>
-          </>
-        ) : error ? (
-          <ErrorState error={error} onRetry={() => window.location.reload()} />
-        ) : (
-          <WelcomeState />
-        )}
+            </>
+          ) : error ? (
+            <ErrorState
+              error={error}
+              onRetry={() => window.location.reload()}
+            />
+          ) : (
+            <WelcomeState />
+          )}
+        </ChampionProvider>
       </div>
     </div>
   );
