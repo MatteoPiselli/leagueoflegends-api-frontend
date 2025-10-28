@@ -1,5 +1,3 @@
-const { plugin } = require("postcss");
-
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
