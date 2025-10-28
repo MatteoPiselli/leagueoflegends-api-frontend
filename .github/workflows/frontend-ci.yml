@@ -17,8 +17,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22.20.0"
           cache: "yarn"
+          cache-dependency-path: "yarn.lock"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -28,13 +29,13 @@ jobs:
 
       - name: Verify component structure
         run: |
-          # Vérifier les fichiers de base
+          # Check core files
           test -f components/App.jsx || exit 1
           test -f pages/index.jsx || exit 1
           test -f pages/_app.jsx || exit 1
           echo "✅ Core files exist"
 
-          # Vérifier tous les composants principaux
+          # Check all main components
           test -f components/Core/index.js || exit 1
           test -f components/Ranked/Ranked.jsx || exit 1
           test -f components/Matchs/Matchs.jsx || exit 1
@@ -42,7 +43,7 @@ jobs:
           test -f components/Masteries/Masteries.jsx || exit 1
           echo "✅ All main components exist"
 
-          # Vérifier les hooks principaux
+          # Check main hooks
           test -f hooks/usePlayerData.js || exit 1
           test -f hooks/data/useRankedData.js || exit 1
           test -f hooks/data/useMatchData.js || exit 1
@@ -50,25 +51,31 @@ jobs:
           test -f hooks/data/useChampionData.js || exit 1
           echo "✅ All data hooks exist"
 
-          # Vérifier les contextes et utilitaires
+          # Check contexts and utilities
           test -f contexts/ChampionContext.js || exit 1
           test -f utils/errorHandling.js || exit 1
           test -f utils/dateFormatter.js || exit 1
           test -f constants/queueTypes.js || exit 1
           echo "✅ All contexts and utilities exist"
 
-      - name: Validate Next.js configuration
+      - name: Validate Next.js Tailwind configuration
         run: |
           test -f next.config.js || exit 1
           test -f tailwind.config.js || exit 1
+          test -f postcss.config.js || exit 1
           echo "✅ Configuration files valid"
 
       - name: Check for common errors
         run: |
-          # Vérifier qu'il n'y a pas d'erreurs JSX évidentes
+          # Check for forgotten console.log statements
+          console_logs=$(find components/ pages/ -name "*.jsx" -o -name "*.js" | xargs grep -l "console\.log" | wc -l)
+          if [ "$console_logs" -gt 0 ]; then
+            echo "⚠️  Found $console_logs files with console.log statements"
+          fi
+
           echo "✅ Basic validation completed"
 
       - name: Verify development server can start
         run: |
-          # Tester que le serveur de dev démarre (arrêt rapide)
+          # Test that the dev server starts (quick shutdown)
           timeout 15s yarn dev || [ $? -eq 124 ] && echo "✅ Dev server starts successfully"
