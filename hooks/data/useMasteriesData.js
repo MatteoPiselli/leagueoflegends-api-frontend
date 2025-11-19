@@ -12,7 +12,9 @@ export const useMasteriesData = () => {
     }
 
     try {
-      const url = new URL(`http://localhost:3000/api/masteries/${puuid}`);
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const url = new URL(`${API_URL}/api/masteries/${puuid}`);
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
       }

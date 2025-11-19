@@ -17,9 +17,9 @@ export const usePlayerProfile = () => {
     setError(null);
 
     try {
-      const url = new URL(
-        `http://localhost:3000/api/summoner/${username}/${tagline}`
-      );
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const url = new URL(`${API_URL}/api/summoner/${username}/${tagline}`);
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
       }

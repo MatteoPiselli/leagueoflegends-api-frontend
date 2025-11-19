@@ -49,7 +49,9 @@ export const useRankedData = () => {
     }
 
     try {
-      const url = new URL(`http://localhost:3000/api/ranked/${puuid}`);
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const url = new URL(`${API_URL}/api/ranked/${puuid}`);
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
       }

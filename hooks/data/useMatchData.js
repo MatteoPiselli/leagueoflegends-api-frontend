@@ -10,11 +10,10 @@ export const useMatchData = () => {
       return [];
     }
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     const details = await Promise.all(
       matchIds.map(async (matchId) => {
-        const res = await fetch(
-          `http://localhost:3000/api/matchs/details/${matchId}`
-        );
+        const res = await fetch(`${API_URL}/api/matchs/details/${matchId}`);
         return await res.json();
       })
     );
@@ -30,7 +29,9 @@ export const useMatchData = () => {
     }
 
     try {
-      const url = new URL(`http://localhost:3000/api/matchs/${puuid}`);
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const url = new URL(`${API_URL}/api/matchs/${puuid}`);
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
       }

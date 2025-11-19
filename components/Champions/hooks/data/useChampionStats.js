@@ -15,8 +15,10 @@ export const useChampionStats = (playerData) => {
     setError(null);
 
     try {
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const response = await fetch(
-        `http://localhost:3000/api/champions/${playerData.summoner.puuid}/stats`
+        `${API_URL}/api/champions/${playerData.summoner.puuid}/stats`
       );
 
       if (!response.ok) {

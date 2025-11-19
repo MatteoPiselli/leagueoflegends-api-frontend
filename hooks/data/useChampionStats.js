@@ -16,7 +16,9 @@ export const useChampionStats = () => {
     }
 
     try {
-      const url = new URL(`http://localhost:3000/api/champions/${puuid}/stats`);
+      const API_URL =
+        process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+      const url = new URL(`${API_URL}/api/champions/${puuid}/stats`);
       if (forceUpdate) {
         url.searchParams.set("updateClicked", "true");
       }
