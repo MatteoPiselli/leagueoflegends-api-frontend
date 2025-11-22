@@ -12,6 +12,7 @@ import {
   LoadingState,
   ErrorState,
   WelcomeState,
+  ApiLimitBanner,
 } from "./Core";
 
 // Import custom hooks
@@ -52,6 +53,9 @@ export default function App() {
 
         {/* Search Form */}
         <SearchForm onSearch={searchPlayer} isLoading={isLoading} />
+
+        {/* API Limit Information */}
+        <ApiLimitBanner />
 
         <ChampionProvider>
           {isLoading ? (
