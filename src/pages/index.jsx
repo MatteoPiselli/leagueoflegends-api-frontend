@@ -6,12 +6,12 @@ import {
   ErrorState,
   WelcomeState,
   ApiLimitBanner,
-} from "../../components/Core";
-import Ranked from "../../components/Ranked/Ranked";
-import Matchs from "../../components/Matchs/Matchs";
-import Champions from "../../components/Champions/Champions";
-import Masteries from "../../components/Masteries/Masteries";
-import { usePlayerData } from "../../hooks";
+} from "../components/Core";
+import Ranked from "../components/Ranked/Ranked";
+import Matchs from "../components/Matchs/Matchs";
+import Champions from "../components/Champions/Champions";
+import Masteries from "../components/Masteries/Masteries";
+import { usePlayerData } from "../hooks";
 
 export default function IndexPage() {
   const {
