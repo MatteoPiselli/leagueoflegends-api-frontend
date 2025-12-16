@@ -51,7 +51,11 @@ export default function IndexPage() {
           <LoadingState />
         ) : playerData ? (
           <>
-            <PlayerProfile playerData={playerData} />
+            <PlayerProfile
+              playerData={playerData}
+              searchPlayer={searchPlayer}
+              isLoading={isLoading}
+            />
             <div className="flex space-x-6 mt-6">
               <div className="flex flex-col space-y-6 w-1/3 mb-16">
                 <Ranked rankedData={rankedData} />
