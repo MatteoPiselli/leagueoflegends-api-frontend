@@ -355,9 +355,9 @@ Proprietary - Matteo Piselli.
 
 ## 👨‍💻 Author
 
-**Matteo Piselli** - [@votre-github](https://github.com/votre-github)
+**Matteo Piselli** - [MatteoPiselli](https://github.com/MatteoPiselli)
 
 Project developed as part of my full-stack developer portfolio.
 
 - Portfolio: [matteopiselli.dev](https://matteopiselli.dev)
-- LinkedIn: [Your Profile](https://linkedin.com/in/votre-profil)
+- LinkedIn: [Matteo Piselli 💻📱](https://linkedin.com/in/matteo-piselli)
