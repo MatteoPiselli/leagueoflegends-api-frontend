@@ -84,7 +84,6 @@ Matchs/
 ```jsx
 import Matchs from "./Matchs/Matchs";
 
-// Le composant utilise automatiquement tous les hooks et composants refactorisés
 <Matchs
   matchData={matchData}
   playerData={playerData}
