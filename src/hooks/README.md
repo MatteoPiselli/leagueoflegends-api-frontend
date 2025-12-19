@@ -10,16 +10,16 @@ hooks/
 ├── usePlayerData.js         # Main orchestrator hook
 ├── data/                    # Data management hooks
 │   ├── index.js
-│   ├── usePlayerProfile.js  # Player profile data
-│   ├── useRankedData.js     # Ranked data with transformations
+│   ├── useChampionData.js   # Riot Games champion data (Data Dragon)
+│   ├── useChampionStats.js  # Champion statistics data
+│   ├── useMasteriesData.js  # Masteries data with retry logic
 │   ├── useMatchData.js      # Match data with retry logic
-│   └── useMasteriesData.js  # Masteries data with retry logic
-├── external/                # External API hooks
-│   ├── index.js
-│   └── useChampionData.js   # Riot Games champion data
+│   └── useRankedData.js     # Ranked data with transformations
 └── ui/                      # UI state management hooks
     ├── index.js
-    └── useSearchHistory.js  # Search history management
+    ├── usePlayerProfile.js  # Player profile data
+    ├── useSearchHistory.js  # Search history management
+    └── useUpdateInfo.js     # Update information management
 ```
 
 ## Hook Categories
@@ -30,18 +30,17 @@ hooks/
 
 ### 📊 Data Hooks (`/data`)
 
-- **usePlayerProfile**: Manages basic player/summoner information
-- **useRankedData**: Handles ranked data fetching and transformation
-- **useMatchData**: Manages match data with retry functionality
+- **useChampionData**: Fetches champion data from Riot Data Dragon API (patches, names)
+- **useChampionStats**: Manages champion statistics data with queue type filtering
 - **useMasteriesData**: Handles champion masteries with retry functionality
-
-### 🌐 External Hooks (`/external`)
-
-- **useChampionData**: Fetches champion data from Riot Games API
+- **useMatchData**: Manages match data with retry functionality
+- **useRankedData**: Handles ranked data fetching and transformation
 
 ### 🎨 UI Hooks (`/ui`)
 
+- **usePlayerProfile**: Manages basic player/summoner information
 - **useSearchHistory**: Manages search history state and interactions
+- **useUpdateInfo**: Manages update information and state
 
 ## Usage
 
@@ -49,9 +48,16 @@ hooks/
 // Import main orchestrator
 import { usePlayerData } from "../hooks";
 
-// Or import specific hooks
-import { usePlayerProfile, useMatchData, useChampionData } from "../hooks/data";
-import { useSearchHistory } from "../hooks/ui";
+// Or import specific data hooks
+import {
+  useChampionData,
+  useChampionStats,
+  useMatchData,
+  useRankedData,
+} from "../hooks/data";
+
+// Or import UI hooks
+import { usePlayerProfile, useSearchHistory, useUpdateInfo } from "../hooks/ui";
 ```
 
 ## Benefits
