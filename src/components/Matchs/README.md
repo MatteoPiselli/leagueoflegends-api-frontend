@@ -1,85 +1,85 @@
-# Refactorisation du dossier Matchs
+# Matchs Folder Refactoring
 
-## 📁 Structure après refactorisation
+## 📁 Structure After Refactoring
 
 ```
 Matchs/
-├── Matchs.jsx (composant principal simplifié)
-├── index.js (exports centralisés)
+├── Matchs.jsx (simplified main component)
+├── index.js (centralized exports)
 ├── hooks/
-│   ├── useGameAssets.js      # Gestion runes, sorts, objets
-│   ├── useMatchCalculations.js # Calculs KDA, CS, durée
-│   └── useMatchExpansion.js   # État d'expansion des matchs
+│   ├── useGameAssets.js      # Runes, spells, items management
+│   ├── useMatchCalculations.js # KDA, CS, duration calculations
+│   └── useMatchExpansion.js   # Match expansion state
 └── components/
-    ├── MatchCard.jsx         # Carte d'un match individuel
-    ├── MatchHeader.jsx       # En-tête du match (queue, victoire/défaite, durée)
-    ├── PlayerMatchInfo.jsx   # Infos joueur (champion, runes, sorts)
-    ├── PlayerStats.jsx       # Statistiques (KDA, CS, objets)
-    ├── EmptyMatchState.jsx   # État vide/retry
-    └── [composants existants...] # ItemTooltip, TeamColumn, etc.
+    ├── MatchCard.jsx         # Individual match card
+    ├── MatchHeader.jsx       # Match header (queue, win/loss, duration)
+    ├── PlayerMatchInfo.jsx   # Player info (champion, runes, spells)
+    ├── PlayerStats.jsx       # Statistics (KDA, CS, items)
+    ├── EmptyMatchState.jsx   # Empty state/retry
+    └── [existing components...] # ItemTooltip, TeamColumn, etc.
 ```
 
-## 🎯 Composants refactorisés
+## 🎯 Refactored Components
 
-### 📦 Hooks personnalisés
+### 📦 Custom Hooks
 
 #### `useGameAssets(latestPatch)`
 
-- **But**: Récupérer et gérer les données de runes, sorts et objets
-- **Retourne**:
+- **Purpose**: Fetch and manage runes, spells and items data
+- **Returns**:
   - `runesData`, `summonerSpells`, `itemsData`
   - `getRuneData()`, `getRuneTreeData()`, `getSummonerSpell()`, `getItemData()`
   - `loading`, `error`
 
 #### `useMatchCalculations()`
 
-- **But**: Fonctions utilitaires pour les calculs de match
-- **Retourne**:
+- **Purpose**: Utility functions for match calculations
+- **Returns**:
   - `calculateKDA()`, `calculateCS()`, `formatGameDuration()`
   - `getKDAColor()`, `getPlayerItems()`, `processParticipants()`, `splitTeams()`
 
 #### `useMatchExpansion()`
 
-- **But**: Gérer l'état d'expansion des détails de match
-- **Retourne**:
+- **Purpose**: Manage match details expansion state
+- **Returns**:
   - `expandedMatches`, `toggleMatchDetails()`, `isMatchExpanded()`
 
-### 🧩 Composants
+### 🧩 Components
 
 #### `MatchCard`
 
-- **But**: Composant principal pour afficher un match
+- **Purpose**: Main component to display a match
 - **Props**: `match`, `playerData`, `latestPatch`, `searchPlayer`, `getChampionName`, hooks
 
 #### `MatchHeader`
 
-- **But**: Afficher les informations d'en-tête (type de queue, victoire/défaite, durée)
+- **Purpose**: Display header information (queue type, win/loss, duration)
 - **Props**: `match`, `currentPlayer`
 
 #### `PlayerMatchInfo`
 
-- **But**: Afficher les informations du joueur (champion, runes, sorts)
+- **Purpose**: Display player information (champion, runes, spells)
 - **Props**: `currentPlayer`, `latestPatch`, `getChampionName`, `gameAssets`, `matchCalculations`
 
 #### `PlayerStats`
 
-- **But**: Afficher KDA, CS et objets
+- **Purpose**: Display KDA, CS and items
 - **Props**: `currentPlayer`, `latestPatch`, `gameAssets`, `matchCalculations`, `gameDuration`
 
 #### `EmptyMatchState`
 
-- **But**: Gérer l'état vide et le bouton retry
+- **Purpose**: Handle empty state and retry button
 - **Props**: `playerData`, `retryMatches`
 
-## 📈 Avantages de la refactorisation
+## 📈 Refactoring Benefits
 
-- **🧹 Code plus propre**: Matchs.jsx passe de ~400 lignes à ~35 lignes
-- **🔄 Réutilisabilité**: Les hooks peuvent être utilisés dans d'autres composants
-- **🧪 Testabilité**: Chaque hook/composant peut être testé individuellement
-- **📚 Maintenabilité**: Logique séparée par responsabilité
-- **🚀 Performance**: Chargement des assets en parallèle, gestion d'erreurs améliorée
+- **🧹 Cleaner code**: Matchs.jsx reduced from ~400 lines to ~35 lines
+- **🔄 Reusability**: Hooks can be used in other components
+- **🧪 Testability**: Each hook/component can be tested individually
+- **📚 Maintainability**: Logic separated by responsibility
+- **🚀 Performance**: Parallel asset loading, improved error handling
 
-## 🔧 Utilisation
+## 🔧 Usage
 
 ```jsx
 import Matchs from "./Matchs/Matchs";

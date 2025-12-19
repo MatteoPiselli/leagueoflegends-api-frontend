@@ -1,26 +1,26 @@
-# Structure organisée des hooks Matchs
+# Organized Matchs Hooks Structure
 
-## 📁 Nouvelle organisation du dossier `hooks/`
+## 📁 New `hooks/` Folder Organization
 
 ```
 hooks/
-├── index.js (exports centralisés)
-├── data/                    # 📊 Hooks de gestion des données
+├── index.js (centralized exports)
+├── data/                    # 📊 Data management hooks
 │   ├── index.js
-│   └── useGameAssets.js     # Runes, sorts, objets depuis l'API Riot
-├── calculations/            # 🧮 Hooks de calculs et utilitaires
+│   └── useGameAssets.js     # Runes, spells, items from Riot API
+├── calculations/            # 🧮 Calculation and utility hooks
 │   ├── index.js
-│   ├── useMatchCalculations.js   # Hook principal combinant tous les calculs
-│   ├── usePlayerStats.js         # Calculs spécifiques au joueur (KDA, CS)
-│   └── useMatchUtils.js          # Utilitaires de match (durée, équipes)
-└── ui/                      # 🎨 Hooks d'interface utilisateur
+│   ├── useMatchCalculations.js   # Main hook combining all calculations
+│   ├── usePlayerStats.js         # Player-specific calculations (KDA, CS)
+│   └── useMatchUtils.js          # Match utilities (duration, teams)
+└── ui/                      # 🎨 User interface hooks
     ├── index.js
-    └── useMatchExpansion.js # Gestion de l'expansion des détails de match
+    └── useMatchExpansion.js # Match details expansion management
 ```
 
-## 🎯 Logique d'organisation
+## 🎯 Organization Logic
 
-### 📊 **data/** - Hooks de données
+### 📊 **data/** - Data Hooks
 
 ### Data Hooks (`hooks/data/`)
 
@@ -31,52 +31,52 @@ hooks/
   - Team composition analysis
   - Match timeline events filtering
   - Champion ban data extraction
-  - Chargement en parallèle des données depuis l'API Riot
-  - Fonctions helper pour récupérer des données spécifiques
-  - Gestion des états de chargement et d'erreur
+  - Parallel data loading from Riot API
+  - Helper functions to retrieve specific data
+  - Loading and error state management
 
-### 🧮 **calculations/** - Hooks de calculs
+### 🧮 **calculations/** - Calculation Hooks
 
-- `useMatchCalculations.js` : Hook principal qui combine tous les calculs
-- `usePlayerStats.js` : Calculs spécifiques aux statistiques de joueur
-  - Calcul du KDA et coloration
-  - Calcul des CS et CS/min
-  - Récupération des objets du joueur
-- `useMatchUtils.js` : Utilitaires généraux pour les matchs
-  - Formatage de la durée du match
-  - Traitement des participants
-  - Séparation des équipes
+- `useMatchCalculations.js`: Main hook combining all calculations
+- `usePlayerStats.js`: Player-specific statistics calculations
+  - KDA calculation and coloring
+  - CS and CS/min calculation
+  - Player items retrieval
+- `useMatchUtils.js`: General match utilities
+  - Match duration formatting
+  - Participants processing
+  - Teams splitting
 
-### 🎨 **ui/** - Hooks d'interface
+### 🎨 **ui/** - UI Hooks
 
-- `useMatchExpansion.js` : Gestion de l'état d'expansion des détails de match
-  - Toggle de l'expansion par match
-  - État global des matchs expandés
-  - Fonction pour refermer tous les matchs
+- `useMatchExpansion.js`: Match details expansion state management
+  - Toggle expansion per match
+  - Global state of expanded matches
+  - Function to collapse all matches
 
-## 📈 Avantages de cette organisation
+## 📈 Benefits of This Organization
 
-### 🔍 **Spécialisation et clarté**
+### 🔍 **Specialization and Clarity**
 
-- **Responsabilité unique** : Chaque hook a une fonction claire
-- **Réutilisabilité** : Les hooks spécialisés peuvent être utilisés indépendamment
-- **Tests ciblés** : Chaque hook peut être testé séparément
+- **Single responsibility**: Each hook has a clear function
+- **Reusability**: Specialized hooks can be used independently
+- **Targeted tests**: Each hook can be tested separately
 
-### 🔄 **Composition et flexibilité**
+### 🔄 **Composition and Flexibility**
 
-- **Hook principal** : `useMatchCalculations` combine tous les calculs
-- **Hooks spécialisés** : Peuvent être utilisés individuellement si besoin
-- **Extensibilité** : Facile d'ajouter de nouveaux calculs ou utilitaires
+- **Main hook**: `useMatchCalculations` combines all calculations
+- **Specialized hooks**: Can be used individually if needed
+- **Extensibility**: Easy to add new calculations or utilities
 
-### 🧪 **Maintenabilité**
+### 🧪 **Maintainability**
 
-- **Modifications isolées** : Changements limités à leur domaine
-- **Code DRY** : Évite la duplication de logique
-- **Structure modulaire** : Facilite les refactorisations futures
+- **Isolated modifications**: Changes limited to their domain
+- **DRY code**: Avoids logic duplication
+- **Modular structure**: Facilitates future refactorings
 
-## 🔧 Utilisation des hooks
+## 🔧 Hooks Usage
 
-### Import groupé (recommandé)
+### Grouped import (recommended)
 
 ```jsx
 import {

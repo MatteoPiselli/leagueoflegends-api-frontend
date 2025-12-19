@@ -10,6 +10,7 @@ Champions/
 ├── index.js                        # Central exports
 ├── components/                     # UI Components
 │   ├── index.js                   # Component exports
+│   ├── QueueTypeSelector.jsx      # Queue type filter buttons (Normal/Ranked)
 │   ├── ChampionCard/              # Champion card with detailed breakdown
 │   │   ├── index.js
 │   │   ├── ChampionCard.jsx       # Main champion card container
@@ -52,6 +53,21 @@ Champions/
 - **ChampionCard**: Main container for champion statistics with complete champion data
 - **ChampionInfo**: Sub-component handling champion basic information (name, mastery, etc.)
 - **ChampionStats**: Sub-component handling champion statistics (KDA, win rate, games played)
+
+### QueueTypeSelector
+
+Buttons for filtering champion statistics by game mode (Normal Draft, Ranked Solo/Duo, Ranked Flex).
+
+**Props**:
+
+- `selectedQueueType` - Currently selected queue ID (400, 420, 440)
+- `onQueueTypeChange` - Callback when queue type changes
+
+**Queue Types**:
+
+- 400: Normal Draft
+- 420: Ranked Solo/Duo
+- 440: Ranked Flex
 
 ### UI Components
 

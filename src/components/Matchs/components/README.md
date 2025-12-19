@@ -1,146 +1,146 @@
-# Architecture optimisée des composants Matchs
+# Optimized Matchs Components Architecture
 
-## 📁 Nouvelle organisation du dossier `components/`
+## 📁 New `components/` Folder Organization
 
 ```
 components/
-├── index.js (exports centralisés)
-├── Match/           # 🎮 Composants spécifiques aux matchs
+├── index.js (centralized exports)
+├── Match/           # 🎮 Match-specific components
 │   ├── index.js
-│   ├── MatchCard.jsx        # Carte principale (refactorisée)
-│   ├── MatchContent.jsx     # 🆕 Contenu du match
-│   ├── MatchExpansion.jsx   # 🆕 Section expandable
-│   └── MatchHeader.jsx      # En-tête avec constants externes
-├── Player/          # 👤 Composants spécifiques aux joueurs
+│   ├── MatchCard.jsx        # Main card (refactored)
+│   ├── MatchContent.jsx     # 🆕 Match content
+│   ├── MatchExpansion.jsx   # 🆕 Expandable section
+│   └── MatchHeader.jsx      # Header with external constants
+├── Player/          # 👤 Player-specific components
 │   ├── index.js
-│   ├── PlayerMatchInfo.jsx  # Info joueur décomposé
-│   ├── PlayerStats.jsx      # Stats optimisées avec hooks
-│   └── components/          # 🆕 Sous-composants atomiques
+│   ├── PlayerMatchInfo.jsx  # Decomposed player info
+│   ├── PlayerStats.jsx      # Optimized stats with hooks
+│   └── components/          # 🆕 Atomic sub-components
 │       ├── index.js
-│       ├── ChampionInfo.jsx    # Info champion + niveau
-│       ├── PlayerItems.jsx     # Items du joueur
-│       ├── PlayerRunes.jsx     # Runes du joueur
-│       └── PlayerSpells.jsx    # Sorts d'invocateur
-├── Team/            # 🏃‍♂️ Composants spécifiques aux équipes
+│       ├── ChampionInfo.jsx    # Champion info + level
+│       ├── PlayerItems.jsx     # Player items
+│       ├── PlayerRunes.jsx     # Player runes
+│       └── PlayerSpells.jsx    # Summoner spells
+├── Team/            # 🏃‍♂️ Team-specific components
 │   ├── index.js
-│   ├── TeamColumn.jsx       # Colonne d'équipe refactorisée
-│   ├── Participants.jsx     # Participants refactorisés
-│   └── components/          # 🆕 Architecture séparée Player/Team
+│   ├── TeamColumn.jsx       # Refactored team column
+│   ├── Participants.jsx     # Refactored participants
+│   └── components/          # 🆕 Separated Player/Team architecture
 │       ├── index.js
-│       ├── Player/          # Composants Player pour équipes
+│       ├── Player/          # Player components for teams
 │       │   ├── index.js
-│       │   ├── PlayerAvatar.jsx   # Avatar détaillé
-│       │   ├── PlayerKDA.jsx      # Stats KDA
-│       │   └── PlayerRow.jsx      # Ligne de joueur
-│       └── Team/            # Composants Team spécifiques
+│       │   ├── PlayerAvatar.jsx   # Detailed avatar
+│       │   ├── PlayerKDA.jsx      # KDA stats
+│       │   └── PlayerRow.jsx      # Player row
+│       └── Team/            # Team-specific components
 │           ├── index.js
-│           ├── TeamHeader.jsx        # En-tête d'équipe
-│           ├── TeamPlayerAvatar.jsx  # Avatar compact
-│           └── TeamPlayerItem.jsx    # Item joueur colonne
-├── UI/              # 🎨 Interface réutilisable optimisée
+│           ├── TeamHeader.jsx        # Team header
+│           ├── TeamPlayerAvatar.jsx  # Compact avatar
+│           └── TeamPlayerItem.jsx    # Player column item
+├── UI/              # 🎨 Optimized reusable interface
 │   ├── index.js
-│   ├── BaseTooltip.jsx      # 🆕 Composant de base réutilisable
-│   ├── ItemTooltip.jsx      # Refactorisé avec BaseTooltip + memo
-│   ├── RuneTooltip.jsx      # Refactorisé avec BaseTooltip + memo
-│   └── SpellTooltip.jsx     # Refactorisé avec BaseTooltip + memo
-└── States/          # 📊 Composants d'état
+│   ├── BaseTooltip.jsx      # 🆕 Reusable base component
+│   ├── ItemTooltip.jsx      # Refactored with BaseTooltip + memo
+│   ├── RuneTooltip.jsx      # Refactored with BaseTooltip + memo
+│   └── SpellTooltip.jsx     # Refactored with BaseTooltip + memo
+└── States/          # 📊 State components
     ├── index.js
-    └── EmptyMatchState.jsx  # État vide/retry
+    └── EmptyMatchState.jsx  # Empty state/retry
 ```
 
-## 🚀 Principales améliorations apportées
+## 🚀 Main Improvements
 
 ### ⚡ **Performance**
 
-- ✅ **React.memo** sur tous les composants atomiques
-- ✅ **useMemo** pour les calculs coûteux (URLs d'images, calculs)
-- ✅ **useCallback** pour les fonctions passées en props
-- ✅ **Réduction des re-rendus** de ~70%
+- ✅ **React.memo** on all atomic components
+- ✅ **useMemo** for expensive calculations (image URLs, calculations)
+- ✅ **useCallback** for functions passed as props
+- ✅ **~70% reduction in re-renders**
 
-### 🧩 **Architecture modulaire**
+### 🧩 **Modular Architecture**
 
-- ✅ **Décomposition atomique** : Un composant = une responsabilité
-- ✅ **Composition** : Assemblage de composants simples
-- ✅ **Réutilisabilité** maximisée avec BaseTooltip
-- ✅ **Séparation Player/Team** dans les sous-composants
+- ✅ **Atomic decomposition**: One component = one responsibility
+- ✅ **Composition**: Assembly of simple components
+- ✅ **Maximized reusability** with BaseTooltip
+- ✅ **Player/Team separation** in sub-components
 
-### 🔧 **Optimisations spécifiques**
+### 🔧 **Specific Optimizations**
 
 #### **Match/MatchCard.jsx**
 
-- **Avant** : 108 lignes monolithiques
-- **Après** : 30 lignes avec composition (MatchContent + MatchExpansion)
-- **Hook personnalisé** : useCurrentPlayer pour la logique métier
+- **Before**: 108 monolithic lines
+- **After**: 30 lines with composition (MatchContent + MatchExpansion)
+- **Custom hook**: useCurrentPlayer for business logic
 
 #### **Player/PlayerMatchInfo.jsx**
 
-- **Décomposition** en 4 composants atomiques :
-  - `ChampionInfo` : Champion + niveau
-  - `PlayerRunes` : Runes avec memoization
-  - `PlayerSpells` : Sorts d'invocateur
-  - `PlayerItems` : Items avec tooltips
+- **Decomposition** into 4 atomic components:
+  - `ChampionInfo`: Champion + level
+  - `PlayerRunes`: Runes with memoization
+  - `PlayerSpells`: Summoner spells
+  - `PlayerItems`: Items with tooltips
 
-#### **Team/ - Architecture séparée**
+#### **Team/ - Separated Architecture**
 
 ```
 Team/components/
-├── Player/    # Composants Player dans contexte équipe
-│   ├── PlayerAvatar.jsx   (détaillé, 20x20px)
-│   ├── PlayerKDA.jsx      (stats complètes)
-│   └── PlayerRow.jsx      (ligne Participants)
-└── Team/      # Composants Team spécifiques
-    ├── TeamHeader.jsx          (titre équipe)
+├── Player/    # Player components in team context
+│   ├── PlayerAvatar.jsx   (detailed, 20x20px)
+│   ├── PlayerKDA.jsx      (full stats)
+│   └── PlayerRow.jsx      (Participants row)
+└── Team/      # Team-specific components
+    ├── TeamHeader.jsx          (team title)
     ├── TeamPlayerAvatar.jsx    (compact, 16x16px)
-    └── TeamPlayerItem.jsx      (ligne TeamColumn)
+    └── TeamPlayerItem.jsx      (TeamColumn row)
 ```
 
 #### **UI/BaseTooltip.jsx**
 
-- **Élimination** de 70% de duplication de code
-- **Pattern réutilisable** pour tous les tooltips
-- **Props simples** : `content`, `children`, `disabled`
+- **Eliminated** 70% of code duplication
+- **Reusable pattern** for all tooltips
+- **Simple props**: `content`, `children`, `disabled`
 
-### 📊 **Métriques de qualité**
+### 📊 **Quality Metrics**
 
-| Composant           | Avant          | Après         | Amélioration          |
-| ------------------- | -------------- | ------------- | --------------------- |
-| **MatchCard**       | 108 lignes     | 30 lignes     | -72%                  |
-| **PlayerMatchInfo** | Monolithique   | 4 atomiques   | +400% réutilisabilité |
-| **Tooltips**        | 3x duplication | 1 BaseTooltip | -70% code             |
-| **Re-rendus**       | Cascade        | Isolés        | -70%                  |
-| **Memo usage**      | 0%             | 100%          | Performance max       |
+| Component           | Before         | After         | Improvement       |
+| ------------------- | -------------- | ------------- | ----------------- |
+| **MatchCard**       | 108 lines      | 30 lines      | -72%              |
+| **PlayerMatchInfo** | Monolithic     | 4 atomic      | +400% reusability |
+| **Tooltips**        | 3x duplication | 1 BaseTooltip | -70% code         |
+| **Re-renders**      | Cascade        | Isolated      | -70%              |
+| **Memo usage**      | 0%             | 100%          | Max performance   |
 
-## 🎯 Bonnes pratiques appliquées
+## 🎯 Applied Best Practices
 
-### 🔄 **Patterns React modernes**
+### 🔄 **Modern React Patterns**
 
 ```jsx
-// ✅ Composition avec children
+// ✅ Composition with children
 <BaseTooltip content={tooltipContent}>
   <PlayerAvatar player={player} />
 </BaseTooltip>;
 
-// ✅ Custom hooks pour la logique
+// ✅ Custom hooks for logic
 const currentPlayer = useCurrentPlayer(match, puuid);
 const { calculateKDA } = usePlayerCalculations();
 
-// ✅ Memoization optimale
+// ✅ Optimal memoization
 const championUrl = useMemo(
   () => `https://ddragon.../champion/${getChampionName(id)}.png`,
   [latestPatch, getChampionName, player.championId]
 );
 ```
 
-### 📂 **Organisation par domaine**
+### 📂 **Domain-Based Organization**
 
-- **Atomic Design** : Composants atomiques → molécules → organismes
-- **Single Responsibility** : Un fichier = une responsabilité
-- **Barrel exports** : Imports simplifiés et propres
+- **Atomic Design**: Atomic components → molecules → organisms
+- **Single Responsibility**: One file = one responsibility
+- **Barrel exports**: Simplified and clean imports
 
-### 🏎️ **Optimisation performance**
+### 🏎️ **Performance Optimization**
 
 ```jsx
-// ✅ Évite les re-rendus inutiles
+// ✅ Avoid unnecessary re-renders
 const PlayerKDA = memo(({ kills, deaths, assists }) => {
   return (
     <span>
@@ -149,63 +149,63 @@ const PlayerKDA = memo(({ kills, deaths, assists }) => {
   );
 });
 
-// ✅ Fonctions stables pour memo
+// ✅ Stable functions for memo
 const handleClick = useCallback(() => {
   searchPlayer(name, tag);
 }, [searchPlayer, name, tag]);
 ```
 
-## 📚 Guide d'utilisation
+## 📚 Usage Guide
 
-### 🔄 **Import patterns optimisés**
+### 🔄 **Optimized Import Patterns**
 
 ```jsx
-// ✅ Import par domaine (recommandé)
+// ✅ Domain-based import (recommended)
 import { MatchCard, MatchHeader } from "./components/Match";
 import { PlayerStats, ChampionInfo } from "./components/Player";
 import { BaseTooltip, ItemTooltip } from "./components/UI";
 
-// ✅ Import global (pour compatibilité)
+// ✅ Global import (for compatibility)
 import { MatchCard, PlayerStats, ItemTooltip } from "./components";
 
-// ✅ Import de sous-composants atomiques
+// ✅ Atomic sub-component import
 import { PlayerAvatar, TeamHeader } from "./components/Team";
 ```
 
 ### �️ **Ajout de nouveaux composants**
 
-#### Pour Player :
+#### For Player:
 
 ```jsx
-// 1. Créer dans Player/components/
-// 2. Ajouter à Player/components/index.js
-// 3. Utiliser dans PlayerMatchInfo si nécessaire
+// 1. Create in Player/components/
+// 2. Add to Player/components/index.js
+// 3. Use in PlayerMatchInfo if needed
 ```
 
-#### Pour Tooltips :
+#### For Tooltips:
 
 ```jsx
-// 1. Utiliser BaseTooltip comme base
+// 1. Use BaseTooltip as base
 const MyTooltip = ({ data, children }) => {
-  const content = <div>{/* contenu spécifique */}</div>;
+  const content = <div>{/* specific content */}</div>;
   return <BaseTooltip content={content}>{children}</BaseTooltip>;
 };
 ```
 
-## 🎉 Résultats obtenus
+## 🎉 Achieved Results
 
 ### ✅ **Code Quality**
 
-- **DRY** : Duplication éliminée (BaseTooltip, composants atomiques)
-- **SOLID** : Single Responsibility appliqué partout
-- **Performance** : React.memo + hooks optimaux
-- **Maintenabilité** : Structure logique et prévisible
+- **DRY**: Duplication eliminated (BaseTooltip, atomic components)
+- **SOLID**: Single Responsibility applied everywhere
+- **Performance**: React.memo + optimal hooks
+- **Maintainability**: Logical and predictable structure
 
 ### ✅ **Developer Experience**
 
-- **Imports intuitifs** : Organisation par domaine
-- **Composants atomiques** : Faciles à tester et réutiliser
-- **Documentation** : Architecture self-explanatory
-- **Performance predictable** : Contrôle total des re-rendus
+- **Intuitive imports**: Domain-based organization
+- **Atomic components**: Easy to test and reuse
+- **Documentation**: Self-explanatory architecture
+- **Predictable performance**: Full control over re-renders
 
-Cette refactorisation transform le code d'une base monolithique en architecture modulaire, performante et maintenable ! 🚀
+This refactoring transforms the code from a monolithic base into a modular, performant, and maintainable architecture! 🚀
