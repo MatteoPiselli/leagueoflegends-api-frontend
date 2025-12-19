@@ -13,10 +13,11 @@ Next.js App → Components (Feature Modules) → Hooks (Data/UI) → Backend API
 - **Next.js 12.1.6** - React framework (Pages Router, not App Router)
 - **React 18.1.0** - Component framework
 - **Tailwind CSS 3.4.13** - Utility-first styling
-- **Framer Motion** - Animations
+- **Framer Motion** (motion 12.15.0) - Animations
 - **Lucide React** - Icon library
+- **date-fns** - Date formatting
 
-**Dev server port**: `3001` (`yarn dev`)
+**Dev server**: Port `3001` (configured in `package.json` script: `next dev -p 3001`)
 
 ## Component Architecture Pattern
 
@@ -337,6 +338,24 @@ Main app follows this hierarchy (see `components/App.jsx`):
    - Updates state in specialized hooks
 4. Components re-render with new data
 
+## Constants & Configuration
+
+### Queue Types (`constants/queueTypes.js`)
+
+Mappings for League of Legends game modes:
+
+```javascript
+export const GAME_QUEUE_TYPES = {
+  400: "Normal Draft",
+  420: "Ranked Solo/Duo",
+  440: "Ranked Flex",
+  450: "ARAM",
+  // ... (see file for complete list)
+};
+```
+
+**Usage**: Display human-readable queue names in Match History and Champion Stats components.
+
 ## External API Integration
 
 ### Riot Data Dragon CDN
@@ -382,18 +401,20 @@ yarn dev       # Starts on port 3001
 
 ### Project Structure Navigation
 
+**IMPORTANT**: This project uses **Next.js Pages Router** (v12), not App Router.
+
 ```
 pages/
-├── _app.jsx              # Next.js app wrapper (global styles, Head)
-└── index.jsx             # Main page (imports components/App.jsx)
+├── _app.jsx              # Next.js app wrapper (global ChampionProvider)
+└── index.jsx             # Main page route (/)
 
-components/
-├── App.jsx               # Main app component with layout
-├── Champions/            # Champion statistics module
-├── Masteries/            # Champion masteries module
-├── Matchs/               # Match history module
-├── Ranked/               # Ranked statistics module
-└── Core/                 # Search, Profile, UI components
+src/
+├── components/
+│   ├── Champions/        # Champion statistics module
+│   ├── Masteries/        # Champion masteries module
+│   ├── Matchs/           # Match history module
+│   ├── Ranked/           # Ranked statistics module
+│   └── Core/             # Search, Profile, UI components
 
 hooks/
 ├── usePlayerData.js      # Main orchestrator hook
@@ -464,6 +485,8 @@ Three-state pattern in components:
 
 **Backend repository**: `leagueoflegends-api-backend`
 
+**API Base URL**: `http://localhost:3000` (hardcoded in all data hooks)
+
 **API endpoints used**:
 
 - `GET /api/summoner/:username/:tagline` - Player profile
@@ -473,4 +496,8 @@ Three-state pattern in components:
 - `GET /api/masteries/:puuid?updateClicked=true` - Champion masteries
 - `GET /api/champions/:puuid/stats?updateClicked=true&queueType=400` - Champion stats
 
-**Note**: All hooks use `updateClicked=true` query param to force backend data refresh. Champion stats also accepts `queueType` query param (e.g., "400" for normal draft, "420" for ranked solo, defaults to "400").
+**Query Parameters**:
+- `updateClicked=true` - Forces backend to refresh data from Riot API instead of serving cached MongoDB data
+- `queueType` - (Champion stats only) Game mode filter: "400" (Normal Draft), "420" (Ranked Solo), "440" (Ranked Flex). Defaults to "400".
+
+**Note**: All hooks use `updateClicked=true` query param to force backend data refresh. Champion stats also accepts `queueType` query param (e.g., "400" for normal draft, "420" for ranked solo, defaults to "400"). Champion stats also accepts `queueType` query param (e.g., "400" for normal draft, "420" for ranked solo, defaults to "400").
